@@ -1,9 +1,9 @@
 ---
 pattern: 06
 name: "Refuse to Score Unratified Weights"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to produce a number the domain owner never endorsed"
-specimen: none
+specimen: 06-unratified-weights
 ---
 
 # 06 · Refuse to Score Unratified Weights
@@ -49,8 +49,11 @@ fails. It does not warn, and it does not fall back to a default.**
 Three parts, all load-bearing:
 
 1. **Fails, not warns.** A warning is addressed to whoever reads the log — the engineer, who already
-   knows and cannot fix it. A failure is addressed to whoever can unblock it. The difference is not
-   severity, it is *audience*.
+   knows and cannot fix it. A failure carries an escalation target: the name of the person who can.
+   The difference is not severity, it is *audience*. What is demonstrable is the narrower half — a
+   warning **cannot** reach the right audience, because it emits an artefact byte-identical to the
+   clean one and names nobody. That a failure reliably *does* reach them is a claim about people, and
+   this entry does not evidence it.
 2. **No default weighting.** A default is worse than no weighting, because downstream it is
    indistinguishable from a considered one. Equal weights are not neutral: they are a strong claim
    that every dimension matters identically, which is rarely true and has never once been argued.
@@ -79,6 +82,11 @@ the value.
 **You lose the casual exploratory run** — unless you split the outputs. Emit per-dimension results
 freely and refuse only the aggregate. Un-collapsed results carry no false endorsement, because nobody
 mistakes a table of dimensions for a verdict.
+
+**The control buys nothing where there is no trade-off.** On a scorecard where one candidate is
+better on every dimension, no weighting flips the winner and the ratification gate protects a
+decision that was never at risk. You cannot know which kind of scorecard you have without computing
+the flip share first — which makes that computation, not the gate, the thing to reach for on day one.
 
 ## The naive approach it beats
 
@@ -118,5 +126,25 @@ circulation has no owner and never did.
 
 ## Specimen
 
-None — prose is sufficient. The enforcement is a few lines of validation; the hard part is convincing
+[`specimens/06-unratified-weights/`](../specimens/06-unratified-weights/) — **built.**
+Measured output in [`RESULTS.md`](../specimens/06-unratified-weights/RESULTS.md).
+
+Offline, exact rather than sampled: the winner is the sign of `delta·w`, so the flip region is the
+simplex cut by a hyperplane and the share has a closed form. Monte Carlo agrees within 1.7 standard
+errors across nine cells.
+
+**On a realistic scorecard with genuine trade-offs, 40.6% of the weight simplex picks the candidate
+equal weights reject.** Concretely: move **3.7 points of weight** from one dimension to another and
+the decision reverses. Equal weights are not neutral — they are one unargued point in a space where
+two in five points disagree with them.
+
+The gate refuses five ways and the warning version emits a byte-identical clean artefact in all five:
+no ratification record, weights edited by 0.01 since sign-off, the dimension set changed, and an
+engineer ratifying their own weighting.
+
+**The boundary the entry did not state:** where one candidate dominates every dimension, the flip
+share is exactly zero and the control is worthless. And the flip share is not a property of the
+scorecard alone — it is scorecard × measure, ranging 40.6% to 1.9% across plausible priors. Choosing
+that measure is the same unargued act, one level up, and the specimen has no principled measure to
+recommend. The enforcement is a few lines of validation; the hard part is convincing
 a team that failing their own pipeline on a governance condition is correct behaviour.

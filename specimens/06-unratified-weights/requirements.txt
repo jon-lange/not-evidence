@@ -1,0 +1,4 @@
+# None. Standard library only, and that is a design requirement rather than a
+# convenience — this specimen makes a claim about scoring governance, so every
+# number in RESULTS.md has to be reproducible with nothing but a Python
+# interpreter and no key of any kind.

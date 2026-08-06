@@ -12,6 +12,7 @@ run them, and take the idea.
 | 03 | [deterministic-over-prompted](03-deterministic-over-prompted/) | Deterministic Over Prompted | **built** |
 | 04 | [injection-classes](04-injection-classes/) | Meta-Injection Is Not Content-Relay | **built** |
 | 05 | [judge-family](05-judge-family/) | The Judge Cannot Share a Family | **built** |
+| 06 | [unratified-weights](06-unratified-weights/) | Refuse to Score Unratified Weights | **built** |
 | 07 | [over-refusal](07-over-refusal/) | Gate Over-Refusal Separately | **built** — *"newer refuses more" did not reproduce* |
 | 08 | [remembered-is-not-current](08-remembered-is-not-current/) | A Remembered Figure Is Never a Current Figure | **built** |
 | 09 | [modality-surface](09-modality-surface/) | Keep New Modalities Off the Reasoning Path | **built** |
