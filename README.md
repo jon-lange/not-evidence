@@ -122,6 +122,22 @@ only through their `probe.py`, which needs credentials and costs money.
 They use a generic domain on purpose. A specimen written against finance or healthcare would be
 making a claim about a specific system rather than a general one.
 
+**One file here is meant to be copied.**
+[`specimens/11-mutation-check/mutation.py`](specimens/11-mutation-check/mutation.py) is about
+seventy lines of standard library with no imports from anything else in this repository. Drop it
+beside your tests and wrap one absence assertion:
+
+```python
+require_live(subject, "redact", redact_nothing, lambda: subject.absence_check(SECRET))
+```
+
+*With redaction reduced to a no-op, this test must fail.* If it passes, the assertion was never
+watching the thing it names. It is not a mutation-testing framework and does not want to be —
+[mutmut](https://github.com/boxed/mutmut) and [cosmic-ray](https://github.com/sixty-north/cosmic-ray)
+answer *which of my assertions are weak?* over a whole suite, offline. This answers *is this
+assertion, guarding this property, live?* — which belongs in the suite, on the line below the
+assertion it is about.
+
 ## Skills
 
 The applied layer, in [`skills/`](skills/). **A skill may only exist for a pattern that has a
