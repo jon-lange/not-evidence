@@ -1,9 +1,9 @@
 ---
 pattern: 03
 name: "Deterministic Over Prompted"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to rely on instructing a model to disbelieve its source"
-specimen: none
+specimen: 03-deterministic-over-prompted
 ---
 
 # 03 · Deterministic Over Prompted
@@ -45,15 +45,26 @@ The diagnostic question: **would this control still hold if the model ignored ev
 system prompt?** If yes, it is a control. If no, it is a preference you have expressed, and it will
 hold exactly as often as the model happens to comply.
 
+**The reason is verifiability, not generality — and this entry originally had that wrong.** A
+transform's coverage is readable off the code: you can see which inputs it matches and prove the
+boundary by inspection. A prompt's coverage can only be sampled, one model and one phrasing at a
+time, and every model change resets the sample. Both layers are class-specific. Only one of them
+lets you know *which* class you covered.
+
 This is not an argument against prompt engineering. Prompts shape behaviour, and shaping behaviour
 is most of the work. It is an argument about which layer you are permitted to *depend* on when the
-failure is one you have to guarantee against.
+failure is one you have to guarantee against — and about which layer you can audit afterwards.
 
 ## Consequences
 
-**The control holds across model versions, temperatures, phrasings, and providers.** It survives the
-upgrade that silently changes how strictly instructions are followed — the failure mode with no
-alarm attached, because nothing in your test suite is watching the guardrail itself.
+**The control holds across model versions, temperatures, phrasings, and providers — for the class it
+matches.** It survives the upgrade that silently changes how strictly instructions are followed, the
+failure mode with no alarm attached because nothing in your suite is watching the guardrail itself.
+
+**It does not hold across classes, and this entry used to imply it did.** Measured against a relay
+its rules did not describe, the transform failed at the undefended rate — the same as the prompt. A
+transform is not general; it is *legible*. You can read which inputs it covers straight off the code
+and enumerate what it misses. That is the whole advantage, and it is enough.
 
 **Transforms are blunt.** Egress link-stripping removes links users wanted. Ingest scrubbing removes
 legitimate occurrences of the scrubbed term. These are real costs and they need their own tests,
@@ -77,10 +88,16 @@ Meta-instructions — text aimed at the model, telling it to break its rules —
 a sentence like that. So the test suite goes green, the mitigation ships, and the surface is
 recorded as defended. The class it doesn't touch is described in pattern 04.
 
-The escalation is the tell. When an injection gets through, the instinct is to restate the guardrail
-more forcefully, move it closer to the injection point, or repeat it after the untrusted content.
-Each round feels like progress and none of it changes the mechanism. If your defence has been
-reworded three times, it isn't a defence.
+~~The escalation is the tell. If your defence has been reworded three times, it isn't a defence.~~
+
+**Measured, that was wrong, and the third rewording is where it started working.** Naming the exact
+behaviour took relay from 80% to 0% across five models on both vendors. Restating the guardrail more
+forcefully after that bought nothing — force was never the variable, specificity was.
+
+The real tell is different and worse: **rung 4 closed the attack it named and left the class open.**
+Against a held-out relay its wording did not describe, it still relayed. So did the deterministic
+transform, at the undefended rate. Neither layer generalised. What separates them is that you can
+read the transform's coverage off the code and can only sample the prompt's.
 
 ## Prior art
 
@@ -95,5 +112,31 @@ reworded three times, it isn't a defence.
 
 ## Specimen
 
-None directly — but the specimen for pattern 04 demonstrates this one by contrast: it shows a
-prompt-layer defence failing and a deterministic transform closing the same case.
+[`specimens/03-deterministic-over-prompted/`](../specimens/03-deterministic-over-prompted/) —
+**built.** Measured output in
+[`RESULTS.md`](../specimens/03-deterministic-over-prompted/RESULTS.md).
+
+Six defence configurations against specimen 04's content-relay poison — five rungs of an escalating
+prompt ladder plus one deterministic transform — across five models on both vendors, 140 calls. It
+imports specimen 04's corpus and guardrail rather than copying them.
+
+| rung | defence | pooled relay |
+|---|---|---|
+| 1 | baseline guardrail | **80%** |
+| 2 | + never repeat procedures | 60% |
+| 3 | + warning restated after the content | 45% |
+| 4 | **+ names the exact behaviour** | **0%** |
+| 5 | + caps and a threat of task failure | 0% |
+| 6 | baseline + deterministic egress | 0% |
+
+**The ladder converged, at rung 4.** Rung 5 bought nothing: force was never the variable, specificity
+was. A clean-document control was answered correctly at every rung, so this is not the ladder
+collapsing into refusing everything.
+
+**Then the follow-up that mattered.** Fifteen more calls against a *held-out* relay whose behaviour
+rung 4's wording does not name: rung 4 relayed it, and **specimen 04's transform relayed it too, at
+the undefended rate.** Neither layer generalised.
+
+That is why this entry now argues verifiability rather than generality. Rung 6's 0% against the
+attack it was written for is a tautology, and the specimen says so rather than claiming it as a
+result.

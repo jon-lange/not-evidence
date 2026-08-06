@@ -9,6 +9,7 @@ run them, and take the idea.
 | # | Specimen | Pattern | Status |
 |---|---|---|---|
 | 01 | [grounded-or-refuse](01-grounded-or-refuse/) | Grounded or Refuse | **built** — *prediction did not hold* |
+| 03 | [deterministic-over-prompted](03-deterministic-over-prompted/) | Deterministic Over Prompted | **built** |
 | 04 | [injection-classes](04-injection-classes/) | Meta-Injection Is Not Content-Relay | **built** |
 | 05 | [judge-family](05-judge-family/) | The Judge Cannot Share a Family | **built** |
 | 07 | [over-refusal](07-over-refusal/) | Gate Over-Refusal Separately | **built** — *"newer refuses more" did not reproduce* |
