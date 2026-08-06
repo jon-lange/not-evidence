@@ -15,6 +15,17 @@ description = "Internal hostname patterns (structural, reveals nothing)"
 regex = '''(?i)\b[\w.-]+\.(corp|internal|intranet|lan)\b'''
 tags = ["structural"]
 
+  # Invented fixture hostnames. Specimen 02 must contain an internal-looking
+  # host to demonstrate rejecting one; renaming it would defeat the fixture.
+  # Scoped to the exact invented strings rather than allowlisting the file, so
+  # a genuine internal hostname in the same file would still fire.
+  [[rules.allowlists]]
+  description = "documented example hosts used as test fixtures"
+  # regexTarget=match is required: the rule's capture group makes Secret just
+  # the TLD ("internal"), and allowlist regexes test Secret by default.
+  regexTarget = "match"
+  regexes = ['''(?i)\b(assets|docs|registry|example)\.(internal|corp|intranet|lan)\b''']
+
 [[rules]]
 id = "windows-source-path"
 description = "Absolute Windows source paths leak repo topology"

@@ -1,0 +1,6 @@
+# None. Standard library only, and that is a design requirement rather than a
+# convenience. The claim here is about a validator's own code — how much a
+# rejected caller is told, and how long the rejection takes — so a dependency
+# that changed either would be measuring itself. It also has to be runnable by
+# a reader who is unwilling to install anything in order to check a claim about
+# what leaks out of an error message.
