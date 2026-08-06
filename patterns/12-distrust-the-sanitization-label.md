@@ -26,8 +26,8 @@ addresses — that is what "identifying" means colloquially, and replacing them 
 verifiable at a glance.
 
 **The label is applied in good faith.** Whoever wrote it did the part they knew about and reported
-it accurately. It is an honest description of an incomplete operation, which is the hardest kind of
-wrong claim to catch.
+it accurately — an honest description of an incomplete operation, which is the hardest kind of wrong
+claim to catch.
 
 **Downstream, the label is the entire review.** Every later reader treats it as a completed check by
 someone with more context than they have. Nobody re-derives it, which is what makes it load-bearing.
@@ -41,8 +41,8 @@ low-status in a way that skimming the header is not.
 yourself, and treat the label as a claim under review rather than a review already performed.**
 
 *Read the records* is literal: open the file and look at rows, not the schema, not the row count.
-This failure is almost always obvious on inspection and almost never visible from the metadata.
-Three things to check, ordered by how often they are wrong.
+This failure is almost always obvious on inspection and almost never visible from metadata. Three
+things to check, in order of how often they are wrong.
 
 ### The names changed and the numbers did not
 
@@ -58,79 +58,71 @@ dangerous than the raw original, because it now carries a label saying it is saf
 
 A series is a fingerprint. Its unit, window, sampling interval, magnitudes, the shape of its peaks,
 the exact points where it goes flat: that combination is recognisable to anyone who operates the
-system it came from, and conclusively matchable by anyone holding the counterpart series. Renaming
-it perturbs none of that. It removes the label from the fingerprint and publishes the fingerprint.
+system it came from, and conclusively matchable by anyone holding the counterpart. Renaming the
+series perturbs none of it. It removes the label from the fingerprint and publishes the fingerprint.
 
-The word *anonymised* obscures this by implying the identifying content lived in the identifiers. It
-lived in the values, and it becomes identifying the moment someone joins them against a counterpart
-they already hold — two releases, each harmless alone, that are not harmless together.
+*Anonymised* obscures this by implying the identifying content lived in the identifiers. It lived in
+the values — two releases, each harmless alone, that are not harmless together.
 
-**Real re-synthesis means perturbing every value** — regenerate the series from a model of its shape,
-add noise calibrated against the precision the reader genuinely needs, or round to a granularity
-coarse enough that a join fails. *Synthetic* is a claim about how values were produced. If they were
-not produced, they are not synthetic, whatever the header says.
+**Real re-synthesis means perturbing every value:** regenerate from a model of the shape, add noise
+calibrated to the precision the reader needs, or round coarsely enough that a join fails.
+*Synthetic* is a claim about how values were produced. If they were not produced, they are not
+synthetic, whatever the header says.
 
 ### Provenance strings are themselves leaks
 
 Sanitised artefacts routinely retain the note that made them auditable: a source trace identifier, an
-environment name, a job or run number, a path, a *derived from run X* line in a header.
+environment name, a run number, a *derived from run X* line in a header.
 
-These survive for a specific reason. **Provenance is a quality practice, which is exactly why it is
-the last thing anyone thinks to remove.** It does not look like data — it looks like diligence, so
-the reviewer's eye passes over it as evidence of care rather than as content.
+These survive for a reason. **Provenance is a quality practice, which is exactly why it is the last
+thing anyone thinks to remove.** It does not look like data. It looks like diligence, so the
+reviewer's eye passes over it as evidence of care rather than as content.
 
-It is content. A trace identifier asserts that a particular system exists and what its keys look
-like; environment, queue, and job names leak topology and naming conventions. Strip provenance at
-the publication boundary and keep it on the internal copy, where it was always more useful anyway.
+It is content. A trace identifier asserts that a system exists and what its keys look like; environment
+and job names leak topology and naming conventions. Strip provenance at the publication boundary and
+keep it on the internal copy, where it was always more useful anyway.
 
 ## Consequences
 
-**You will find something in the first artefact you check.** That is not a prediction about a
-particular team; it is what this failure class being structural means.
+**You will find something in the first artefact you check,** and you become a bottleneck on outbound
+artefacts. The review is slow because the alternative is irreversible.
 
-**You become a bottleneck on outbound artefacts,** and the honest framing of that is that the review
-is slow because the alternative is irreversible.
-
-**"We'll clean it later" is not available for this class.** Forks, mirrors, archives, caches,
-scrapes, and screenshots turn removal from an operation into a request addressed to people you
-cannot enumerate. Every other quality problem in this catalogue can be fixed by a later commit. This
-one is a one-way door, and the response to a one-way door is to slow down at that specific door.
+**"We'll clean it later" is not available for this class.** Forks, mirrors, archives, caches, and
+scrapes turn removal from an operation into a request addressed to people you cannot enumerate.
+Every other quality problem in this catalogue can be fixed by a later commit. This one is a one-way
+door, and the response to a one-way door is to slow down at that door specifically.
 
 **You give up speed exactly when it feels cheapest to keep** — handing a reproduction to a vendor
-mid-incident is when the review is most likely to be waived and most expensive to have waived.
+mid-incident is when the review is most likely to be waived.
 
 ## The naive approach it beats
 
-**A sanitisation script, written once, trusted thereafter.** It is the right instinct: repeatable,
-reviewable, diffable, in version control, and better than manual redaction on every axis people
-usually compare. It works — for the fields it was written against.
+**A sanitisation script, written once, trusted thereafter.** The right instinct: repeatable,
+diffable, in version control, better than manual redaction on every axis people usually compare. It
+works — for the fields it was written against.
 
 It fails by **drift plus silence**. A new field appears upstream; the script does not recognise it,
-does not transform it, and passes it through untouched. A pass-through emits no signal. The script
-exits zero, the artefact is produced, the label is applied — and its silence on failure is identical
-to its silence on success, which is pattern 11 wearing different clothes.
+does not transform it, passes it through untouched — and a pass-through emits no signal. The script
+exits zero, the artefact is produced, the label is applied. Its silence on failure is identical to
+its silence on success, which is pattern 11 wearing different clothes.
 
-The correction is the one pattern 02 makes: an **allowlist**, not a denylist. Emit only permitted
-fields so an unrecognised one fails closed. That fixes the schema problem and never touches the
-values, so the reading step remains.
-
-Second form, same shape: trusting a redaction tool's classifier. It finds the patterns it has
-patterns for, a column of measurements matches none, and matching none is exactly what it reports.
+The correction is pattern 02's: an **allowlist**, not a denylist, so an unrecognised field fails
+closed. That fixes the schema problem and never touches the values, so the reading step remains — as
+it does for a redaction tool's classifier, which finds the patterns it has patterns for. A column of
+measurements matches none, and matching none is exactly what it reports.
 
 ## Prior art
 
 - Narayanan & Shmatikov, *How To Break Anonymity of the Netflix Prize Dataset* —
-  [arXiv:cs/0610105](https://arxiv.org/abs/cs/0610105). The canonical demonstration that removing
-  identifiers from sparse records does not de-identify them
+  [arXiv:cs/0610105](https://arxiv.org/abs/cs/0610105). Removing identifiers from sparse records does
+  not de-identify them
 - de Montjoye, Hidalgo, Verleysen & Blondel, *Unique in the Crowd: The privacy bounds of human
-  mobility* — *Scientific Reports*, 2013. A handful of points in a series is enough, and coarsening
-  buys far less than it appears to
+  mobility* — *Scientific Reports*, 2013. A handful of points in a series is enough
 - Ganta, Kasiviswanathan & Smith, *Composition Attacks and Auxiliary Information in Data Privacy* —
-  [arXiv:0803.0032](https://arxiv.org/abs/0803.0032). Two releases, each safe alone, that are not
-  safe together
+  [arXiv:0803.0032](https://arxiv.org/abs/0803.0032)
 - NIST SP 800-188, *De-Identifying Government Datasets: Techniques and Governance* (2023), and
-  GitHub Docs, *Removing sensitive data from a repository* — de-identification as a governed process
-  with review, and the vendor's own statement that pushed data persists in forks, clones, and caches
+  GitHub Docs, *Removing sensitive data from a repository* — de-identification as a governed process,
+  and the vendor's own statement that pushed data persists in forks and caches
 
 ## Specimen
 
