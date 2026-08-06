@@ -1,0 +1,5 @@
+# Only needed for the live probe. --offline and the tests run on the standard
+# library alone. Both vendors are required: the specimen is about behaviour that
+# may be family-specific, and one vendor cannot show that.
+openai>=1.40
+anthropic>=0.40

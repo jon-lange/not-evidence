@@ -3,7 +3,7 @@ pattern: 08
 name: "A Remembered Figure Is Never a Current Figure"
 status: draft          # draft | field-tested | superseded-by: NN
 refuses: "to let a stored value stand in for a live one"
-specimen: none
+specimen: 08-remembered-is-not-current
 ---
 
 # 08 · A Remembered Figure Is Never a Current Figure
@@ -32,8 +32,12 @@ feature working. Reusing a *figure* silently substitutes an old world-state for 
 into the prompt. Nothing marks them as adversaries, so the boundary between them is never designed — it
 emerges from whichever retrieval path ran first.
 
-**The remembered value is free, and staleness is invisible at the output** — the sentence reads
-identically whether the number came from a live call or from a transcript written in March.
+**The remembered value is free *relative to a live path that costs something*, and staleness is
+invisible at the output** — the sentence reads identically whether the number came from a live call or
+from a transcript written in March. The qualifier is load-bearing and was added after measurement:
+when the live tool is cheap and obvious, models reach for it. Substitution appeared only once the tool
+was described as slow, rate-limited and billed. It is the tool's apparent cost that moves this, not
+memory's convenience.
 
 ## The Refusal
 
@@ -54,9 +58,19 @@ the world.** *"The report you attached says the pool holds forty nodes"* is chec
 forty nodes"* is a claim about now — one no document can support, not because the document is wrong but
 because it is a document.
 
-Combined questions are where this gets decided. *"Show me the queue depth the way you showed me last
-time."* The format half comes from memory; the depth half requires a call. Split them — and if the call
-fails, refuse the value half while still honouring the format.
+Combined questions are where this is most visible. *"Show me the queue depth the way you showed me
+last time."* The format half comes from memory; the depth half requires a call. Split them — and if the
+call fails, refuse the value half while still honouring the format.
+
+This entry originally called combined questions the case "where this gets decided." Measured, every
+model split them correctly without being asked, 10/10. They are the clearest illustration of the rule,
+not the place it fails.
+
+**And there is a third outcome this pattern did not name.** Between substituting the stored figure and
+attributing it lies *silently discarding* it — answering correctly from the live source while never
+telling the user their document said something different. That was the majority behaviour, 7 of 10, and
+it splits by vendor. It avoids the error this pattern is about and still leaves the user unaware their
+information is stale, which is most of what they wanted to know.
 
 The same rule governs attachments. A user-supplied file is not a source of standing equal to a curated
 corpus; it is a claim by one artefact of unknown provenance and age. Attribute it as one — *this
@@ -118,5 +132,26 @@ substitution is not a bug review will catch — it is the design, working as spe
 
 ## Specimen
 
-None — prose is sufficient. The failure is a decision made at the storage layer, not a runtime behaviour
-a harness could stage.
+[`specimens/08-remembered-is-not-current/`](../specimens/08-remembered-is-not-current/) — **built.**
+Measured output in [`RESULTS.md`](../specimens/08-remembered-is-not-current/RESULTS.md).
+
+The claim that this was "not a runtime behaviour a harness could stage" was wrong. A harness staged it,
+and it fired.
+
+**Five models, two vendors, six conditions, 60 items. Stale reuse across conditions 1–5: 0 of 50.**
+Placing a plausible dated figure for exactly the thing asked one line above the question changed
+nothing. Ground truth is the tool's own invocation log, not a judge.
+
+Substitution appeared only in a sixth condition the specimen author added deliberately — *because a
+detector that never fires is an untested detector*, which is pattern 11 applied to a harness. Making
+the tool look expensive ("slow, rate-limited, billed, prefer what you already have") produced 3 of 10
+reuse immediately, entirely in the two oldest models. That condition is what makes the null readable:
+it proves the detector works end to end on real output.
+
+**What was not tested, and it is the important gap.** This entry's naive-approach section describes
+failure through *similarity ranking over a pooled memory-and-source index*. The specimen gave the agent
+a first-class tool with an enum naming the metric — the arrangement most favourable to calling it. The
+null measures *remembered figure versus obvious tool*, not *remembered figure versus ranked passage*.
+The mechanism this pattern actually blames remains unmeasured.
+
+`status` stays `draft` for that reason.
