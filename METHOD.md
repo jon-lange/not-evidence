@@ -63,5 +63,13 @@ Discipline that depends on remembering is not enforcement. This repository runs:
 
 If something here is wrong, or too close to a line, I'd rather know. Open an issue or write to me.
 
-Patterns are **append-only** — a corrected entry is marked `superseded-by:` and kept rather than
-quietly edited. The revision history of a claim is part of the claim.
+**The pattern states the current claim; the specimen records how it was reached.** An entry is a
+reference, not a lab notebook — it says what I believe now and why, revised freely as evidence
+arrives. The measurement record lives in each specimen's `RESULTS.md`: what was run, what came back,
+what the scope was, and what result would falsify the claim.
+
+That separation is deliberate. A reader wants the best current statement; an auditor wants the
+evidence. Both are here, in the place each belongs.
+
+A pattern that is retired rather than revised moves to `deprecated/` with `superseded-by:` set, so
+inbound links keep resolving.

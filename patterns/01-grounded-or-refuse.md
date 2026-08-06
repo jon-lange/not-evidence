@@ -1,7 +1,7 @@
 ---
 pattern: 01
 name: "Grounded or Refuse"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to answer without evidence"
 specimen: 01
 ---
@@ -34,14 +34,22 @@ preference reverses, retroactively, and in public.
 
 ## The Refusal
 
-**Answer only from evidence retrieved this turn, and cite it. When retrieval returns nothing
-sufficient, decline — and say what was missing.**
+**Answer only from evidence retrieved this turn, and cite it so the answer is checkable by someone
+who does not trust the system. When retrieval returns nothing sufficient, decline — and say what was
+missing.**
+
+The reason is auditability, not distrust of the model. Current models decline well on
+straightforward lookups: measured across four models on questions whose answers were absent from the
+corpus, none confabulated. **That is a property of this year's post-training, not of your system.**
+It is not visible in your logs, does not transfer to longer contexts or answers reached by
+synthesis, and can change with the next model you deploy.
+
+A cited span is *checkable*. Behaviour that happens to be good is being taken on faith.
 
 Three parts, all load-bearing:
 
 1. **This turn.** Evidence from an earlier turn is a fact about that turn. See pattern 08.
-2. **Cite it.** An uncited answer is unfalsifiable. The citation is what lets someone who does not
-   trust the system check it — the only kind of checking that counts.
+2. **Cite it.** An uncited answer is unfalsifiable, however correct it happens to be.
 3. **Decline explicitly.** Not a hedge; not a confident general answer with the specifics quietly
    omitted. Those are this failure mode wearing a disguise.
 
@@ -67,32 +75,26 @@ outright. That is the trade, stated plainly.
 
 > *"If you're not sure, say you don't know."*
 
-The argument against it is that **it asks the model to report on a state it doesn't have.** There is
-no calibrated internal sense of whether retrieved context supports a given clause — only a
-distribution over plausible continuations, in which "I don't know" competes against fluent
-completions that score better. So the check has to be **structural** — did retrieval return
-anything, does the answer cite it, does the cited span actually contain the claim.
+**Not because it fails to produce refusals** — on straightforward lookups it produces them reliably.
+Because it produces them *unaccountably*.
 
-**Specimen 01 tested that prediction and it did not hold.** Four models across two vendors, thirteen
-questions, including a class where retrieval returns a document that names the concept and never
-states the value. The bare attitudinal prompt confabulated **0 out of 36 times**, and refused while
-naming what was missing. The structural check's forced-refusal path never fired, because nothing
-arrived that needed catching.
+An attitudinal prompt asks the model to report on a state it does not have: there is no calibrated
+internal sense of whether retrieved context supports a clause, only a distribution over plausible
+continuations. When it declines correctly, that is a fact about the model's training, not about your
+system. You cannot see it in a log, cannot point a reviewer at it, and cannot tell whether it still
+holds after a model upgrade. **The failure mode is not confabulation. It is that you would not know.**
 
-The scope is narrow and friendly to the naive fix: a few hundred words of context, lookup-shaped
-questions, no competing instruction to be helpful, one sample per cell, current-generation models.
-It rules out a large effect on that shape, not a small one, and says nothing about long assembled
-contexts or answers reached by synthesis. But the honest statement today is that **on easy shapes,
-recent post-training does much of what this pattern says only structure can do** — and that a claim
-this section made confidently was, when measured, wrong.
+The structural check — did retrieval return anything, does the answer cite it, does the cited span
+contain the claim — produces the same refusals *and* an artefact. That artefact is the entire
+difference.
 
-What survives the result is the reason to prefer structure anyway: a cited, verifiable span is
-*checkable by someone who does not trust the system*, and an attitudinal prompt that happens to
-behave well is not. Groundedness you cannot audit is a property you are taking on faith, whatever
-the refusal rate looks like.
+Two related errors worth naming:
 
-A subtler version of the original error is untouched: measuring groundedness by asking a model
-whether its own answer was grounded. That inherits everything above, plus pattern 05.
+- **Measuring groundedness by asking a model whether its own answer was grounded.** Inherits
+  everything above, plus pattern 05.
+- **Treating a low confabulation rate as coverage.** It measures the questions you asked, on the
+  context lengths you tested, against the model you tested. Longer assembled contexts and answers
+  reached by synthesis are a different regime, and nothing about a good rate on lookups predicts it.
 
 ## Prior art
 
@@ -105,10 +107,17 @@ whether its own answer was grounded. That inherits everything above, plus patter
 
 ## Specimen
 
-**[01-grounded-or-refuse](../specimens/01-grounded-or-refuse/)** — the naive fix, tested head-on
-against four models on two vendors over an authored corpus with a class of questions whose answers
-are adjacent to the retrieved documents but absent from them.
+[`specimens/01-grounded-or-refuse/`](../specimens/01-grounded-or-refuse/) — **built.**
+Measured output in [`RESULTS.md`](../specimens/01-grounded-or-refuse/RESULTS.md).
 
-**It measured 0/36 confabulations for the attitudinal prompt and contradicted this entry's
-prediction.** The result and its six scope limits are in
-[RESULTS.md](../specimens/01-grounded-or-refuse/RESULTS.md); `status` stays `draft` because of it.
+Four models across two vendors, thirteen questions over an authored corpus, including a class where
+retrieval returns a document that names the concept and never states the value. Two configurations:
+an attitudinal prompt, and a structural check that verifies the cited span contains the claim.
+
+**Confabulation was 0 of 36 in both.** On lookup-shaped questions with short context, current models
+decline correctly without being made to — which is why this entry argues auditability rather than
+confabulation risk. The structural check's forced-refusal path never fired: it was not needed, and
+it was not therefore proven to work.
+
+Six scope limits are recorded in RESULTS.md. The binomial upper bound on 0/36 is about 8%, which
+rules out a large effect on this shape and not a small one.

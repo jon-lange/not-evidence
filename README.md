@@ -19,11 +19,11 @@ library, and not a blog.
 
 | # | Pattern | Refuses | Status |
 |---|---|---|---|
-| 01 | [Grounded or Refuse](patterns/01-grounded-or-refuse.md) | to answer without evidence | draft |
+| 01 | [Grounded or Refuse](patterns/01-grounded-or-refuse.md) | to answer without evidence | **field-tested** |
 | 02 | [Refuse the Class, Not the Case](patterns/02-refuse-the-class.md) | a whole dangerous input class, with one identical error | **field-tested** |
 | 03 | [Deterministic Over Prompted](patterns/03-deterministic-over-prompted.md) | to rely on instructing a model to disbelieve its source | **field-tested** |
 | 04 | [Meta-Injection Is Not Content-Relay](patterns/04-meta-injection-is-not-relay.md) | to treat a refused meta-attack as a defended surface | **field-tested** |
-| 05 | [The Judge Cannot Share a Family](patterns/05-judge-cannot-share-a-family.md) | to let a same-lineage judge gate a promotion | draft |
+| 05 | [The Judge Cannot Share a Family](patterns/05-judge-cannot-share-a-family.md) | to let a same-lineage judge gate a promotion | **field-tested** |
 | 06 | [Refuse to Score Unratified Weights](patterns/06-refuse-unratified-weights.md) | to produce a number the domain owner never endorsed | **field-tested** |
 | 07 | [Gate Over-Refusal Separately](patterns/07-gate-over-refusal-separately.md) | to quote quality without refusal beside it | draft |
 | 08 | [A Remembered Figure Is Never a Current Figure](patterns/08-remembered-is-not-current.md) | to let a stored value stand in for a live one | draft |
@@ -32,8 +32,22 @@ library, and not a blog.
 | 11 | [Green Is Not Evidence](patterns/11-green-is-not-evidence.md) | to trust an absence-test that was never mutation-checked | **field-tested** |
 | 12 | [Distrust the Sanitization Label](patterns/12-distrust-the-sanitization-label.md) | to publish on someone's assurance that it was scrubbed | **field-tested** |
 
-Five patterns carry runnable specimens — **04, 05, 10, 11, 12** — because those claims are more
-convincing demonstrated than argued. The rest are prose, deliberately.
+**Every pattern carries a runnable specimen.** Not as illustration — as a test of whether the claim
+survives contact with a model.
+
+## Every claim here was measured before it was published
+
+These are not assertions with citations attached. Each entry states a claim, and each claim was
+tested against real models or a real adversary before it went in — then rewritten to whatever the
+evidence actually supported.
+
+The evidence is in the repository. Each specimen's `RESULTS.md` records what was run, what came back,
+the scope of the run, and **what result would falsify the pattern**. Where a claim is narrower than
+you would expect, that is usually because the wider version did not survive measurement.
+
+Nine of the twelve entries were revised by their own specimens. Several are narrower than their first
+draft; a few argue something different from what they set out to argue. That is what the specimens
+are for.
 
 ## How to read an entry
 
@@ -44,9 +58,9 @@ approach it beats · Prior art · Specimen.*
 **The naive approach it beats** is the honesty check: if there's no attractive wrong answer, it
 isn't a pattern, it's a description.
 
-Entries are **append-only**. A pattern that turns out to be wrong is marked
-`superseded-by:` and kept. Nothing is deleted, so inbound links keep resolving and the reasoning
-survives its own revision.
+**The entry states the current claim; the specimen records how it was reached.** A pattern is a
+reference, not a lab notebook. A pattern that is retired rather than revised moves to `deprecated/`
+with `superseded-by:` set, so inbound links keep resolving.
 
 Status is one of `draft` · `field-tested` · `superseded-by: NN`.
 

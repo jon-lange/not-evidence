@@ -87,7 +87,7 @@ about a particular system rather than a general one.
 ## Architecture
 
 ```
-patterns/       01..12, the catalogue. ADR-shaped, append-only.
+patterns/       01..12, the catalogue. ADR-shaped: one claim per file.
 specimens/      runnable demonstrations, one directory per pattern that has one
 skills/         installable skills — the applied layer (see the gate below)
 scripts/        pre-commit guards (identity, forbidden-token scanning)
@@ -196,17 +196,26 @@ Fixed section order. Deviating breaks reading across entries:
 
 `status:` stays `draft` until a specimen has measured it. Promote on evidence, never on confidence.
 
-**Entries are append-only.** A pattern that turns out wrong is marked `superseded-by: NN` and kept.
-The revision history of a claim is part of the claim.
+**The entry states the current claim. The specimen records how it was reached.** When measurement
+contradicts a pattern, rewrite the pattern to what the evidence supports — do not narrate the
+revision in the entry. A reader wants the best current statement, not its history.
+
+The history is not lost: `RESULTS.md` in each specimen carries what was run, what came back, the
+scope, and what would falsify the claim. That is the auditable record.
+
+A pattern retired rather than revised moves to `deprecated/` with `superseded-by:` set.
 
 ## Reporting results
 
 **Two of the first four measured claims did not survive their specimens.** Both entries were
 rewritten around what actually happened, and that is the repository's most valuable feature.
 
-When a specimen contradicts its pattern: rewrite the pattern, keep the falsification visible in both
-documents, and state plainly what was predicted versus what occurred. Never quietly narrow a claim to
-fit the result.
+When a specimen contradicts its pattern: **rewrite the claim to what the evidence supports**, and
+record the full measurement in the specimen's `RESULTS.md` — including scope and the falsification
+condition. The entry carries the conclusion; the specimen carries the working.
+
+What is not acceptable is narrowing a claim silently *and* leaving no record. If the entry changes,
+`RESULTS.md` must say why anyone would believe the new version.
 
 ## Gotchas
 

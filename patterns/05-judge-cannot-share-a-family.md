@@ -1,7 +1,7 @@
 ---
 pattern: 05
 name: "The Judge Cannot Share a Family"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to let a same-lineage judge gate a promotion"
 specimen: 05-judge-family
 ---
@@ -30,15 +30,16 @@ sounds neutral, and it looks like you have thought about cost.
 own generations and rate them more favourably, and the effect is tied to that self-recognition rather
 than to quality.
 
-**But bias is not the only thing that invalidates a judge,** and — see below — it may not even be
-the most common. A judge can be perfectly unbiased and still useless.
+**But bias is not the only thing that invalidates a judge, and rarely the first.** A judge can be
+perfectly unbiased and still useless — saturated, or unstable under reordering, or both.
 
 ## The Refusal
 
-**A judge that gates a promotion must not share a model family with the system it is judging — and
-before you trust any judge, prove it produces a signal.**
+**Before a judge may gate anything, prove it produces a signal and that its verdict survives
+reordering. Only then does whose lineage it shares become the question.**
 
-Three checks, in this order. The first two are cheap and catch more in practice than the third.
+Three checks, in this order — and the order is the pattern. The first two are cheap, and in practice
+they disqualify judges long before bias does.
 
 1. **Does the judge discriminate?** Score your candidates and look at the distribution of raw
    verdicts. A judge that returns the same score for everything has produced no measurement, and its
@@ -50,30 +51,33 @@ Three checks, in this order. The first two are cheap and catch more in practice 
    candidates under each judge and under the panel. If the winner depends on who judged, judge
    independence is decision-critical for that comparison and no single-judge promotion can stand.
 
-The flip test is the decisive one because it is binary, cheap, and runs on data you already have. It
-converts an abstract argument about bias into a result.
+**Then, and only then, lineage.** A judge sharing a model family with its subject can favour it —
+evaluator models recognise their own generations and rate them more favourably. Exclude the subject's
+lineage from the judge set that gates promotion.
 
-**And the asymmetry that gets missed:** cross-family is a property of an *ordered pair*, not a pair.
-A judge can be free of self-preference toward a subject and still be systematically lenient. Trust is
-earned per direction — A judging B may be authoritative while B judging A stays advisory.
+The asymmetry that gets missed: cross-family is a property of an *ordered pair*, not a pair. A judge
+can be free of self-preference toward a subject and still be systematically lenient. Trust is earned
+per direction — A judging B may be authoritative while B judging A stays advisory.
+
+**A saturated judge and an unbiased judge produce identical aggregates.** Equal means are the absence
+of a measurement, not a considered tie, and no amount of care about lineage recovers a run where the
+judge never discriminated. That is why checks 1 and 2 come first.
 
 ## Consequences
 
-**You need a validated judge per subject family,** and onboarding a new subject family means
-validating a new judge before it can gate anything. That is real work and it is the cost of the rule.
+**You need a validated judge per subject family.** Onboarding a new subject means validating a new
+judge before it can gate anything — real work, and the cost of the rule.
 
 **Panel diversity beats panel size.** Aggregation gains collapse when panellists share error
-structure; three variants of one lineage re-vote the same bias. Buy family diversity, not headcount —
-and expect a latency and cost multiplier per panellist, which is why panels belong in audit runs
-rather than every CI run.
+structure; three variants of one lineage re-vote the same bias. Buy family diversity, not headcount,
+and expect a cost multiplier per panellist — which is why panels belong in audit runs, not every CI run.
 
-**A judge change is a production change.** If the eval gates promotion, the eval's own configuration
-is production-critical. Roll a new judge shadow → canary → authoritative, with the incumbent as
-default until the numbers earn the swap. A judge that wrongly passes an unsafe answer is an incident
-with no alarm attached.
+**A judge change is a production change.** Roll a new judge shadow → canary → authoritative, with the
+incumbent as default until the numbers earn the swap. A judge that wrongly passes an unsafe answer is
+an incident with no alarm attached.
 
-**Agreement is reliability, not validity.** A panel can be reliably wrong. Establishing validity needs
-a hand-labelled reference set — agreement between judges only tells you they fail the same way.
+**Agreement is reliability, not validity.** A panel can be reliably wrong. Validity needs a
+hand-labelled reference set; agreement between judges only tells you they fail the same way.
 
 ## The naive approach it beats
 
@@ -81,11 +85,11 @@ a hand-labelled reference set — agreement between judges only tells you they f
 tokeniser, shared lineage, shared stylistic priors. It maximises exactly the familiarity that drives
 self-preference. It is the mitigation most likely to be chosen and least likely to work.
 
-**And the one this pattern's own specimen caught: trusting a judge that never discriminated.** Two of
-three judges in that run scored every answer identically, and the harness reported a winner from them
-anyway because equal means look like a tie. They were not a tie. They were nothing. A saturated judge
-and an unbiased judge produce output that is indistinguishable at the aggregate — which is the same
-failure as [pattern 11](11-green-is-not-evidence.md), in a different costume.
+**And the more common one: reading equal means as a considered tie.** A judge that scored every
+candidate identically has produced no measurement, but it emits the same aggregate a careful tie
+would. Harnesses report a winner from it, because nothing in the mean says which it was. That is
+[pattern 11](11-green-is-not-evidence.md) in a different costume — a result whose healthy form and
+broken form are the same number.
 
 ## Prior art
 
@@ -101,15 +105,21 @@ failure as [pattern 11](11-green-is-not-evidence.md), in a different costume.
 [`specimens/05-judge-family/`](../specimens/05-judge-family/) — **built.**
 Measured output in [`RESULTS.md`](../specimens/05-judge-family/RESULTS.md).
 
-**The specimen did not confirm this pattern's central claim, and says so.** Across two families and
-three judges there was no ranking flip: every judge that resolved a winner picked the same candidate,
-and an apparent +1.00 self-preference in absolute scoring dissolved once cross-family judges agreed
-with it.
+Two candidates from different model families, twelve questions, three judges — two from one family,
+one from the other. Absolute scoring, then pairwise in both orders.
 
-What the run did establish is checks 1 and 2 above, neither of which was in this entry's first draft:
-two of three judges were saturated and produced no signal, and one flipped its verdict on half the
-items depending on answer order. Those are the failures that showed up first, and the entry was
-rewritten around them.
+**Checks 1 and 2 disqualified two of three judges before lineage was reachable.** Both judges from
+one family awarded a perfect score to all 24 answers — one distinct value across the entire run, no
+measurement at all. A third flipped its verdict on half the items depending purely on answer order,
+while another flipped on none.
 
-The status stays `draft` for that reason. The cross-family rule remains well-supported in the
-literature and unproven here.
+**Absolute scoring saturates; pairwise cannot.** On a competent task set every answer earns full
+marks and the judge stops carrying information. Forcing a choice removes the ceiling — and introduces
+position bias, which is why both orders must be run.
+
+**One pass is not enough to read the result.** Absolute scoring showed a judge rating its own family
+higher, the shape of self-preference. Pairwise showed both cross-family judges preferring the same
+candidate, unanimously — so the simplest reading consistent with all six measurements is that those
+answers were better and everyone noticed.
+
+Scope in RESULTS.md: twelve items, one rubric, one day, no hand-labelled reference set.
