@@ -55,6 +55,11 @@ Discipline that depends on remembering is not enforcement. This repository runs:
 - **An identity guard** that blocks any commit authored from a work address.
 - **CI that re-runs both over full history** on every push, because a local hook can be bypassed and
   history is the part you cannot cleanly fix later.
+- **A metadata consistency check** on every commit and in CI. Pattern frontmatter is the single
+  source of truth; the README table, the skills table and the published site are copies, and copies
+  drift. Two patterns were once published as `field-tested` while the README called them `draft` —
+  the surface a reader sees disagreed with the index. The checker is mutation-checked, because one
+  that passed because it looked at nothing prints what a clean tree prints.
 - **A quarterly adversarial read** of the whole repository, because each entry can be individually
   clean while the corpus, read by someone who knows the industry, is not. That's the failure mode
   that per-file review cannot catch.
@@ -70,6 +75,11 @@ what the scope was, and what result would falsify the claim.
 
 That separation is deliberate. A reader wants the best current statement; an auditor wants the
 evidence. Both are here, in the place each belongs.
+
+**Revision is recorded in the status, not hidden by it.** An entry whose specimen contradicted it
+carries `revised-by-specimen` rather than quietly becoming `field-tested` on a narrower claim. Nine
+of twelve entries were revised by measurement and four had their central claim fail; a catalogue
+that only reports its confirmations is describing its author's confidence, not the world.
 
 A pattern that is retired rather than revised moves to `deprecated/` with `superseded-by:` set, so
 inbound links keep resolving.

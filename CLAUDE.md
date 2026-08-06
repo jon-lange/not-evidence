@@ -90,8 +90,9 @@ about a particular system rather than a general one.
 patterns/       01..12, the catalogue. ADR-shaped: one claim per file.
 specimens/      runnable demonstrations, one directory per pattern that has one
 skills/         installable skills — the applied layer (see the gate below)
-scripts/        pre-commit guards (identity, forbidden-token scanning)
+scripts/        guards — identity, forbidden tokens, metadata consistency
 site/           static mirror — real titles, OG cards, canonical URLs
+EVIDENCE.md     every measured figure on one page, checked against its RESULTS.md
 .out-of-scope/  ideas deliberately not pursued, and why
 deprecated/     entries that were live and no longer are
 ```
@@ -124,7 +125,8 @@ evidence behind them.
 - Spec-compliant: `skills/<name>/SKILL.md`, lowercase-hyphenated, matching directory name
 - `SKILL.md` body under ~500 lines, with progressive disclosure to `references/` and `scripts/`
 - Frontmatter carries `pattern:` — the entry it operationalises — and the same `status:` vocabulary
-  as patterns (`draft` / `field-tested` / `superseded-by:`)
+  as patterns (`draft` / `field-tested` / `revised-by-specimen` / `superseded-by:`). A skill may be
+  `draft` or match its pattern; it may never claim more. `scripts/check-consistency.py` enforces this
 - Retired skills move to `deprecated/`, never deleted. Rejected ideas go in `.out-of-scope/`
 
 ### Skills carry more IP risk than patterns
@@ -159,6 +161,7 @@ endpoint works.
 
 ```bash
 python3 test_*.py                   # also runs under pytest
+make consistency                    # metadata agrees with itself, and the rules are live
 ```
 
 Three rules that are not negotiable:
@@ -166,7 +169,10 @@ Three rules that are not negotiable:
 **Mutation-check every suite.** Break the guarded behaviour on purpose, confirm the tests fail *for
 the right reason*, restore, and record which mutations were tried and how many tests each broke. A
 passing absence-test proves nothing until you have watched it fail. That is pattern 11, and it
-applies to this repo's own code — specimen 11 found a vacuous test inside its own suite.
+applies to this repo's own code — specimen 11 found a vacuous test inside its own suite, and the
+mutation run on `scripts/check-consistency.py` found three tests passing for the wrong reason, each
+satisfied by a different rule than the one it named. Any of the three rules could have been deleted
+with the suite still green.
 
 **Don't mock the model.** A mocked judge or transcriber only proves the mock returns what it was told
 to. Measure live, record the output in `RESULTS.md`, and test the deterministic parts offline.
@@ -194,7 +200,24 @@ Fixed section order. Deviating breaks reading across entries:
   anything else. Omit what you cannot verify. A repository arguing that green is not evidence cannot
   ship a fabricated reference.
 
+### Status
+
 `status:` stays `draft` until a specimen has measured it. Promote on evidence, never on confidence.
+
+- **`draft`** — written, not yet measured
+- **`field-tested`** — a specimen ran and the claim held
+- **`revised-by-specimen`** — a specimen ran and the claim *did not* hold. The entry now states what
+  the evidence supports; `RESULTS.md` says what was predicted and what happened
+- **`superseded-by: NN`** — retired in favour of another entry, moved to `deprecated/`
+
+The distinction between the middle two is whether the **central** claim survived. An entry merely
+narrowed by measurement stays `field-tested` and says where in its `RESULTS.md`. Nine entries were
+revised by their specimens; four had their central claim fail.
+
+**Pattern frontmatter is the single source of truth for status.** The README table, the skills
+table and the generated site are copies. Never hand-edit a copy to agree with the source — fix the
+source and let `make consistency` prove the rest. Four hand-maintained copies is exactly how two
+patterns came to be published as `field-tested` while the README called them `draft`.
 
 **The entry states the current claim. The specimen records how it was reached.** When measurement
 contradicts a pattern, rewrite the pattern to what the evidence supports — do not narrate the
