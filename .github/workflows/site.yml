@@ -1,0 +1,55 @@
+name: site
+
+# Builds the static mirror and publishes it to GitHub Pages.
+#
+# Deliberately gated on the repository being public: Pages is not available for
+# private repos on a free account, and a workflow that fails on every push
+# teaches people to ignore the red X.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Install build dependency
+        run: pip install -r site/requirements.txt
+
+      - name: Verify every page has its own metadata
+        # Fails if any page would ship without a title, description or
+        # canonical URL — the whole reason this mirror exists.
+        run: python3 site/build.py --check --base-url "${{ vars.SITE_BASE_URL || 'https://langej117.github.io/refusal-engineering' }}"
+
+      - name: Build
+        run: python3 site/build.py --base-url "${{ vars.SITE_BASE_URL || 'https://langej117.github.io/refusal-engineering' }}"
+
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: site/_build }
+
+  deploy:
+    # Only publishes once the repository is public. Until then the build still
+    # runs on every push, so the mirror cannot silently rot.
+    if: github.event.repository.visibility == 'public'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -18,7 +18,7 @@ SPECS   := $(sort $(notdir $(wildcard specimens/[0-9]*)))
 OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-sanitization-label
 
 .DEFAULT_GOAL := help
-.PHONY: help test demo check live words scan clean
+.PHONY: help test demo check live words scan clean site site-check
 
 help:
 	@echo "refusal-engineering — twelve patterns, twelve specimens"
@@ -84,6 +84,14 @@ words:
 	  printf "  %-44s %5s%s\n" "$$(basename $$f .md)" "$$w" "$$flag"; \
 	done
 
+site-check:
+	@site/.venv/bin/python site/build.py --check 2>/dev/null \
+	  || $(PY) site/build.py --check
+
+site:
+	@site/.venv/bin/python site/build.py $(if $(BASE_URL),--base-url $(BASE_URL)) 2>/dev/null \
+	  || $(PY) site/build.py $(if $(BASE_URL),--base-url $(BASE_URL))
+
 clean:
-	@rm -rf specimens/*/_generated specimens/*/__pycache__ specimens/*/.pytest_cache
+	@rm -rf specimens/*/_generated specimens/*/__pycache__ specimens/*/.pytest_cache site/_build
 	@echo "  generated artefacts removed (venvs and results kept)"

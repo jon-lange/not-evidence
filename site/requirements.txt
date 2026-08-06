@@ -1,0 +1,2 @@
+# Build-time only. The output is static HTML with no runtime dependencies.
+markdown>=3.5
