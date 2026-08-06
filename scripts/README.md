@@ -22,7 +22,8 @@ version a reader sees.
 It asserts: statuses are in the vocabulary and every copy agrees; a skill never
 claims more than its pattern; `specimen:` resolves to a real directory and
 follows the slug convention; every relative link resolves; every documented
-`make` target exists; the employer disclaimer is still present; and every
+`make` target exists; the employer disclaimer is still present; every pattern is
+reachable from a symptom in the README's *Start here* table; and every
 figure in [`EVIDENCE.md`](../EVIDENCE.md) appears verbatim in the `RESULTS.md`
 its row cites, so the summary can never drift from the working.
 
@@ -33,11 +34,11 @@ that reports `FAILED` without saying what teaches people to bypass it.
 
 A checker that passed because it looked at nothing prints the same thing as one
 that passed because the tree was clean. Each rule was disabled in turn and the
-harness was required to catch it. Sixteen deliberate breakages, all caught:
+harness was required to catch it. Seventeen deliberate breakages, all caught:
 
 | Mutation | Tests failed |
 |---|---|
-| `Report.fail` becomes a no-op — every failure swallowed | 16 |
+| `Report.fail` becomes a no-op — every failure swallowed | 17 |
 | Status vocabulary accepts anything | 1 |
 | README status mismatch never reported | 1 |
 | README row-count guard removed | 1 |
@@ -50,6 +51,7 @@ harness was required to catch it. Sixteen deliberate breakages, all caught:
 | Employer disclaimer unchecked | 1 |
 | Empty tree reports clean | 1 |
 | Malformed frontmatter skipped silently | 1 |
+| Orphaned patterns in the triage table ignored | 1 |
 | Evidence figures never compared to their source | 1 |
 | Evidence row-count guard removed | 1 |
 | Evidence rows citing no `RESULTS.md` accepted | 1 |

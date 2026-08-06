@@ -222,6 +222,28 @@ def check_skills(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     rep.count("skills", len(skills))
 
 
+def check_triage(root: Path, patterns: dict[str, dict], rep: Report) -> None:
+    """Every pattern must be reachable from a symptom a reader would recognise.
+    An entry nobody can arrive at is unreachable in practice however good it is,
+    and the failure is silent — the catalogue table still lists it."""
+    readme = root / "README.md"
+    if not readme.is_file():
+        return
+    section = re.search(r"\n## Start here\n(.*?)(?=\n## )", readme.read_text(), re.S)
+    if not section:
+        return
+
+    reachable = set(re.findall(r"\(patterns/(\d{2})-", section.group(1)))
+    orphans = sorted(set(patterns) - reachable)
+    if orphans:
+        rep.fail(
+            "triage",
+            f"pattern(s) {', '.join(orphans)} are in the catalogue but reachable "
+            "from no symptom in the Start here table",
+        )
+    rep.count("triage routes", len(reachable))
+
+
 def check_evidence(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     """EVIDENCE.md aggregates figures that live in the specimens. It must never
     become a second place where a number is authored — every backticked figure
@@ -323,6 +345,7 @@ def main() -> int:
     patterns = check_patterns(root, rep)
     check_readme_table(root, patterns, rep)
     check_skills(root, patterns, rep)
+    check_triage(root, patterns, rep)
     check_evidence(root, patterns, rep)
     check_links(root, rep)
     check_make_targets(root, rep)

@@ -15,6 +15,42 @@ library, and not a blog.
 
 ---
 
+## Nine of the twelve entries were revised by their own specimens
+
+Each pattern was written as a claim, then put in front of real models or a real adversary, then
+rewritten to whatever the evidence supported. Nine came back changed. Four were contradicted
+outright and now argue something different from what they set out to argue.
+
+- **01** predicted that *"if you're not sure, say you don't know"* confabulates. It did not — not
+  once in 36 opportunities, across four models and both vendors.
+- **05** predicted a same-family judge would favour its own lineage. No flip occurred. What actually
+  disqualified two of three judges was saturation and position instability, neither about lineage.
+- **07** predicted that newer models refuse more. Flat across both vendors, every vintage.
+- **08** predicted that agents reuse remembered figures instead of fetching live ones. They called
+  the tool in 57 of 60 items.
+
+**[EVIDENCE.md](EVIDENCE.md) is the whole record on one page** — what was measured, the figure that
+came back, and a link to the working for every entry.
+
+A catalogue that only reports its confirmations is telling you about its author's confidence, not
+about the world.
+
+## Start here
+
+You probably arrived with one of these.
+
+| If this sounds familiar | Start with |
+|---|---|
+| "The suite is green and I can't say what that proves" | [11](patterns/11-green-is-not-evidence.md), [01](patterns/01-grounded-or-refuse.md) |
+| "A model grades another model, and the score gates a release" | [05](patterns/05-judge-cannot-share-a-family.md), [06](patterns/06-refuse-unratified-weights.md) |
+| "We shipped image or document upload and the injection suite didn't change" | [09](patterns/09-modalities-off-the-reasoning-path.md), [04](patterns/04-meta-injection-is-not-relay.md) |
+| "Our defence is a prompt telling the model to ignore instructions it finds" | [03](patterns/03-deterministic-over-prompted.md), [04](patterns/04-meta-injection-is-not-relay.md) |
+| "Someone handed me a file marked *sanitised* and asked me to publish it" | [12](patterns/12-distrust-the-sanitization-label.md) |
+| "The agent quoted a figure it had seen earlier instead of fetching it" | [08](patterns/08-remembered-is-not-current.md) |
+| "The allowlist has grown to eighteen entries and nobody can review it" | [02](patterns/02-refuse-the-class.md) |
+| "A transcript, parse, or extraction gets acted on automatically" | [10](patterns/10-never-auto-commit-a-transducer.md) |
+| "Quality went up and nobody measured what we started refusing" | [07](patterns/07-gate-over-refusal-separately.md) |
+
 ## The catalogue
 
 | # | Pattern | Refuses | Status |
@@ -34,23 +70,6 @@ library, and not a blog.
 
 **Every pattern carries a runnable specimen.** Not as illustration — as a test of whether the claim
 survives contact with a model.
-
-## Every claim here was put in front of a specimen
-
-These are not assertions with citations attached. Each entry was tested against real models or a real
-adversary, then rewritten to whatever the evidence supported.
-
-**Several patterns also contain architectural commitments a specimen cannot test** — a claim about
-how a system should be *structured* is not a behavioural prediction. Each specimen's `RESULTS.md`
-states exactly which of its pattern's claims it exercised and which it did not.
-
-The evidence is in the repository. Each specimen's `RESULTS.md` records what was run, what came back,
-the scope of the run, and **what result would falsify the pattern**. Where a claim is narrower than
-you would expect, that is usually because the wider version did not survive measurement.
-
-Nine of the twelve entries were revised by their own specimens. Several are narrower than their first
-draft; a few argue something different from what they set out to argue. That is what the specimens
-are for.
 
 ## How to read an entry
 
@@ -73,24 +92,32 @@ Status is one of:
   evidence supports instead, and the specimen's `RESULTS.md` says what was predicted and what happened
 - **`superseded-by: NN`** — retired in favour of another entry
 
+Nine entries were revised by measurement; the four marked `revised-by-specimen` are the ones whose
+*central* claim failed. The other five were narrowed rather than overturned, and their `RESULTS.md`
+says where.
+
+**Several patterns also contain architectural commitments a specimen cannot test** — a claim about
+how a system should be *structured* is not a behavioural prediction. Each `RESULTS.md` states which
+of its pattern's claims it exercised and which it did not.
+
 ## Specimens
 
-Small, self-contained, and **explicitly unmaintained** — reference implementations, not software
-you should depend on.
+Reference implementations, **not maintained software**. Don't depend on them; read them, run them,
+and take the idea.
 
 ```bash
 make test     # every suite — no network, no keys
 make demo     # every offline demonstration
+make offline  # the four that need nothing at all, run for real
 ```
 
-Eleven of twelve specimens need nothing but Python; specimen 09 needs Pillow to rasterise its
-fixtures and says so rather than skipping quietly. `make check` additionally runs a private
-forbidden-token scan and **will refuse without its config** — that refusal is intended, and
-[CONTRIBUTING.md](CONTRIBUTING.md) explains why.
+Eleven of twelve need nothing but Python; specimen 09 needs Pillow to rasterise its fixtures and
+says so rather than skipping quietly. Four of them — 02, 06, 11 and 12 — have no live component at
+all, so `make offline` runs the real thing rather than a demonstration of it. The rest reach a model
+only through their `probe.py`, which needs credentials and costs money.
 
-Four specimens need nothing at all — no venv, no dependencies. The rest have an offline mode that
-runs the same way; only their live probes need credentials, and those are per-specimen and cost
-money. `make help` shows how.
+`make check` additionally runs a private forbidden-token scan and **will refuse without its config**
+— that refusal is intended, and [CONTRIBUTING.md](CONTRIBUTING.md) explains why.
 
 They use a generic domain on purpose. A specimen written against finance or healthcare would be
 making a claim about a specific system rather than a general one.
@@ -113,18 +140,16 @@ constraints in [CLAUDE.md](CLAUDE.md). Every measurement was actually run, every
 hand, and every citation fetched and verified rather than recalled. Where a specimen contradicted the
 pattern it was built for, the pattern was rewritten — which happened more often than not.
 
-**How this was written.** The entries were drafted and revised with a coding agent, under the
-constraints in [CLAUDE.md](CLAUDE.md). Every measurement was actually run, every result checked by
-hand, and every citation fetched and verified rather than recalled. Where a specimen contradicted the
-pattern it was built for, the pattern was rewritten — which happened more often than not.
-
 **The views expressed here are my own and do not represent those of my employer or any client.
 Nothing in this repository is derived from, or discloses, confidential or proprietary information
 of any employer. All material was developed on my own time, on my own equipment, from publicly
 available sources.**
 
-The method that keeps that true is written down in [METHOD.md](METHOD.md) — not as a disclaimer,
-but as a working discipline that constrains what gets published and how.
+Working in a regulated industry usually means publishing nothing. [METHOD.md](METHOD.md) is the
+discipline that makes this publishable instead — six rules, enforced by hooks and CI rather than by
+remembering, including the one that matters most: **no number appears here that was not generated
+here.** It is written down because a method you can inspect is worth more than an assurance you have
+to take on faith.
 
 ## License
 

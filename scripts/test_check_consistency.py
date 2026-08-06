@@ -71,6 +71,14 @@ SKILLS_README = """\
 README = """\
 # Fixture
 
+## Start here
+
+| If this sounds familiar | Start with |
+|---|---|
+| something broke | [01](patterns/01-alpha.md){triage2} |
+
+## The catalogue
+
 | # | Pattern | Refuses | Status |
 |---|---|---|---|
 | 01 | [Alpha](patterns/01-alpha.md) | to do the thing | **{s1}** |
@@ -111,6 +119,7 @@ def build_fixture(root: Path, **over: str) -> None:
         "evidence": True,
         "evidence_figure": "0 out of 36",
         "drop_evidence_row": False,
+        "orphan_in_triage": False,
         "skill_pattern": "01",
         "skill_status": "field-tested",
         "readme_s1": "field-tested",
@@ -157,7 +166,10 @@ def build_fixture(root: Path, **over: str) -> None:
         SKILLS_README.format(status=opt["skills_readme_status"])
     )
 
-    body = README.format(s1=opt["readme_s1"], s2=opt["readme_s2"])
+    body = README.format(
+        s1=opt["readme_s1"], s2=opt["readme_s2"],
+        triage2="" if opt["orphan_in_triage"] else ", [02](patterns/02-beta.md)",
+    )
     body = body.replace("make test", f"make {opt['make_target']}")
     if opt["drop_readme_row"]:
         body = "\n".join(l for l in body.splitlines() if not l.startswith("| 02 "))
@@ -346,6 +358,15 @@ def test_running_against_a_directory_that_is_not_the_repo_fails_loudly():
         code, out = check(Path(empty))
     assert code != 0
     assert "no patterns" in out.lower()
+
+
+def test_a_pattern_reachable_from_no_symptom_is_caught():
+    """A catalogue entry nobody can arrive at is unreachable in practice, and
+    the failure is silent — the catalogue table still lists it."""
+    with fixture(orphan_in_triage=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[triage]" in out and "02" in out
 
 
 def test_an_evidence_figure_absent_from_its_source_is_caught():
