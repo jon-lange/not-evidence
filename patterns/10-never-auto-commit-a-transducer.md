@@ -3,7 +3,7 @@ pattern: 10
 name: "Never Auto-Commit a Lossy Transducer"
 status: draft          # draft | field-tested | superseded-by: NN
 refuses: "to execute on a plausible substitution"
-specimen: planned
+specimen: 10-lossy-transducer
 ---
 
 # 10 · Never Auto-Commit a Lossy Transducer

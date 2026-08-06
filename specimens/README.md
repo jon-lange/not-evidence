@@ -10,7 +10,7 @@ run them, and take the idea.
 |---|---|---|---|
 | 04 | [injection-classes](04-injection-classes/) | Meta-Injection Is Not Content-Relay | planned |
 | 05 | judge-family | The Judge Cannot Share a Family | planned |
-| 10 | lossy-transducer | Never Auto-Commit a Lossy Transducer | planned |
+| 10 | [lossy-transducer](10-lossy-transducer/) | Never Auto-Commit a Lossy Transducer | **built** |
 | 11 | mutation-check | Green Is Not Evidence | planned |
 
 `make dev` boots all of them together against a mock inference path — no cloud account required for

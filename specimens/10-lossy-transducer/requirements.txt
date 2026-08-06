@@ -1,0 +1,2 @@
+# Only needed for the live probe. --offline runs on the standard library alone.
+openai>=1.40
