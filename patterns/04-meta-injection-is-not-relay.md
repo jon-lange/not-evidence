@@ -1,9 +1,9 @@
 ---
 pattern: 04
 name: "Meta-Injection Is Not Content-Relay"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to treat a refused meta-attack as a defended surface"
-specimen: planned
+specimen: 04-injection-classes
 ---
 
 # 04 · Meta-Injection Is Not Content-Relay
@@ -112,10 +112,11 @@ Two related tells:
 
 ## Specimen
 
-[`specimens/04-injection-classes/`](../specimens/04-injection-classes/) — *planned.*
+[`specimens/04-injection-classes/`](../specimens/04-injection-classes/) — **built.**
+Measured output in [`RESULTS.md`](../specimens/04-injection-classes/RESULTS.md).
 
-A public docs corpus with two poison classes. The meta-instruction document is refused; the
-content-framed document is relayed. Then a deterministic transform is enabled and the second closes
-while the prompt stays unchanged.
+Across `gpt-4o-mini`, `gpt-4o` and `gpt-4.1-mini`, with a genuine guardrail and randomized
+delimiters: the meta-instruction was refused every time, and the content-framed procedure was
+relayed every time — cited, and *amplified* into direct advice by all three models.
 
-The demonstration is the second cell of that table: **the run where nothing appears to go wrong.**
+The demonstration is the run where nothing appears to go wrong.

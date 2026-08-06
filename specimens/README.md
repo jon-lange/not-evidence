@@ -8,7 +8,7 @@ run them, and take the idea.
 
 | # | Specimen | Pattern | Status |
 |---|---|---|---|
-| 04 | [injection-classes](04-injection-classes/) | Meta-Injection Is Not Content-Relay | planned |
+| 04 | [injection-classes](04-injection-classes/) | Meta-Injection Is Not Content-Relay | **built** |
 | 05 | judge-family | The Judge Cannot Share a Family | planned |
 | 10 | [lossy-transducer](10-lossy-transducer/) | Never Auto-Commit a Lossy Transducer | **built** |
 | 11 | mutation-check | Green Is Not Evidence | planned |

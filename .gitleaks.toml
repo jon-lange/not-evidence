@@ -15,7 +15,11 @@ tags = ["structural"]
 [[rules]]
 id = "windows-source-path"
 description = "Absolute Windows source paths leak repo topology"
-regex = '''[A-Za-z]:\\[A-Za-z0-9._\\-]+'''
+# \b anchors the drive letter to a word boundary, and {2,} requires a real path
+# segment. Without both, this matched `r:\n` inside ordinary string literals —
+# "answer:\n" is structurally identical to "C:\Users". A rule that fires on
+# prose is not a control; it is noise that trains you to bypass the hook.
+regex = '''\b[A-Za-z]:\\[A-Za-z0-9._-]{2,}'''
 tags = ["structural"]
 
 [[rules]]
@@ -23,3 +27,16 @@ id = "private-registry"
 description = "Non-public package registry URLs"
 regex = '''(?i)(artifactory|nexus|jfrog)[\w.-]*\.[\w.-]+/'''
 tags = ["structural"]
+
+# Vendored and generated trees. These are gitignored and can never reach a
+# commit, but a filesystem scan walks them anyway — and findings you have to
+# learn to ignore are how a scan stops being read at all.
+[[allowlists]]
+description = "vendored / generated directories"
+condition = "OR"
+paths = [
+  '''(^|/)\.venv/''',
+  '''(^|/)node_modules/''',
+  '''(^|/)_generated/''',
+  '''(^|/)__pycache__/''',
+]
