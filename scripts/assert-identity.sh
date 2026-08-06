@@ -7,6 +7,16 @@
 # stronger: it catches every wrong identity, not two anticipated ones.
 set -euo pipefail
 
+# Anchor on the repository root. Run outside a repository, `git config
+# user.email` silently answers from global config — so the check would pass
+# while asserting nothing about this repository. A guard that reports success
+# without having looked is the thing this repository is named for.
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+  echo "BLOCKED - not inside a git repository, so there is no identity to assert."
+  exit 1
+}
+cd "$ROOT"
+
 EXPECTED_EMAIL="langej117@gmail.com"
 
 actual="$(git config user.email || true)"

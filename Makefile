@@ -18,7 +18,7 @@ SPECS   := $(sort $(notdir $(wildcard specimens/[0-9]*)))
 OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-sanitization-label
 
 .DEFAULT_GOAL := help
-.PHONY: help test demo check offline words scan consistency clean site site-check
+.PHONY: help test demo check offline words scan consistency portable clean site site-check
 
 help:
 	@echo "not-evidence — twelve patterns, twelve specimens"
@@ -30,6 +30,7 @@ help:
 	@echo "  its fixtures; 02 runs tens of thousands of probes and takes a minute."
 	@echo "  make check   scan + consistency + tests          (what a commit runs)"
 	@echo "  make consistency  metadata agrees with itself   (frontmatter is truth)"
+	@echo "  make portable  export the tree elsewhere and re-run the checks there"
 	@echo "  make words   pattern word counts vs house target"
 	@echo "  make clean   remove generated artefacts"
 	@echo
@@ -110,6 +111,12 @@ consistency:
 	@$(PY) scripts/test_check_consistency.py | tail -1
 
 check: scan consistency test
+
+# Not in `check`: it exports the tree and re-runs the suites, which is too slow
+# for every commit. Run it before a release, and after anything that moves or
+# renames the repository — which is when a hard-coded path fails, quietly.
+portable:
+	@./scripts/test-portability.sh
 
 words:
 	@echo "  target 650-950"

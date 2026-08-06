@@ -94,7 +94,7 @@ about a particular system rather than a general one.
 patterns/       01..12, the catalogue. ADR-shaped: one claim per file.
 specimens/      runnable demonstrations, one directory per pattern that has one
 skills/         installable skills — the applied layer (see the gate below)
-scripts/        guards — identity, forbidden tokens, metadata consistency
+scripts/        guards — identity, forbidden tokens, metadata consistency, portability
 site/           static mirror — real titles, OG cards, canonical URLs
 EVIDENCE.md     every measured figure on one page, checked against its RESULTS.md
 .out-of-scope/  ideas deliberately not pursued, and why
@@ -157,6 +157,14 @@ python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt
 
 Live specimens read `~/.config/openai-key` and `~/.config/anthropic-key`, or the matching env vars.
 **Never write a key into a file inside this repo, including `.env`.**
+
+**Repo code is path-independent; venvs are not.** Everything tracked here anchors on
+`Path(__file__)` or `git rev-parse --show-toplevel`, and `make portable` proves it by exporting the
+tree to a differently-named, deeper path containing a space and re-running the checks there. A venv
+is the exception by construction: `.venv/bin/pip` and `.venv/bin/activate` hardcode an absolute
+shebang, so after a move or rename they point at a tree that no longer exists. `./.venv/bin/python`
+survives — it is a symlink, and that is the only interpreter the `Makefile` invokes, so `make test`
+and `make demo` are unaffected. Recreate the venv when you next need `pip`; nothing else needs doing.
 
 Model overrides are env vars (`LLM_MODEL`, `STT_MODEL`, `LLM_BASE_URL`) so any OpenAI-compatible
 endpoint works.
