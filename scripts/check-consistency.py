@@ -318,6 +318,44 @@ def check_evidence(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     rep.count("evidence rows", rows)
 
 
+def check_specimens_index(root: Path, patterns: dict[str, dict], rep: Report) -> None:
+    """specimens/README.md is an index, not a status surface.
+
+    It was a fifth copy of the metadata in a vocabulary of its own — every row
+    said `built`, and two carried hand-written notes about a prediction not
+    holding. By the time anyone read them, five entries had had their central
+    claim fail and the table named two. Nothing checked it, because nothing
+    read it.
+
+    So the rule is shape, not agreement: one row per pattern, and no status or
+    adjudication term anywhere in the table. Asserting the *absence* of the
+    vocabulary is what stops the column growing back, which is the failure that
+    actually happened."""
+    index = root / "specimens" / "README.md"
+    if not index.is_file():
+        return
+
+    rows = [c for c in table_rows(index.read_text()) if plain(c[0]) in patterns]
+    seen = {plain(c[0]) for c in rows}
+
+    for num in sorted(set(patterns) - seen):
+        rep.fail("specimens-index", f"pattern {num} has no row in specimens/README.md")
+    if len(rows) != len(seen):
+        rep.fail("specimens-index", f"{len(rows)} rows for {len(seen)} distinct patterns")
+
+    forbidden = VOCABULARY | ADJUDICATIONS
+    for cells in rows:
+        for term in sorted(forbidden):
+            if any(term in plain(cell) for cell in cells):
+                rep.fail(
+                    "specimens-index",
+                    f"pattern {plain(cells[0])}: the row states {term!r}. Status lives in "
+                    "pattern frontmatter and outcomes live in RESULTS.md — a copy here is "
+                    "the drift this rule exists to prevent",
+                )
+    rep.count("specimen index rows", len(rows))
+
+
 def check_adjudication(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     """The headline claim — how many entries their own specimens revised — used
     to be asserted in five places and derived from nothing. It was the only
@@ -497,6 +535,7 @@ def main() -> int:
     check_skills(root, patterns, rep)
     check_triage(root, patterns, rep)
     check_evidence(root, patterns, rep)
+    check_specimens_index(root, patterns, rep)
     check_adjudication(root, patterns, rep)
     check_links(root, rep)
     check_make_targets(root, rep)

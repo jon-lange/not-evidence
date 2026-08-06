@@ -25,7 +25,8 @@ follows the slug convention; every relative link resolves; every documented
 `make` target exists; the employer disclaimer is still present; every pattern is
 reachable from a symptom in the README's *Start here* table; every
 figure in [`EVIDENCE.md`](../EVIDENCE.md) appears verbatim in the `RESULTS.md`
-its row cites, so the summary can never drift from the working; and every
+its row cites, so the summary can never drift from the working; `specimens/README.md`
+stays an index and never regrows a status column; and every
 measured specimen carries an `**Adjudication:**` verdict from which the
 catalogue's revision counts are derived and against which every published copy
 of them is checked.
@@ -77,6 +78,29 @@ reason** — the shape pattern 11 is about, in the harness written to enforce it
 Adding the `EVIDENCE.md` rules produced one more survivor, of the same shape:
 nothing tested a row that cites no `RESULTS.md` at all. A row with a figure and
 no working is an assertion, which is the one thing that file exists not to be.
+
+### The specimens index, mutation-checked
+
+`specimens/README.md` was a fifth copy of the metadata in a vocabulary of its
+own — every row said `built`, two carried hand-written notes about a prediction
+not holding, and nothing read the file. By the time anyone did, five entries had
+had their central claim fail and the table named two.
+
+The outcome column is gone rather than corrected. A column whose every cell said
+the same word carried no information, and keeping it is how the hand-written
+notes appeared in the first place. The rule now asserts shape: one row per
+pattern, and the *absence* of any status or adjudication term.
+
+| Mutation | Tests failed |
+|---|---|
+| Forbidden vocabulary not asserted | 2 |
+| Index row-count guard removed | 1 |
+| Only status forbidden, not adjudication | 1 |
+| Duplicate rows tolerated | 1 |
+
+**One survivor, the same shape as the last two.** The duplicate guard broke no
+test: a pattern listed twice satisfies every-pattern-has-a-row completely, so
+only the count sees it. Test added.
 
 ### The adjudication rule, mutation-checked
 

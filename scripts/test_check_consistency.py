@@ -100,6 +100,15 @@ or any client.**
 
 MAKEFILE = "test:\n\t@echo ok\n"
 
+SPECIMENS_README = """\
+# Specimens
+
+| # | Specimen | Pattern |
+|---|---|---|
+| 01 | [alpha](01-alpha/) | Alpha{extra1} |
+| 02 | [beta](02-beta/) | Beta |
+"""
+
 EVIDENCE = """\
 # Evidence
 
@@ -157,6 +166,9 @@ def build_fixture(root: Path, **over: str) -> None:
         "c_failed": "Zero",
         "c_narrowed": "One",
         "rephrase_readme_claim": False,
+        "specimens_index": True,
+        "specimens_index_extra": "",
+        "drop_specimens_index_row": False,
     }
     opt.update(over)
 
@@ -215,6 +227,12 @@ def build_fixture(root: Path, **over: str) -> None:
         body = body.split("**The views")[0]
     (root / "README.md").write_text(body)
     (root / "Makefile").write_text(MAKEFILE)
+
+    if opt["specimens_index"]:
+        idx = SPECIMENS_README.format(extra1=opt["specimens_index_extra"])
+        if opt["drop_specimens_index_row"]:
+            idx = "\n".join(l for l in idx.splitlines() if not l.startswith("| 02 "))
+        (root / "specimens" / "README.md").write_text(idx)
 
     if opt["evidence"]:
         ev = EVIDENCE.format(fig1=opt["evidence_figure"], c_failed=opt["c_failed"])
@@ -379,6 +397,56 @@ def test_the_new_status_term_is_in_the_vocabulary():
         p2_status="revised-by-specimen", readme_s2="revised-by-specimen",
         c_revised="Two", c_failed="One", c_narrowed="One",
     ) as root:
+        code, out = check(root)
+    assert code == 0, out
+
+
+# -------------------------------------------------------- the specimens index
+
+
+def test_a_specimens_index_missing_a_pattern_is_caught():
+    with fixture(drop_specimens_index_row=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[specimens-index]" in out and "02" in out
+
+
+def test_a_status_term_reappearing_in_the_specimens_index_is_caught():
+    """The drift that shipped. This table carried hand-written outcome notes
+    that were correct when written and stale by the time anyone read them. The
+    rule asserts the vocabulary's *absence*, because the failure mode is the
+    column growing back, not the column disagreeing once."""
+    with fixture(specimens_index_extra=" | **field-tested**") as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[specimens-index]" in out and "field-tested" in out
+
+
+def test_an_adjudication_term_reappearing_in_the_specimens_index_is_caught():
+    """Both vocabularies are forbidden there, not just the status one."""
+    with fixture(specimens_index_extra=" | central-claim-failed") as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[specimens-index]" in out and "central-claim-failed" in out
+
+
+def test_a_duplicated_row_in_the_specimens_index_is_caught():
+    """Found by mutation: the duplicate guard broke no test. A pattern listed
+    twice satisfies the every-pattern-has-a-row check completely, so only the
+    row count sees it — and two rows for one specimen is the index disagreeing
+    with itself, which is what this file is now here to not do."""
+    with fixture() as root:
+        idx = root / "specimens" / "README.md"
+        text = idx.read_text()
+        row = next(l for l in text.splitlines() if l.startswith("| 01 "))
+        idx.write_text(text + row + "\n")
+        code, out = check(root)
+    assert code != 0
+    assert "[specimens-index]" in out and "distinct" in out
+
+
+def test_a_repository_without_a_specimens_index_still_checks_everything_else():
+    with fixture(specimens_index=False) as root:
         code, out = check(root)
     assert code == 0, out
 
