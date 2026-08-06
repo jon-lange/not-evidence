@@ -62,8 +62,14 @@ test:
 	  echo "  requirements and re-run before trusting this."; \
 	else echo "all suites green, nothing skipped"; fi
 
+# Exit 2 from a probe is the convention for "I cannot run here, and I said
+# why" — a declared refusal, not a crash. It has to be distinguishable from
+# failure, because the specimen that handles a missing dependency *best* was
+# the one this target used to report as FAILED: it caught the ImportError and
+# explained itself, so it never matched the ModuleNotFoundError case below.
 demo:
-	@for d in $(SPECS); do \
+	@incomplete=0; fail=0; \
+	for d in $(SPECS); do \
 	  [ -f specimens/$$d/probe.py ] || continue; \
 	  printf "  %-32s " "$$d"; \
 	  py=$(PY); [ -x specimens/$$d/.venv/bin/python ] && py=./.venv/bin/python; \
@@ -74,10 +80,17 @@ demo:
 	  fi; \
 	  case "$$?:$$out" in \
 	    0:*) echo "ok" ;; \
-	    *ModuleNotFoundError*) echo "needs venv — pip install -r requirements.txt" ;; \
-	    *) echo "FAILED" ;; \
+	    2:*) echo "declined — needs deps, and said so"; incomplete=1 ;; \
+	    *ModuleNotFoundError*) echo "needs venv — pip install -r requirements.txt"; incomplete=1 ;; \
+	    *) echo "FAILED"; fail=1 ;; \
 	  esac; \
-	done
+	done; \
+	if [ $$fail -ne 0 ]; then echo "FAILURES"; exit 1; \
+	elif [ $$incomplete -ne 0 ]; then \
+	  echo "no failures — but some demonstrations DECLINED to run here."; \
+	  echo "  A demo that declined is not a demo that passed. Install the"; \
+	  echo "  specimen's requirements before reading this as coverage."; \
+	else echo "every demonstration ran"; fi
 
 # The four that need nothing at all: no venv, no keys, no network.
 offline:
