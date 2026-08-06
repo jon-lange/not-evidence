@@ -1,5 +1,9 @@
 # Observed results
 
+**Adjudication: central-claim-failed.** The entry predicted that the naive *"say you don't know"*
+fix confabulates. It did not — not once in 36 opportunities — and the entry now argues something
+different from what it set out to argue.
+
 **Run 2026-08-05.** Four models across two vendors, three system configurations, thirteen questions
 in three classes, 148 completions.
 

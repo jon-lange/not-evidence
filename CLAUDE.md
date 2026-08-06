@@ -223,8 +223,14 @@ Fixed section order. Deviating breaks reading across entries:
 - **`superseded-by: NN`** — retired in favour of another entry, moved to `deprecated/`
 
 The distinction between the middle two is whether the **central** claim survived. An entry merely
-narrowed by measurement stays `field-tested` and says where in its `RESULTS.md`. Nine entries were
-revised by their specimens; four had their central claim fail.
+narrowed by measurement stays `field-tested` and says where in its `RESULTS.md`. Ten entries were
+revised by their specimens; five had their central claim fail.
+
+**The counts are derived, never typed.** Each `RESULTS.md` opens with `**Adjudication: <verdict>.**`
+where the verdict is `confirmed`, `narrowed`, or `central-claim-failed`. `revised` means the last
+two. `scripts/check-consistency.py` derives the totals from those twelve lines, asserts that the set
+of `revised-by-specimen` patterns equals the set whose adjudication is `central-claim-failed`, and
+fails on any published copy that disagrees.
 
 **Pattern frontmatter is the single source of truth for status.** The README table, the skills
 table and the generated site are copies. Never hand-edit a copy to agree with the source — fix the

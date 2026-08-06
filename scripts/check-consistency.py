@@ -31,6 +31,33 @@ from pathlib import Path
 VOCABULARY = {"draft", "field-tested", "revised-by-specimen"}
 SUPERSEDED = "superseded-by"
 
+# Each RESULTS.md opens with one of these. `revised` — the number the README
+# leads with — is narrowed plus central-claim-failed.
+ADJUDICATIONS = {"confirmed", "narrowed", "central-claim-failed"}
+
+NUMBER_WORDS = {
+    "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+    "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
+}
+
+# Every published statement of a derived count, and which count it states. The
+# repository spells these as words, so they are checked as words. A claim that
+# stops matching is a failure — see check_adjudication for why that matters more
+# than it looks.
+COUNT_CLAIMS = [
+    ("README.md", r"##\s+(\w+) of the twelve entries were revised", "revised"),
+    ("README.md", r"(\w+) came back changed", "revised"),
+    ("README.md", r"(\w+) were contradicted\s+outright", "failed"),
+    ("README.md", r"(\w+) entries were revised by measurement", "revised"),
+    ("README.md", r"the (\w+) marked `revised-by-specimen`", "failed"),
+    ("README.md", r"The other (\w+) were narrowed rather than overturned", "narrowed"),
+    ("METHOD.md", r"(\w+)\s+of twelve entries were revised by measurement", "revised"),
+    ("METHOD.md", r"and (\w+) had their central claim fail", "failed"),
+    ("CLAUDE.md", r"(\w+) entries were\s+revised by their specimens", "revised"),
+    ("CLAUDE.md", r"(\w+) had their central claim fail", "failed"),
+    ("EVIDENCE.md", r"## The (\w+) that contradicted their own pattern", "failed"),
+]
+
 # Asserted, not trusted to survive editing. Losing this sentence is the one
 # documentation regression with consequences outside the repository.
 DISCLAIMER = "do not represent those of my employer"
@@ -136,7 +163,12 @@ def check_patterns(root: Path, rep: Report) -> dict[str, dict]:
                     "(convention is NN-lowercase-hyphenated)",
                 )
 
-        patterns[num] = {"status": status, "name": meta.get("name", ""), "path": rel}
+        patterns[num] = {
+            "status": status,
+            "name": meta.get("name", ""),
+            "path": rel,
+            "specimen": specimen,
+        }
 
     if not patterns:
         rep.fail("no-patterns", f"no patterns found under {root}/patterns/ — "
@@ -286,6 +318,124 @@ def check_evidence(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     rep.count("evidence rows", rows)
 
 
+def check_adjudication(root: Path, patterns: dict[str, dict], rep: Report) -> None:
+    """The headline claim — how many entries their own specimens revised — used
+    to be asserted in five places and derived from nothing. It was the only
+    claim in the repository that nothing checked, which made it the exact
+    failure the eleventh entry is about.
+
+    Now every RESULTS.md opens with an adjudication, the counts are derived from
+    those twelve lines, and every published copy is checked against the
+    derivation. `revised` is narrowed + central-claim-failed; `confirmed` is
+    neither.
+
+    Note what makes this rule non-vacuous: an unmatched claim pattern is a
+    failure, not a skip. A regex that silently stops matching after someone
+    rephrases a sentence would check nothing and print what a correct run
+    prints."""
+    verdicts: dict[str, str] = {}
+    # `draft` means written and not yet measured, so there is nothing to
+    # adjudicate and demanding a verdict would force one to be invented.
+    measured = {n: m for n, m in patterns.items() if m.get("status") != "draft"}
+
+    for num, meta in sorted(measured.items()):
+        specimen = meta.get("specimen", "")
+        if not specimen:
+            continue
+        results = root / "specimens" / specimen / "RESULTS.md"
+        if not results.is_file():
+            rep.fail("adjudication", f"pattern {num}: {specimen}/RESULTS.md does not exist")
+            continue
+
+        found = re.search(r"\*\*Adjudication:\s*([a-z-]+)\.\*\*", results.read_text())
+        if not found:
+            rep.fail(
+                "adjudication",
+                f"pattern {num}: {specimen}/RESULTS.md carries no `**Adjudication: ...**` "
+                "line, so the revision count cannot be derived from it",
+            )
+            continue
+        verdict = found.group(1)
+        if verdict not in ADJUDICATIONS:
+            rep.fail(
+                "adjudication",
+                f"pattern {num}: adjudication {verdict!r} is outside the vocabulary "
+                f"({', '.join(sorted(ADJUDICATIONS))})",
+            )
+            continue
+        verdicts[num] = verdict
+
+    if len(verdicts) != len(measured):
+        rep.fail(
+            "adjudication",
+            f"{len(verdicts)} adjudications for {len(measured)} measured patterns — "
+            "an incomplete count is not a count",
+        )
+    rep.count("adjudications", len(verdicts))
+
+    # The status vocabulary and the adjudication vocabulary have to describe the
+    # same twelve outcomes, or one of them is decorative.
+    failed = {n for n, v in verdicts.items() if v == "central-claim-failed"}
+    marked = {n for n, m in patterns.items() if m.get("status") == "revised-by-specimen"}
+    for num in sorted(failed - marked):
+        rep.fail(
+            "adjudication",
+            f"pattern {num}: adjudicated central-claim-failed but frontmatter says "
+            f"{patterns[num]['status']!r}, not 'revised-by-specimen'",
+        )
+    for num in sorted(marked - failed):
+        rep.fail(
+            "adjudication",
+            f"pattern {num}: frontmatter says 'revised-by-specimen' but its specimen "
+            f"adjudicated {verdicts.get(num, '<missing>')!r}",
+        )
+
+    derived = {
+        "revised": sum(1 for v in verdicts.values() if v in ("narrowed", "central-claim-failed")),
+        "failed": len(failed),
+        "narrowed": sum(1 for v in verdicts.values() if v == "narrowed"),
+        "confirmed": sum(1 for v in verdicts.values() if v == "confirmed"),
+    }
+
+    claims = 0
+    for filename, pattern, key in COUNT_CLAIMS:
+        path = root / filename
+        if not path.is_file():
+            # Absent surfaces are not this rule's business — a missing METHOD.md
+            # is a different problem, caught elsewhere or not a problem at all.
+            # A file that *exists* and no longer matches is the dangerous case,
+            # and that falls through to the failure below.
+            continue
+        match = re.search(pattern, path.read_text(), re.S)
+        if not match:
+            rep.fail(
+                "adjudication",
+                f"{filename}: no text matched the {key} claim /{pattern}/ — the sentence "
+                "was rephrased and this rule silently stopped checking it",
+            )
+            continue
+        claims += 1
+        stated = NUMBER_WORDS.get(match.group(1).lower())
+        if stated is None:
+            rep.fail(
+                "adjudication",
+                f"{filename}: {match.group(1)!r} is not a number word this rule can read",
+            )
+        elif stated != derived[key]:
+            rep.fail(
+                "adjudication",
+                f"{filename}: says {match.group(1)!r} for {key}, but the twelve "
+                f"RESULTS.md adjudications derive {derived[key]}",
+            )
+    if verdicts and not claims:
+        rep.fail(
+            "adjudication",
+            f"{len(verdicts)} specimens were adjudicated and not one published count was "
+            "checked against them — the derivation exists and nothing reads it",
+        )
+    rep.count("derived count claims", claims)
+
+
 def check_links(root: Path, rep: Report) -> None:
     n = 0
     for path in markdown_files(root):
@@ -347,6 +497,7 @@ def main() -> int:
     check_skills(root, patterns, rep)
     check_triage(root, patterns, rep)
     check_evidence(root, patterns, rep)
+    check_adjudication(root, patterns, rep)
     check_links(root, rep)
     check_make_targets(root, rep)
 

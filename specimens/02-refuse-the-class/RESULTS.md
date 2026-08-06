@@ -1,5 +1,9 @@
 # Observed results
 
+**Adjudication: narrowed.** The central claim held — the class refusal is the smaller rule, at two
+predicates against zero table entries. The entry still claims more than the measurement supports;
+*Where this is weaker than pattern 02 claims* says exactly where.
+
 **Run 2026-08-05, one machine, no network, no key.** A reference space of 48,000 items — 12 schemes
 × 10 hosts × 10 content types × 8 declared sizes × 5 structural forms — and three ways of drawing a
 boundary across it. Nothing here came from a real system; the space is defined in `validator.py` and

@@ -1,5 +1,10 @@
 # Observed results
 
+**Adjudication: narrowed.** The central claim held emphatically — all three models invented content
+from inputs containing no speech. The predicted *mechanism* did not: a domain hint was expected to
+make hallucinations fluent and on-topic, and instead one model returned French subtitle boilerplate
+and two echoed the prompt back as speech. The revised claim is narrower and better supported.
+
 **Run 2026-08-05.** Three hosted transcription models, three synthetic inputs, each sent bare and
 with a recipe-vocabulary hint. Every cell reproduced identically across three consecutive runs —
 these models are effectively deterministic at default settings.

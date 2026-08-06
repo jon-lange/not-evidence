@@ -1,5 +1,9 @@
 # Observed results
 
+**Adjudication: narrowed.** The central claim held with an exact figure — 40.6% of defensible
+weightings reverse the verdict. The entry still claims more than the measurement supports; *Where
+this is weaker than pattern 06 claims* says where.
+
 **Run 2026-08-05.** Fully offline — standard library only, no key, no network, no model. The claim
 under test is about scoring governance, so there is nothing here for a model to answer.
 

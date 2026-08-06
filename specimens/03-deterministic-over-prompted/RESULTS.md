@@ -1,5 +1,10 @@
 # Observed results
 
+**Adjudication: central-claim-failed.** The entry's escalation diagnostic — *"if your defence has
+been reworded three times, it isn't a defence"* — was falsified as written: the third rewording took
+the relay rate from 80% to 0%. The Refusal was rewritten around **verifiability** rather than around
+transforms being general, which is a different argument from the one the entry made.
+
 **Run 2026-08-05.** Five models, two vendors, one poison document, six configurations, 140 calls.
 
 **The prediction did not hold.** Pattern 03 says the prompt ladder does not converge to zero. It

@@ -1,5 +1,10 @@
 # Observed results
 
+**Adjudication: confirmed.** Two `NOT CAUGHT` cells demonstrated the vacuous absence-test directly —
+the assertion passed while the property it named was broken. Nothing in the entry required revision.
+One overclaim was removed from the *probe* mid-build; that is recorded in *Scope and limits* and did
+not change the pattern.
+
 **Run 2026-08-05.** Fully offline — no models, no network, no keys. Deterministic: the matrix below
 reproduces byte-for-byte on any machine.
 

@@ -86,6 +86,14 @@ README = """\
 
 Run `make test` to see it.
 
+## {c_revised} of the twelve entries were revised by their own specimens
+
+{c_revised} came back changed. {c_failed} were contradicted
+outright and now argue something different.
+
+{c_revised} entries were revised by measurement; the {c_failed} marked `revised-by-specimen` are
+the ones whose central claim failed. The other {c_narrowed} were narrowed rather than overturned.
+
 **The views expressed here are my own and do not represent those of my employer
 or any client.**
 """
@@ -99,6 +107,16 @@ EVIDENCE = """\
 |---|---|---|---|
 | 01 | Alpha | `{fig1}` | [RESULTS](specimens/01-alpha/RESULTS.md) |
 | 02 | Beta | `0 of 9` | [RESULTS](specimens/02-beta/RESULTS.md) |
+
+## The {c_failed} that contradicted their own pattern
+"""
+
+RESULTS = """\
+# results
+
+**Adjudication: {verdict}.** Because of what the run showed.
+
+Measured 0 out of 36, and 0 of 9 elsewhere.
 """
 
 
@@ -128,6 +146,17 @@ def build_fixture(root: Path, **over: str) -> None:
         "disclaimer": True,
         "link_target": "02-beta",
         "make_target": "test",
+        # 02 is `draft` by default, so it is unmeasured and exempt from
+        # adjudication. Its verdict only matters in tests that measure it.
+        "adj1": "narrowed",
+        "adj2": "central-claim-failed",
+        "drop_adjudication": False,
+        "p1_no_specimen_key": False,
+        # Consistent with the defaults above: one measured pattern, narrowed.
+        "c_revised": "One",
+        "c_failed": "Zero",
+        "c_narrowed": "One",
+        "rephrase_readme_claim": False,
     }
     opt.update(over)
 
@@ -139,17 +168,22 @@ def build_fixture(root: Path, **over: str) -> None:
     for slug in dirs:
         (root / "specimens" / slug).mkdir(parents=True)
         (root / "specimens" / slug / "README.md").write_text("# specimen\n")
-        (root / "specimens" / slug / "RESULTS.md").write_text(
-            "# results\n\nMeasured 0 out of 36, and 0 of 9 elsewhere.\n"
-        )
+        verdict = opt["adj2"] if slug == "02-beta" else opt["adj1"]
+        results = RESULTS.format(verdict=verdict)
+        if opt["drop_adjudication"] and slug != "02-beta":
+            results = "\n".join(
+                l for l in results.splitlines() if "Adjudication" not in l
+            )
+        (root / "specimens" / slug / "RESULTS.md").write_text(results)
 
-    (root / "patterns" / "01-alpha.md").write_text(
-        PATTERN.format(
-            num="01", name="Alpha", status=opt["p1_status"],
-            specimen=opt["p1_specimen"], other=opt["link_target"],
-            body=opt["p1_body_specimen"] or opt["p1_specimen"],
-        )
+    p1 = PATTERN.format(
+        num="01", name="Alpha", status=opt["p1_status"],
+        specimen=opt["p1_specimen"], other=opt["link_target"],
+        body=opt["p1_body_specimen"] or opt["p1_specimen"],
     )
+    if opt["p1_no_specimen_key"]:
+        p1 = "\n".join(l for l in p1.splitlines() if not l.startswith("specimen:"))
+    (root / "patterns" / "01-alpha.md").write_text(p1)
     (root / "patterns" / "02-beta.md").write_text(
         PATTERN.format(
             num="02", name="Beta", status=opt["p2_status"],
@@ -169,8 +203,12 @@ def build_fixture(root: Path, **over: str) -> None:
     body = README.format(
         s1=opt["readme_s1"], s2=opt["readme_s2"],
         triage2="" if opt["orphan_in_triage"] else ", [02](patterns/02-beta.md)",
+        c_revised=opt["c_revised"], c_failed=opt["c_failed"],
+        c_narrowed=opt["c_narrowed"],
     )
     body = body.replace("make test", f"make {opt['make_target']}")
+    if opt["rephrase_readme_claim"]:
+        body = body.replace("came back changed", "turned out differently")
     if opt["drop_readme_row"]:
         body = "\n".join(l for l in body.splitlines() if not l.startswith("| 02 "))
     if not opt["disclaimer"]:
@@ -179,7 +217,7 @@ def build_fixture(root: Path, **over: str) -> None:
     (root / "Makefile").write_text(MAKEFILE)
 
     if opt["evidence"]:
-        ev = EVIDENCE.format(fig1=opt["evidence_figure"])
+        ev = EVIDENCE.format(fig1=opt["evidence_figure"], c_failed=opt["c_failed"])
         if opt["drop_evidence_row"]:
             ev = "\n".join(l for l in ev.splitlines() if not l.startswith("| 02 "))
         (root / "EVIDENCE.md").write_text(ev)
@@ -335,7 +373,110 @@ def test_a_status_outside_the_vocabulary_is_caught():
 
 
 def test_the_new_status_term_is_in_the_vocabulary():
-    with fixture(p2_status="revised-by-specimen", readme_s2="revised-by-specimen") as root:
+    """Measuring 02 makes it adjudicable, so the derived counts move with it —
+    which is the rule working, not interference."""
+    with fixture(
+        p2_status="revised-by-specimen", readme_s2="revised-by-specimen",
+        c_revised="Two", c_failed="One", c_narrowed="One",
+    ) as root:
+        code, out = check(root)
+    assert code == 0, out
+
+
+# ------------------------------------------------- the derived revision count
+# The headline claim used to be asserted in five places and derived from
+# nothing. These break every part of the derivation.
+
+
+def test_a_specimen_with_no_adjudication_line_is_caught():
+    """Without a verdict the count cannot be derived, and a count derived from
+    eleven of twelve specimens is not the count the README states."""
+    with fixture(drop_adjudication=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "carries no" in out
+
+
+def test_an_adjudication_outside_the_vocabulary_is_caught():
+    with fixture(adj1="mostly-fine") as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "mostly-fine" in out
+
+
+def test_a_central_claim_failure_not_marked_revised_by_specimen_is_caught():
+    """This is the drift that shipped: specimen 03 recorded 'falsified as
+    written' while its pattern carried `field-tested`. The status vocabulary and
+    the adjudication vocabulary describe the same outcome, so they must agree."""
+    with fixture(adj1="central-claim-failed") as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "revised-by-specimen" in out
+
+
+def test_revised_by_specimen_without_a_central_claim_failure_is_caught():
+    """The other direction. An entry cannot claim its specimen overturned it
+    when the specimen says the claim merely narrowed."""
+    with fixture(
+        p2_status="revised-by-specimen", readme_s2="revised-by-specimen",
+        adj2="narrowed", c_revised="Two", c_failed="Zero", c_narrowed="Two",
+    ) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "narrowed" in out
+
+
+def test_a_published_count_disagreeing_with_the_derivation_is_caught():
+    with fixture(c_revised="Nine") as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "Nine" in out
+
+
+def test_each_copy_of_the_count_is_checked_independently():
+    """EVIDENCE.md states the failure count separately from README.md. Changing
+    only one must fail, or the copies are not really being compared."""
+    with fixture() as root:
+        ev = (root / "EVIDENCE.md").read_text().replace(
+            "## The Zero that", "## The Four that"
+        )
+        (root / "EVIDENCE.md").write_text(ev)
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "EVIDENCE.md" in out
+
+
+def test_a_rephrased_claim_fails_rather_than_silently_unchecking_itself():
+    """The rule reads English sentences. If one is reworded, the regex stops
+    matching — and a rule that quietly checks nothing prints exactly what a
+    correct run prints. That is the failure this repository is named for, so
+    an unmatched claim is a failure, not a skip."""
+    with fixture(rephrase_readme_claim=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "rephrased" in out
+
+
+def test_a_measured_pattern_with_no_specimen_key_is_caught():
+    """Found by mutation: deleting the completeness check broke no test. A
+    measured pattern with no `specimen:` key contributes no verdict and fires
+    none of the per-specimen rules, so the totals quietly derive from a smaller
+    set than the catalogue. Only the count sees it — the same reason the README
+    row-count rule exists."""
+    with fixture(p1_no_specimen_key=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[adjudication]" in out and "incomplete count" in out
+
+
+def test_a_draft_pattern_needs_no_adjudication():
+    """`draft` means written and not yet measured. Demanding a verdict there
+    would force one to be invented, which is the opposite of the point."""
+    with fixture() as root:
+        results = root / "specimens" / "02-beta" / "RESULTS.md"
+        # The figure stays: this test isolates the adjudication rule, and
+        # dropping it would fire the evidence rule instead.
+        results.write_text("# results\n\nNot measured yet. 0 of 9 elsewhere.\n")
         code, out = check(root)
     assert code == 0, out
 

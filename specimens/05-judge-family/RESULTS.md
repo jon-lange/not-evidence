@@ -1,5 +1,10 @@
 # Observed results
 
+**Adjudication: central-claim-failed.** No same-family ranking flip occurred, and the one signal
+that looked like self-preference dissolved when cross-family judges agreed with it. What disqualified
+two of three judges was saturation and position instability — neither about lineage. The Refusal was
+rewritten around those.
+
 **Run 2026-08-05.** Two candidates from different model families, twelve items, three judges — two
 from one family, one from the other. Absolute scoring first, then pairwise in both orders.
 

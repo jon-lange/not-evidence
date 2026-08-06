@@ -1,7 +1,7 @@
 ---
 pattern: 03
 name: "Deterministic Over Prompted"
-status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
+status: revised-by-specimen   # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to rely on instructing a model to disbelieve its source"
 specimen: 03-deterministic-over-prompted
 ---

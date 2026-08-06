@@ -1,5 +1,9 @@
 # Observed results
 
+**Adjudication: central-claim-failed.** The entry predicted that agents substitute remembered figures
+for live ones. They called the tool instead, in 57 of 60 items. Stale reuse appeared only under an
+explicitly adversarial condition, which is a much narrower claim than the one the entry made.
+
 **Run 2026-08-05.** Five models across two vendors, six conditions, two metrics each — 60 items,
 117 API calls. Every per-item record is in `results.jsonl`, written before any rate was computed.
 

@@ -23,9 +23,12 @@ It asserts: statuses are in the vocabulary and every copy agrees; a skill never
 claims more than its pattern; `specimen:` resolves to a real directory and
 follows the slug convention; every relative link resolves; every documented
 `make` target exists; the employer disclaimer is still present; every pattern is
-reachable from a symptom in the README's *Start here* table; and every
+reachable from a symptom in the README's *Start here* table; every
 figure in [`EVIDENCE.md`](../EVIDENCE.md) appears verbatim in the `RESULTS.md`
-its row cites, so the summary can never drift from the working.
+its row cites, so the summary can never drift from the working; and every
+measured specimen carries an `**Adjudication:**` verdict from which the
+catalogue's revision counts are derived and against which every published copy
+of them is checked.
 
 Failures print as a diff — what the source says, what the copy says. A checker
 that reports `FAILED` without saying what teaches people to bypass it.
@@ -74,6 +77,34 @@ reason** — the shape pattern 11 is about, in the harness written to enforce it
 Adding the `EVIDENCE.md` rules produced one more survivor, of the same shape:
 nothing tested a row that cites no `RESULTS.md` at all. A row with a figure and
 no working is an assertion, which is the one thing that file exists not to be.
+
+### The adjudication rule, mutation-checked
+
+The revision count — *ten of twelve* — was the last claim in the repository that
+nothing derived. It was typed into five files. Seven more breakages, all caught:
+
+| Mutation | Tests failed |
+|---|---|
+| Published count never compared to the derivation | 2 |
+| A rephrased claim silently stops being checked | 1 |
+| `central-claim-failed` need not be `revised-by-specimen` | 1 |
+| `revised-by-specimen` need not have failed centrally | 1 |
+| Adjudication vocabulary unenforced | 1 |
+| A missing adjudication line tolerated | 1 |
+| Completeness of the adjudication set not required | 1 |
+
+**One survivor, and it was the interesting one.** Disabling the completeness
+check broke no test: the only test that dropped an adjudication also tripped the
+per-specimen rule, so completeness was never the thing being proven. It fires
+alone in exactly one case — a *measured* pattern with no `specimen:` key
+contributes no verdict, fires none of the per-specimen rules, and the totals then
+derive from a smaller set than the catalogue while every published number still
+matches. Same shape as the README row-count guard: only the count sees it.
+
+The rephrasing mutation is the one worth understanding. These rules read English
+sentences, so rewording one makes its regex stop matching. A rule that quietly
+checks nothing prints what a correct run prints, so an unmatched claim is a
+failure rather than a skip.
 
 Reproduce by editing one rule to `if False:` and running
 `python3 scripts/test_check_consistency.py`.

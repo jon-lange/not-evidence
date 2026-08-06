@@ -1,5 +1,10 @@
 # Observed results
 
+**Adjudication: narrowed.** The central claim held — 62 of 63 relay cells relayed through the image
+channel, and specimen 04's text-only suite detected none of it. One Forces assertion was contradicted
+by the measurement: egress scrubbing was the one control that *did* transfer across modalities.
+*What this weakens in pattern 09* records the rest.
+
 **Run 2026-08-05.** Four vision-capable models across two vendors, 103 completions, zero errors.
 The documents, the guardrail wording and the questions are byte-identical to
 [specimen 04](../04-injection-classes/) — a test asserts it. The only manipulation is the channel the

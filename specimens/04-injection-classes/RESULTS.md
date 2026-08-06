@@ -1,5 +1,8 @@
 # Observed results
 
+**Adjudication: confirmed.** The two injection classes separated cleanly in every model tested —
+meta-injection refused, content-relay relayed. Nothing in the entry required revision.
+
 **Run 2026-08-05.** Three models, one guardrail, two poison classes. Identical outcome in every
 model tested.
 

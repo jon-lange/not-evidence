@@ -20,19 +20,26 @@ library, and not a blog.
 
 ---
 
-## Nine of the twelve entries were revised by their own specimens
+## Ten of the twelve entries were revised by their own specimens
 
 Each pattern was written as a claim, then put in front of real models or a real adversary, then
-rewritten to whatever the evidence supported. Nine came back changed. Four were contradicted
+rewritten to whatever the evidence supported. Ten came back changed. Five were contradicted
 outright and now argue something different from what they set out to argue.
 
 - **01** predicted that *"if you're not sure, say you don't know"* confabulates. It did not — not
   once in 36 opportunities, across four models and both vendors.
+- **03** predicted that a prompt defence reworded three times is no defence. The third rewording is
+  exactly where it started working — 80% relay to 0%, on every model. The entry now argues from
+  verifiability rather than generality.
 - **05** predicted a same-family judge would favour its own lineage. No flip occurred. What actually
   disqualified two of three judges was saturation and position instability, neither about lineage.
 - **07** predicted that newer models refuse more. Flat across both vendors, every vintage.
 - **08** predicted that agents reuse remembered figures instead of fetching live ones. They called
   the tool in 57 of 60 items.
+
+Every one of the twelve carries an **Adjudication** line at the top of its `RESULTS.md` — `confirmed`,
+`narrowed`, or `central-claim-failed`. The counts above are derived from those twelve lines and
+checked against them, so this heading cannot drift from the evidence under it.
 
 **[EVIDENCE.md](EVIDENCE.md) is the whole record on one page** — what was measured, the figure that
 came back, and a link to the working for every entry.
@@ -62,7 +69,7 @@ You probably arrived with one of these.
 |---|---|---|---|
 | 01 | [Grounded or Refuse](patterns/01-grounded-or-refuse.md) | to answer without evidence | **revised-by-specimen** |
 | 02 | [Refuse the Class, Not the Case](patterns/02-refuse-the-class.md) | a whole dangerous input class, with one identical error | **field-tested** |
-| 03 | [Deterministic Over Prompted](patterns/03-deterministic-over-prompted.md) | to rely on instructing a model to disbelieve its source | **field-tested** |
+| 03 | [Deterministic Over Prompted](patterns/03-deterministic-over-prompted.md) | to rely on instructing a model to disbelieve its source | **revised-by-specimen** |
 | 04 | [Meta-Injection Is Not Content-Relay](patterns/04-meta-injection-is-not-relay.md) | to treat a refused meta-attack as a defended surface | **field-tested** |
 | 05 | [The Judge Cannot Share a Family](patterns/05-judge-cannot-share-a-family.md) | to let a same-lineage judge gate a promotion | **revised-by-specimen** |
 | 06 | [Refuse to Score Unratified Weights](patterns/06-refuse-unratified-weights.md) | to produce a number the domain owner never endorsed | **field-tested** |
@@ -97,9 +104,10 @@ Status is one of:
   evidence supports instead, and the specimen's `RESULTS.md` says what was predicted and what happened
 - **`superseded-by: NN`** — retired in favour of another entry
 
-Nine entries were revised by measurement; the four marked `revised-by-specimen` are the ones whose
+Ten entries were revised by measurement; the five marked `revised-by-specimen` are the ones whose
 *central* claim failed. The other five were narrowed rather than overturned, and their `RESULTS.md`
-says where.
+says where. Two — 04 and 11 — came through confirmed. Each specimen's `RESULTS.md` opens with the
+**Adjudication** line these counts are derived from.
 
 **Several patterns also contain architectural commitments a specimen cannot test** — a claim about
 how a system should be *structured* is not a behavioural prediction. Each `RESULTS.md` states which

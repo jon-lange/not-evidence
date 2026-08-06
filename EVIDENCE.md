@@ -26,13 +26,17 @@ the pattern they were built to confirm.
 | 11 | Green Is Not Evidence | One absence assertion across six variants, two of them silently broken | Two `NOT CAUGHT` cells — the test passed while the thing it guarded was broken | [RESULTS](specimens/11-mutation-check/RESULTS.md) |
 | 12 | Distrust the Sanitization Label | Re-identification of a correctly-sanitised release, 60 projects, 62,700 trials | `60 / 60 rows re-linked, 0 wrong` from the numbers alone | [RESULTS](specimens/12-sanitization-label/RESULTS.md) |
 
-## The four that contradicted their own pattern
+## The five that contradicted their own pattern
 
 These carry `revised-by-specimen`. The entry now states what the evidence supports; the original
 prediction, and what happened to it, is in the specimen.
 
 - **01** predicted that the naive fix confabulates. It did not — not once in 36 opportunities, across
   every model and both vendors. The entry now argues something different from what it set out to.
+- **03** predicted that a prompt defence reworded three times has stopped being a defence. The third
+  rewording is where it started working — 80% relay to 0%, on every model tested, at no measured cost
+  to the clean case. The entry's diagnostic could not stand, and the Refusal was rewritten around
+  verifiability rather than around transforms being general.
 - **05** predicted a same-family judge would favour its own lineage. No ranking flip occurred, and
   the one signal that looked like self-preference dissolved when cross-family judges agreed with it.
   What *did* disqualify two of three judges was saturation and position instability — neither about

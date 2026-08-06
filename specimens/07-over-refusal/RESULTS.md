@@ -1,5 +1,9 @@
 # Observed results
 
+**Adjudication: central-claim-failed.** The contested claim — that newer models within a family
+refuse more — did not reproduce. The rate was flat across both vendors and every vintage. What
+survives in the entry is about measurement discipline, not about a trend.
+
 **Run 2026-08-05.** Five models across two vendors, twenty-five items in two buckets, one deterministic
 classifier. Every per-item response is in [`results.jsonl`](results.jsonl), written before any rate
 was computed.

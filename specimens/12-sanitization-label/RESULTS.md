@@ -1,5 +1,11 @@
 # Observed results
 
+**Adjudication: narrowed.** The conclusion was not overturned and in one respect was sharpened — 60
+of 60 rows re-linked from the numbers alone. Two things in the entry required correction: the *"by
+shape"* phrasing, since magnitude does nearly all the work and pure shape matching is the brittle
+attack; and the prescription to regenerate from a model of the shape, which measurably leaves the
+release re-identifiable.
+
 **Run 2026-08-05, one machine, no network.** Sixty synthetic projects, twenty daily build durations
 each, in whole seconds, generated in process from a fixed seed. Median build 285 s across the fleet,
 twelve magnitude tiers, five projects per tier. Nothing here was derived from a real system, and the
