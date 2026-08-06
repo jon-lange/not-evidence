@@ -18,7 +18,7 @@ SPECS   := $(sort $(notdir $(wildcard specimens/[0-9]*)))
 OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-sanitization-label
 
 .DEFAULT_GOAL := help
-.PHONY: help test demo check offline words scan clean site site-check
+.PHONY: help test demo check offline words scan consistency clean site site-check
 
 help:
 	@echo "refusal-engineering — twelve patterns, twelve specimens"
@@ -28,7 +28,8 @@ help:
 	@echo
 	@echo "  Eleven of twelve need nothing but Python. 09 needs Pillow to render"
 	@echo "  its fixtures; 02 runs tens of thousands of probes and takes a minute."
-	@echo "  make check   scan + tests                        (what a commit runs)"
+	@echo "  make check   scan + consistency + tests          (what a commit runs)"
+	@echo "  make consistency  metadata agrees with itself   (frontmatter is truth)"
 	@echo "  make words   pattern word counts vs house target"
 	@echo "  make clean   remove generated artefacts"
 	@echo
@@ -89,13 +90,19 @@ scan:
 	@./scripts/scan-tree.sh && echo "  blocking scan clean"
 	@./scripts/review.sh
 
-check: scan test
+# Frontmatter is the single source of truth; every other copy is checked
+# against it. Its own mutation harness proves the rules are live.
+consistency:
+	@$(PY) scripts/check-consistency.py
+	@$(PY) scripts/test_check_consistency.py | tail -1
+
+check: scan consistency test
 
 words:
 	@echo "  target 650-950"
 	@for f in patterns/*.md; do \
 	  w=$$(wc -w < $$f | tr -d ' '); \
-	  flag=""; [ $$w -gt 1000 ] && flag=" over"; \
+	  flag=""; [ $$w -gt 950 ] && flag=" over"; \
 	  printf "  %-44s %5s%s\n" "$$(basename $$f .md)" "$$w" "$$flag"; \
 	done
 

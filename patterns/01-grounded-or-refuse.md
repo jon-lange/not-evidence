@@ -3,7 +3,7 @@ pattern: 01
 name: "Grounded or Refuse"
 status: revised-by-specimen   # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to answer without evidence"
-specimen: 01
+specimen: 01-grounded-or-refuse
 ---
 
 # 01 · Grounded or Refuse

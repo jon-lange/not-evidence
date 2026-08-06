@@ -12,6 +12,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  consistency:
+    name: metadata agrees with itself
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: The checker's own rules must be live
+        # Same reasoning as the denylist canary in leak-check.yml: a checker
+        # that passed because it looked at nothing prints the same thing as one
+        # that passed because the tree was clean. The mutation harness breaks
+        # every rule on purpose and requires the checker to catch each one, so
+        # a clean result below means something.
+        run: python3 scripts/test_check_consistency.py
+
+      - name: Metadata is consistent
+        run: python3 scripts/check-consistency.py
+
   bare:
     name: bare clone, nothing installed
     runs-on: ubuntu-latest

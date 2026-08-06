@@ -27,6 +27,18 @@ repos:
         pass_filenames: false
         always_run: true
 
+      # Pattern frontmatter is the single source of truth. The README table,
+      # the skills table and the generated site are copies, and copies drift —
+      # two patterns were published as `field-tested` while the README called
+      # them `draft`. The mutation harness that proves these rules are live
+      # runs in CI, where it can afford the subprocesses.
+      - id: metadata-consistency
+        name: Metadata agrees with itself
+        language: script
+        entry: scripts/check-consistency.py
+        pass_filenames: false
+        always_run: true
+
       # Forbidden-token scan against the private config. Staged content only.
       - id: forbidden-tokens
         name: Forbidden-token scan
