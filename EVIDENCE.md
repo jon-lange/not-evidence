@@ -55,8 +55,14 @@ Several patterns also make **architectural** commitments — claims about how a 
 structured rather than predictions about how a model will behave. A specimen cannot test those, and
 each `RESULTS.md` states which of its pattern's claims it exercised and which it did not.
 
-Three specimens (04, 05, 10) do not yet carry an explicit falsification condition. That is a known
-gap, not an oversight being hidden.
+**All twelve now state what would falsify them**, and the consistency checker asserts it — a heading
+with nothing under it fails, because from an index that reads exactly like a condition.
+
+This page previously said three specimens (04, 05, 10) carried no falsification condition. That was
+wrong in both directions, and making the rule machine-checkable is what surfaced it. Four lacked a
+named section, not three — 09 was missed. And of those four only 10 genuinely lacked the substance;
+04, 05 and 09 had stated their condition inside `## Scope`, where nothing looking for one would find
+it. The counting was done by eye, which is the method this catalogue exists to complain about.
 
 ## Reproducing
 

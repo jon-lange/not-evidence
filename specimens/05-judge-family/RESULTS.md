@@ -79,9 +79,28 @@ explanation — a domain where both candidates are strong, which is precisely wh
 saturated. A harder or more adversarial task set would likely separate them, and might well produce
 the flip this run did not.
 
-**The result that would confirm the pattern** is a comparison where a same-family judge picks one
-winner and a cross-family judge picks the other. Finding one is future work, and the harness is built
-to run it — swap the task set and re-run.
+## What would falsify — or restore — the pattern
+
+The entry was rewritten around what actually disqualified two of three judges: **saturation and
+position instability**. So falsification is now about those two checks, not about lineage.
+
+**Falsify the current claim:** a judge that passes both checks — it discriminates between candidates
+and its ranking survives an order swap — and is *still* systematically wrong, measured against a
+reference the run trusts more than the judge. That would show the two checks are not the ones worth
+gating on, which is the claim the entry now makes.
+
+**Also falsifying:** a run where the two checks reject a judge whose verdicts turn out to be correct.
+Screening out good judges is a cost the entry does not currently price.
+
+**Restore the original lineage claim:** a comparison where a same-family judge picks one winner and a
+cross-family judge picks the other, on a task set where both judges discriminate and are order-stable.
+The confound this run hit was saturation — absolute scoring on a task set where both candidates are
+strong. Swap the task set for one that separates them, keep the three judges, and re-run; the harness
+is built for it. A flip that survives those controls puts lineage back.
+
+**What this run cannot settle:** twelve items, one rubric, one day. A null on twelve items is weak
+evidence of absence, and the entry says so rather than reading it as a refutation of self-preference
+in general.
 
 ## Reproducing
 

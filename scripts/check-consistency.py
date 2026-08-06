@@ -35,6 +35,11 @@ SUPERSEDED = "superseded-by"
 # leads with — is narrowed plus central-claim-failed.
 ADJUDICATIONS = {"confirmed", "narrowed", "central-claim-failed"}
 
+# A falsification heading with nothing under it reads, from the index, exactly
+# like one that states a condition. Low enough to admit a genuinely terse
+# condition; high enough that a bare heading cannot pass.
+FALSIFICATION_MIN_WORDS = 25
+
 NUMBER_WORDS = {
     "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
     "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
@@ -474,6 +479,48 @@ def check_adjudication(root: Path, patterns: dict[str, dict], rep: Report) -> No
     rep.count("derived count claims", claims)
 
 
+def check_falsification(root: Path, patterns: dict[str, dict], rep: Report) -> None:
+    """CONTRIBUTING.md says a contradicting result is the most valuable thing
+    anyone can send. Three specimens did not say what would contradict them,
+    which makes that ask unanswerable for a quarter of the catalogue.
+
+    A heading alone is not enough. An empty section is the absence-test this
+    repository is named for, so the section has to carry prose."""
+    measured = {n: m for n, m in patterns.items() if m.get("status") != "draft"}
+    complete = 0
+
+    for num, meta in sorted(measured.items()):
+        specimen = meta.get("specimen", "")
+        if not specimen:
+            continue
+        results = root / "specimens" / specimen / "RESULTS.md"
+        if not results.is_file():
+            continue
+
+        text = results.read_text()
+        section = re.search(
+            r"^##[^\n]*\b(falsif\w*)\b[^\n]*$(.*?)(?=^## |\Z)",
+            text, re.M | re.I | re.S,
+        )
+        if not section:
+            rep.fail(
+                "falsification",
+                f"pattern {num}: {specimen}/RESULTS.md names no condition that would "
+                "falsify it, while CONTRIBUTING.md asks readers to send exactly that",
+            )
+            continue
+        if len(section.group(2).split()) < FALSIFICATION_MIN_WORDS:
+            rep.fail(
+                "falsification",
+                f"pattern {num}: the falsification section in {specimen}/RESULTS.md is "
+                "a heading with nothing under it — an empty absence-test",
+            )
+            continue
+        complete += 1
+
+    rep.count("falsification conditions", complete)
+
+
 def check_links(root: Path, rep: Report) -> None:
     n = 0
     for path in markdown_files(root):
@@ -537,6 +584,7 @@ def main() -> int:
     check_evidence(root, patterns, rep)
     check_specimens_index(root, patterns, rep)
     check_adjudication(root, patterns, rep)
+    check_falsification(root, patterns, rep)
     check_links(root, rep)
     check_make_targets(root, rep)
 

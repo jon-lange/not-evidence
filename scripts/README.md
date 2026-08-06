@@ -26,7 +26,8 @@ follows the slug convention; every relative link resolves; every documented
 reachable from a symptom in the README's *Start here* table; every
 figure in [`EVIDENCE.md`](../EVIDENCE.md) appears verbatim in the `RESULTS.md`
 its row cites, so the summary can never drift from the working; `specimens/README.md`
-stays an index and never regrows a status column; and every
+stays an index and never regrows a status column; every measured specimen states what
+would falsify it in a section with prose under it; and every
 measured specimen carries an `**Adjudication:**` verdict from which the
 catalogue's revision counts are derived and against which every published copy
 of them is checked.
@@ -78,6 +79,24 @@ reason** — the shape pattern 11 is about, in the harness written to enforce it
 Adding the `EVIDENCE.md` rules produced one more survivor, of the same shape:
 nothing tested a row that cites no `RESULTS.md` at all. A row with a figure and
 no working is an assertion, which is the one thing that file exists not to be.
+
+### Falsification completeness, mutation-checked
+
+`CONTRIBUTING.md` asks readers to send a result that contradicts an entry.
+`EVIDENCE.md` said three specimens carried no falsification condition. Both
+numbers were arrived at by eye and both were wrong: **four** lacked a named
+section, and of those only **one** genuinely lacked the substance — 04, 05 and
+09 had stated their condition inside `## Scope`, where nothing looking for one
+would find it.
+
+| Mutation | Tests failed |
+|---|---|
+| Missing falsification section tolerated | 1 |
+| Empty section accepted as a condition | 1 |
+| Word floor set to zero | 1 |
+
+No survivors. The word floor matters more than it looks: a heading with nothing
+under it reads, from any index, exactly like one that states a condition.
 
 ### The specimens index, mutation-checked
 

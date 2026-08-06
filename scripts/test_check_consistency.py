@@ -126,7 +126,18 @@ RESULTS = """\
 **Adjudication: {verdict}.** Because of what the run showed.
 
 Measured 0 out of 36, and 0 of 9 elsewhere.
+
+## What would falsify this
+{falsification}
 """
+
+# Long enough to clear FALSIFICATION_MIN_WORDS, so the empty-section mutation
+# is testing the word floor rather than tripping over a short fixture.
+FALSIFICATION = (
+    "Any run in which the thing that happened does not happen again, measured "
+    "the same way, across the same models, with the item count stated and every "
+    "per-item record written down before a rate is computed anywhere at all."
+)
 
 
 def build_fixture(root: Path, **over: str) -> None:
@@ -161,6 +172,8 @@ def build_fixture(root: Path, **over: str) -> None:
         "adj2": "central-claim-failed",
         "drop_adjudication": False,
         "p1_no_specimen_key": False,
+        "drop_falsification": False,
+        "empty_falsification": False,
         # Consistent with the defaults above: one measured pattern, narrowed.
         "c_revised": "One",
         "c_failed": "Zero",
@@ -181,7 +194,10 @@ def build_fixture(root: Path, **over: str) -> None:
         (root / "specimens" / slug).mkdir(parents=True)
         (root / "specimens" / slug / "README.md").write_text("# specimen\n")
         verdict = opt["adj2"] if slug == "02-beta" else opt["adj1"]
-        results = RESULTS.format(verdict=verdict)
+        falsification = "" if opt["empty_falsification"] else FALSIFICATION
+        results = RESULTS.format(verdict=verdict, falsification=falsification)
+        if opt["drop_falsification"] and slug != "02-beta":
+            results = results.split("## What would falsify this")[0]
         if opt["drop_adjudication"] and slug != "02-beta":
             results = "\n".join(
                 l for l in results.splitlines() if "Adjudication" not in l
@@ -609,6 +625,38 @@ def test_an_evidence_table_missing_a_pattern_is_caught():
 
 def test_a_repository_without_an_evidence_file_still_checks_everything_else():
     with fixture(evidence=False) as root:
+        code, out = check(root)
+    assert code == 0, out
+
+
+# ------------------------------------------------ falsification completeness
+
+
+def test_a_specimen_naming_no_falsification_condition_is_caught():
+    """CONTRIBUTING.md asks readers to send a contradicting result. A specimen
+    that never says what would contradict it makes that ask unanswerable."""
+    with fixture(drop_falsification=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[falsification]" in out and "names no condition" in out
+
+
+def test_an_empty_falsification_section_is_caught():
+    """A heading with nothing under it reads, from any index, exactly like one
+    that states a condition. That is the absence-test this repository is named
+    for, so the section has to carry prose and not just a title."""
+    with fixture(empty_falsification=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[falsification]" in out and "nothing under it" in out
+
+
+def test_a_draft_pattern_needs_no_falsification_condition():
+    """Same reasoning as the adjudication exemption: unmeasured means there is
+    no result to state a contradiction of."""
+    with fixture() as root:
+        results = root / "specimens" / "02-beta" / "RESULTS.md"
+        results.write_text("# results\n\nNot measured yet. 0 of 9 elsewhere.\n")
         code, out = check(root)
     assert code == 0, out
 

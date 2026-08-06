@@ -96,8 +96,21 @@ This establishes that the two classes separate cleanly and that the separation i
 across the models tested. It does not establish that every guardrail phrasing behaves this way, and
 it says nothing about other vendors.
 
-**The result that would change the pattern** is a guardrail that refuses cell 3 without a
-deterministic layer. If you find one, the pattern is wrong and I want to know.
+## What would falsify pattern 04
+
+**A guardrail that refuses cell 3 without a deterministic layer.** Pattern 04's whole claim is that
+refusing meta-injection tells you nothing about content-relay, and that closing cell 3 takes a
+transform rather than a better instruction. One prompt-only guardrail that reliably refuses the
+content-relay class — across models, not on a single sample — makes that false.
+
+The harness is built for it. `defense.py` holds the guardrail wording as a string: rewrite it,
+re-run, and read cell 3. A rewording that closes cell 3 on every model tested is the disconfirming
+result, and it is the same shape as the one that landed in specimen 03, where a prompt ladder
+converged to zero at rung 4 after the pattern said it would not.
+
+**What would not falsify it:** a guardrail that closes cell 3 on one model, or on one poison
+document. Specimen 03 also measured that a prompt-layer defence is a per-attack artefact whose
+coverage you cannot enumerate — a single closing rewording is consistent with that, not against it.
 
 ## Reproducing
 

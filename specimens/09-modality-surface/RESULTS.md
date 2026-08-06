@@ -170,12 +170,18 @@ population rate.
 This is text rendered plainly into an image. It is not adversarial imagery, not typographic attacks,
 not steganography, not audio. A negative result here says nothing about those.
 
-**What would falsify pattern 09 as measured here:** an ingress control that inspects the image channel
-and fires on the same payloads, with the same fixtures, without being rewritten for images. If your
-existing text suite catches the image cells, the pattern is wrong and I want to know.
+## What would falsify pattern 09
+
+**As measured here:** an ingress control that inspects the image channel and fires on the same
+payloads, with the same fixtures, without being rewritten for images. If your existing text suite
+catches the image cells, the pattern is wrong and I want to know.
 
 **What would strengthen it:** the sonnet warning-rate effect reproducing across models, or a meta
 injection that is refused as text and complied with as an image. This run found neither, and looked.
+
+**What this run cannot settle:** the two effects that separated the channels each came from one
+model, at n=10 and n=7. That supports *this happens* and not *this is how often*, and the entry
+claims only the former.
 
 ## Reproducing
 
