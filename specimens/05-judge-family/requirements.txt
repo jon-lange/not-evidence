@@ -1,0 +1,3 @@
+# Needed for the live probe only. analyze.py and its tests are stdlib-only.
+openai>=1.40
+anthropic>=0.40

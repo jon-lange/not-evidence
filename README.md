@@ -30,9 +30,9 @@ library, and not a blog.
 | 09 | [Keep New Modalities Off the Reasoning Path](patterns/09-modalities-off-the-reasoning-path.md) | to widen the trusted surface for a new input type | **field-tested** |
 | 10 | [Never Auto-Commit a Lossy Transducer](patterns/10-never-auto-commit-a-transducer.md) | to execute on a plausible substitution | **field-tested** |
 | 11 | [Green Is Not Evidence](patterns/11-green-is-not-evidence.md) | to trust an absence-test that was never mutation-checked | draft |
-| 12 | [Distrust the Sanitization Label](patterns/12-distrust-the-sanitization-label.md) | to publish on someone's assurance that it was scrubbed | draft |
+| 12 | [Distrust the Sanitization Label](patterns/12-distrust-the-sanitization-label.md) | to publish on someone's assurance that it was scrubbed | **field-tested** |
 
-Four patterns carry runnable specimens — **04, 05, 10, 11** — because those claims are more
+Five patterns carry runnable specimens — **04, 05, 10, 11, 12** — because those claims are more
 convincing demonstrated than argued. The rest are prose, deliberately.
 
 ## How to read an entry

@@ -1,0 +1,4 @@
+# Only needed for the live probe. --offline and the tests run on the standard
+# library alone. Two vendors, so both SDKs.
+openai>=1.40
+anthropic>=0.40

@@ -9,7 +9,10 @@ useDefault = true
 [[rules]]
 id = "internal-tld"
 description = "Internal hostname patterns (structural, reveals nothing)"
-regex = '''(?i)\b[\w.-]+\.(corp|internal|int|intranet|local)\b'''
+# .local is RFC 6762 mDNS and .int is a real public TLD — both appear in
+# legitimate documentation and model output. Matching them fired on an answer
+# about /etc/hosts. Kept: TLDs that only ever suggest a private network.
+regex = '''(?i)\b[\w.-]+\.(corp|internal|intranet|lan)\b'''
 tags = ["structural"]
 
 [[rules]]

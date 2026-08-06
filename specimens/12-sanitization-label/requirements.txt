@@ -1,0 +1,5 @@
+# None. Standard library only, and that is a design requirement rather than a
+# convenience. A specimen about re-identification cannot ship a corpus it did
+# not generate, cannot call out to a service that would see the corpus, and
+# should be runnable by a reader who is — correctly — unwilling to install
+# anything in order to check a privacy claim.
