@@ -61,6 +61,10 @@ COUNT_CLAIMS = [
     ("CLAUDE.md", r"(\w+) entries were\s+revised by their specimens", "revised"),
     ("CLAUDE.md", r"(\w+) had their central claim fail", "failed"),
     ("EVIDENCE.md", r"## The (\w+) that contradicted their own pattern", "failed"),
+    # The OG card. Lowest-scrutiny copy in the repository and the one the most
+    # people see, which is how it came to carry a claim ("every claim measured")
+    # that had already been corrected everywhere else.
+    ("site/build.py", r"(\w+) of the twelve entries were revised by their own", "revised"),
 ]
 
 # Asserted, not trusted to survive editing. Losing this sentence is the one

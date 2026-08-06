@@ -1,7 +1,9 @@
 # Evidence
 
-Every claim in this catalogue was put in front of a specimen before it was published. This page is
+Every pattern in this catalogue was put in front of a specimen before it was published. This page is
 the short version: one line per pattern, the figure that came back, and a link to the working.
+*Pattern*, not *claim* — several entries also make architectural commitments no specimen can test,
+and [where a specimen cannot reach](#where-a-specimen-cannot-reach) below says so.
 
 **Nothing here was measured anywhere but in this repository.** No figure is quoted from a system I
 did not build for this catalogue — that rule is absolute and the reasoning is in

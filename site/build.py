@@ -180,6 +180,35 @@ def build(base_url: str, check_only: bool = False) -> int:
         )
         pages.append((rel, page, title, desc))
 
+    # The index is built here, with the others, so that --check sees it. It used
+    # to be constructed after the check branch returned, which made it the one
+    # page whose metadata nothing verified — and it is the page a stranger lands
+    # on. Its description had kept a claim ("every claim measured") that was
+    # corrected everywhere else, because the check structurally could not reach
+    # it and the OG card is not a surface anyone re-reads.
+    index_desc = (
+        "Twelve signals that look like evidence and aren't, and the refusal that "
+        "closes each one. Ten of the twelve entries were revised by their own specimens."
+    )
+    if len(index_desc) > 200:
+        problems.append("README.md: index description over 200 chars")
+    pages.append((
+        "index.html",
+        PAGE.format(
+            title="Not Evidence",
+            suffix="",
+            desc=html.escape(index_desc),
+            canonical=base + "/",
+            root=base + "/",
+            content=render(frontmatter((ROOT / "README.md").read_text())[1]),
+            status_line="",
+            source="https://github.com/langej117/not-evidence",
+            source_label="langej117/not-evidence",
+        ),
+        "Not Evidence",
+        index_desc,
+    ))
+
     if check_only:
         for rel, _, title, desc in pages:
             print(f"  {rel:<46} {len(desc):>3}ch  {title[:44]}")
@@ -198,24 +227,8 @@ def build(base_url: str, check_only: bool = False) -> int:
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(page)
 
-    index = ROOT / "README.md"
-    meta, body = frontmatter(index.read_text())
-    (OUT / "index.html").write_text(
-        PAGE.format(
-            title="Not Evidence",
-            suffix="",
-            desc="Twelve signals that look like evidence and aren't, and the refusal "
-                 "that closes each one. Every claim measured before publication.",
-            canonical=base + "/",
-            root=base + "/",
-            content=render(body),
-            status_line="",
-            source="https://github.com/langej117/not-evidence",
-            source_label="langej117/not-evidence",
-        )
-    )
     (OUT / ".nojekyll").write_text("")
-    print(f"  {len(pages) + 1} pages → {OUT.relative_to(ROOT)}")
+    print(f"  {len(pages)} pages → {OUT.relative_to(ROOT)}")
     return 1 if problems else 0
 
 

@@ -81,7 +81,8 @@ You probably arrived with one of these.
 | 12 | [Distrust the Sanitization Label](patterns/12-distrust-the-sanitization-label.md) | to publish on someone's assurance that it was scrubbed | **field-tested** |
 
 **Every pattern carries a runnable specimen.** Not as illustration — as a test of whether the claim
-survives contact with a model.
+survives contact with something that can contradict it. For eight of them that is a real model; for
+02, 06, 11 and 12 it is an adversary or an exhaustive search, and those four run offline for real.
 
 ## How to read an entry
 

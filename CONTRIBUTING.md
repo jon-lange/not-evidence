@@ -15,9 +15,14 @@ not do wrong, which is worse than saying this plainly.
 
 ## What is genuinely wanted
 
-Every pattern ends with the result that would falsify it, and every specimen's `RESULTS.md` names
-the conditions under which its claim would not hold. **If you run one and it comes out differently,
-that is the most valuable thing anyone can send.**
+**Every specimen's `RESULTS.md` names what would falsify it** — the result that, if you got it,
+would mean the entry is wrong. That is checked rather than promised: `make consistency` fails if any
+specimen lacks the section, and a heading with nothing under it counts as lacking it.
+
+The patterns themselves do not carry those conditions; the specimens do. If you want to know what
+would change an entry's mind, open its specimen.
+
+**If you run one and it comes out differently, that is the most valuable thing anyone can send.**
 
 Open an issue with:
 

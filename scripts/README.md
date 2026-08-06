@@ -39,7 +39,10 @@ that reports `FAILED` without saying what teaches people to bypass it.
 
 A checker that passed because it looked at nothing prints the same thing as one
 that passed because the tree was clean. Each rule was disabled in turn and the
-harness was required to catch it. Seventeen deliberate breakages, all caught:
+harness was required to catch it.
+
+Thirty-one deliberate breakages across four rounds, all caught. The first
+seventeen, covering the original rule set:
 
 | Mutation | Tests failed |
 |---|---|
