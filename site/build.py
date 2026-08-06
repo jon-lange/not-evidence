@@ -78,14 +78,14 @@ PAGE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} · Refusal Engineering</title>
+<title>{title}{suffix}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:site_name" content="Refusal Engineering">
+<meta property="og:site_name" content="Not Evidence">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
@@ -114,7 +114,7 @@ footer{{margin-top:4rem;padding-top:1.2rem;border-top:1px solid var(--line);colo
 </style>
 </head>
 <body><main>
-<nav><a href="{root}">Refusal Engineering</a></nav>
+<nav><a href="{root}">Not Evidence</a></nav>
 {content}
 <footer>
 <p>{status_line}</p>
@@ -167,12 +167,15 @@ def build(base_url: str, check_only: bool = False) -> int:
         src_rel = str(path.relative_to(ROOT))
         page = PAGE.format(
             title=html.escape(title),
+            # The index is the site name already; repeating it would title that
+            # page "Not Evidence · Not Evidence".
+            suffix=" · Not Evidence",
             desc=html.escape(desc),
             canonical=canonical,
             root=base + "/",
             content=render(body),
             status_line=status_line,
-            source=f"https://github.com/langej117/refusal-engineering/blob/main/{src_rel}",
+            source=f"https://github.com/langej117/not-evidence/blob/main/{src_rel}",
             source_label=html.escape(src_rel),
         )
         pages.append((rel, page, title, desc))
@@ -199,15 +202,16 @@ def build(base_url: str, check_only: bool = False) -> int:
     meta, body = frontmatter(index.read_text())
     (OUT / "index.html").write_text(
         PAGE.format(
-            title="Refusal Engineering",
-            desc="Twelve patterns for AI systems that have to decline correctly. "
-                 "Every claim measured before publication.",
+            title="Not Evidence",
+            suffix="",
+            desc="Twelve signals that look like evidence and aren't, and the refusal "
+                 "that closes each one. Every claim measured before publication.",
             canonical=base + "/",
             root=base + "/",
             content=render(body),
             status_line="",
-            source="https://github.com/langej117/refusal-engineering",
-            source_label="langej117/refusal-engineering",
+            source="https://github.com/langej117/not-evidence",
+            source_label="langej117/not-evidence",
         )
     )
     (OUT / ".nojekyll").write_text("")
@@ -220,7 +224,7 @@ if __name__ == "__main__":
     # Defaults to the Pages URL rather than a domain that may not be registered.
     # A canonical tag pointing somewhere you do not control is worse than none.
     ap.add_argument("--base-url",
-                    default="https://langej117.github.io/refusal-engineering")
+                    default="https://langej117.github.io/not-evidence")
     ap.add_argument("--check", action="store_true", help="verify metadata, write nothing")
     a = ap.parse_args()
     sys.exit(build(a.base_url, a.check))

@@ -33,10 +33,10 @@ jobs:
       - name: Verify every page has its own metadata
         # Fails if any page would ship without a title, description or
         # canonical URL — the whole reason this mirror exists.
-        run: python3 site/build.py --check --base-url "${{ vars.SITE_BASE_URL || 'https://langej117.github.io/refusal-engineering' }}"
+        run: python3 site/build.py --check --base-url "${{ vars.SITE_BASE_URL || 'https://langej117.github.io/not-evidence' }}"
 
       - name: Build
-        run: python3 site/build.py --base-url "${{ vars.SITE_BASE_URL || 'https://langej117.github.io/refusal-engineering' }}"
+        run: python3 site/build.py --base-url "${{ vars.SITE_BASE_URL || 'https://langej117.github.io/not-evidence' }}"
 
       - uses: actions/upload-pages-artifact@v3
         with: { path: site/_build }

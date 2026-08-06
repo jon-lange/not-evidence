@@ -1,7 +1,7 @@
 # Public scanner config. Deliberately contains NO employer-specific terms —
 # this file ships with the repo. The forbidden-token list is private and lives
 # at ~/.config/re-denylist.toml (local) or a CI secret.
-title = "refusal-engineering — public rules"
+title = "not-evidence — public rules"
 
 [extend]
 useDefault = true

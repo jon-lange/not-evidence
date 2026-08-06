@@ -1,10 +1,14 @@
-# refusal-engineering
+# not-evidence
 
 ## What this is
 
-A **bounded catalogue** of twelve patterns for AI systems that have to decline correctly, plus small
-runnable specimens that test the claims. Twelve, then it is finished — adding a thirteenth is a
-decision, not an increment.
+A **bounded catalogue** of twelve signals that look like evidence and aren't, each paired with the
+refusal that closes it, plus small runnable specimens that test the claims. Twelve, then it is
+finished — adding a thirteenth is a decision, not an increment.
+
+The repository is named for the problem; each entry is named for the response. That is why every
+pattern still carries a `## The Refusal` section and a `refuses:` key — the refusal is what you *do*
+about a signal that isn't evidence, and renaming the catalogue never changed that.
 
 It is not a framework, not a library, and not a blog. Specimens are reference implementations,
 explicitly unmaintained.

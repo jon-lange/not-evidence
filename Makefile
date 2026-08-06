@@ -1,4 +1,4 @@
-# refusal-engineering
+# not-evidence
 #
 # Everything here runs on the standard library with no network and no API keys.
 # That is the point: a reader should be able to clone this and see the tests and
@@ -21,7 +21,7 @@ OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-saniti
 .PHONY: help test demo check offline words scan consistency clean site site-check
 
 help:
-	@echo "refusal-engineering — twelve patterns, twelve specimens"
+	@echo "not-evidence — twelve patterns, twelve specimens"
 	@echo
 	@echo "  make test    run every specimen's tests          (offline, no keys)"
 	@echo "  make demo    run every offline demonstration     (offline, no keys)"

@@ -1,16 +1,21 @@
-# Refusal Engineering
+# Not Evidence
 
-> **Twelve patterns for AI systems that have to decline correctly.**
+> **Twelve signals that look like evidence and aren't — and the refusal that closes each one.**
+
+The guardrail that refused the obvious attack. The green test that never ran. The judge that shares
+the subject's lineage. The label that says "sanitized." Every one of them is reassuring, every one
+is routinely accepted as proof, and none of them is evidence of the thing it is taken to prove.
 
 Most writing about AI systems is about getting them to answer. This is about the harder half —
-knowing when not to, and building systems that can act on that knowledge.
+knowing when not to, and building systems that can act on that knowledge. Each entry names a signal
+you are probably already trusting, and states the refusal that stops it being trusted.
 
-The through-line across all twelve: **a system declining correctly when the reassuring signal is
-the one that's lying.** The guardrail that refused the obvious attack. The green test that never
-ran. The judge that shares the subject's lineage. The label that says "sanitized." Each of these
-looks like evidence and isn't, and each one has a refusal that closes it.
+**The failure they share is aggregation.** A comfortable summary — a pass rate, a green suite, a
+verdict, a label — is where the dangerous case hides, because averaging is how a failure stops
+looking like one. Every refusal here is, underneath, a refusal to let one reassuring number stand
+in for the thing it summarises.
 
-This is a **bounded catalogue**. Twelve patterns, then it's finished. It is not a framework, not a
+This is a **bounded catalogue**. Twelve entries, then it's finished. It is not a framework, not a
 library, and not a blog.
 
 ---
