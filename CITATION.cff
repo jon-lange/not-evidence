@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: "Not Evidence: twelve signals that look like evidence and aren't"
+message: >-
+  If you cite this, please cite the entry and its specimen rather than the
+  repository alone. Each pattern states a claim and each specimen records the
+  measurement behind it, and several entries argue something different from what
+  they set out to argue — so which version you read matters. Every entry carries
+  a status and every specimen an adjudication.
+type: software
+authors:
+  - family-names: Lange
+    given-names: Jon
+    alias: langej117
+repository-code: "https://github.com/langej117/not-evidence"
+url: "https://langej117.github.io/not-evidence/"
+abstract: >-
+  A bounded catalogue of twelve signals that are routinely accepted as evidence
+  and are not — a guardrail that refused the obvious attack, a green test that
+  never ran, a judge that shares the subject's lineage, a label that says
+  sanitized — each paired with the refusal that closes it and a runnable
+  specimen that tests whether the claim survives contact with something that can
+  contradict it. Ten of the twelve entries were revised by their own specimens
+  and five had their central claim fail. No figure appears that was not
+  generated in the repository itself.
+keywords:
+  - llm-evaluation
+  - prompt-injection
+  - guardrails
+  - mutation-testing
+  - llm-as-judge
+  - re-identification
+  - software-patterns
+license: Apache-2.0
+license-url: "https://github.com/langej117/not-evidence/blob/main/LICENSE"
+date-released: "2026-08-06"

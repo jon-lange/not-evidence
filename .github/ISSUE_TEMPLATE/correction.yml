@@ -1,0 +1,38 @@
+name: A correction
+description: A broken link, a wrong or unverifiable citation, a factual error, or an internal contradiction.
+title: "[correction] "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cheap to act on and genuinely wanted. A repository arguing that green is
+        not evidence cannot ship a citation nobody checked.
+
+        Internal contradictions are especially useful — two places in this
+        repository disagreeing with each other is a failure it has already had
+        more than once, and the reader who notices is usually not the author.
+
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: File and, if you can, the line or section.
+      placeholder: "e.g. patterns/09-modalities-off-the-reasoning-path.md, Prior art"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong
+      description: For a citation, say whether it does not resolve, does not say what it is cited for, or is not the right source.
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct
+    attributes:
+      label: What it should say, if you know
+    validations:
+      required: false

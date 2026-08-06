@@ -1,0 +1,64 @@
+name: A result that contradicts an entry
+description: You ran a specimen and it came out differently. This is the most valuable thing anyone can send.
+title: "[contradicts NN] "
+labels: ["contradicting-result"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every specimen's `RESULTS.md` ends with what would falsify it. If you got
+        that result, the entry is wrong and it gets rewritten — with you credited
+        in it. That is not a courtesy: a catalogue whose claims were only ever
+        checked by their author is a catalogue of one person's confidence.
+
+        You do not need to have run the exact harness. A different task set, a
+        different model, or a different item count is still evidence — it just
+        needs to say which.
+
+  - type: input
+    id: entry
+    attributes:
+      label: Which pattern or specimen
+      placeholder: "e.g. 05 — The Judge Cannot Share a Family"
+    validations:
+      required: true
+
+  - type: textarea
+    id: ran
+    attributes:
+      label: What you ran
+      description: Models, task set, item count, how many trials, and whether you used the specimen's harness or your own.
+      placeholder: |
+        Models:
+        Task set:
+        Items:
+        Trials per item:
+        Harness: the specimen's probe.py / my own
+    validations:
+      required: true
+
+  - type: textarea
+    id: result
+    attributes:
+      label: What came back
+      description: The numbers, and the per-item records if you kept them. Raw output is welcome — it does not need to be tidied.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the entry predicts, and how this differs
+      description: Quote the claim you are contradicting if you can. Its `RESULTS.md` falsification section is a good place to find it stated precisely.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before submitting
+      options:
+        - label: This is not a security report. Those go through [private vulnerability reporting](https://github.com/langej117/not-evidence/security/advisories/new).
+          required: true
+        - label: I understand pull requests are not accepted here, and why — see CONTRIBUTING.md.
+          required: false

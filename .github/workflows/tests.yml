@@ -11,13 +11,24 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Actions are pinned to commit SHAs, not tags. A tag is mutable: `@v4` is a
+# pointer its owner can move, so pinning to one means trusting that nobody
+# repoints it — which is a reassuring signal rather than a control.
+#
+# There is deliberately no Dependabot config to keep those pins fresh. Its pull
+# requests are authored by a bot, the identity audit in leak-check.yml is an
+# allow-list of exactly one address, and every such PR would fail a security
+# check for a reason nobody could fix. CONTRIBUTING.md refuses pull requests for
+# that same reason. So updating these is a manual job, and it belongs with the
+# quarterly adversarial read in METHOD.md rather than to a bot whose output this
+# repository would have to ignore.
 jobs:
   consistency:
     name: metadata agrees with itself
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.12" }
 
       - name: The checker's own rules must be live
@@ -51,8 +62,8 @@ jobs:
     name: bare clone, nothing installed
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.12" }
 
       - name: make test
@@ -71,8 +82,8 @@ jobs:
     name: every dependency installed, nothing skipped
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.12" }
 
       - name: Install every specimen's requirements
