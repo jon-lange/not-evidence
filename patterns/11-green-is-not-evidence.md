@@ -1,7 +1,7 @@
 ---
 pattern: 11
 name: "Green Is Not Evidence"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to trust an absence-test that was never mutation-checked"
 specimen: 11-mutation-check
 ---
