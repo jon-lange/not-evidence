@@ -1,0 +1,72 @@
+{"item": "Why does adding an index sometimes make a database query slower?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a mutex and a semaphore?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is floating-point addition not associative?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What problem does a bloom filter solve, and what does it give up?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why can't you cleanly rewrite public git history?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does 'eventual consistency' actually promise?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is UTF-8 self-synchronising, and why does that matter?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between latency and throughput?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why do connection pools have a maximum size?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does a copy-on-write filesystem snapshot actually copy?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is parsing HTML with a regular expression unreliable?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a cache miss and a cache invalidation?", "candidate": "openai", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why does adding an index sometimes make a database query slower?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a mutex and a semaphore?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is floating-point addition not associative?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What problem does a bloom filter solve, and what does it give up?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why can't you cleanly rewrite public git history?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does 'eventual consistency' actually promise?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is UTF-8 self-synchronising, and why does that matter?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between latency and throughput?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why do connection pools have a maximum size?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does a copy-on-write filesystem snapshot actually copy?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is parsing HTML with a regular expression unreliable?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a cache miss and a cache invalidation?", "candidate": "anthropic", "judge": "gpt-4o-mini", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why does adding an index sometimes make a database query slower?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 4, "mechanism": 4, "commitment": 4}
+{"item": "What is the difference between a mutex and a semaphore?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 4, "mechanism": 4, "commitment": 5}
+{"item": "Why is floating-point addition not associative?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "What problem does a bloom filter solve, and what does it give up?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why can't you cleanly rewrite public git history?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does 'eventual consistency' actually promise?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 4, "mechanism": 4, "commitment": 5}
+{"item": "Why is UTF-8 self-synchronising, and why does that matter?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 4, "mechanism": 4, "commitment": 5}
+{"item": "What is the difference between latency and throughput?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why do connection pools have a maximum size?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 4, "mechanism": 3, "commitment": 5}
+{"item": "What does a copy-on-write filesystem snapshot actually copy?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is parsing HTML with a regular expression unreliable?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "What is the difference between a cache miss and a cache invalidation?", "candidate": "openai", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why does adding an index sometimes make a database query slower?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "What is the difference between a mutex and a semaphore?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why is floating-point addition not associative?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What problem does a bloom filter solve, and what does it give up?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why can't you cleanly rewrite public git history?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does 'eventual consistency' actually promise?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why is UTF-8 self-synchronising, and why does that matter?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between latency and throughput?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 4, "commitment": 5}
+{"item": "Why do connection pools have a maximum size?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does a copy-on-write filesystem snapshot actually copy?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is parsing HTML with a regular expression unreliable?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a cache miss and a cache invalidation?", "candidate": "anthropic", "judge": "claude-sonnet-4-5", "judge_family": "anthropic", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why does adding an index sometimes make a database query slower?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a mutex and a semaphore?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is floating-point addition not associative?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What problem does a bloom filter solve, and what does it give up?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why can't you cleanly rewrite public git history?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does 'eventual consistency' actually promise?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is UTF-8 self-synchronising, and why does that matter?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between latency and throughput?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why do connection pools have a maximum size?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does a copy-on-write filesystem snapshot actually copy?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is parsing HTML with a regular expression unreliable?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a cache miss and a cache invalidation?", "candidate": "openai", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why does adding an index sometimes make a database query slower?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a mutex and a semaphore?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is floating-point addition not associative?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What problem does a bloom filter solve, and what does it give up?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why can't you cleanly rewrite public git history?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does 'eventual consistency' actually promise?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is UTF-8 self-synchronising, and why does that matter?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between latency and throughput?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why do connection pools have a maximum size?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What does a copy-on-write filesystem snapshot actually copy?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "Why is parsing HTML with a regular expression unreliable?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}
+{"item": "What is the difference between a cache miss and a cache invalidation?", "candidate": "anthropic", "judge": "gpt-4o", "judge_family": "openai", "accuracy": 5, "mechanism": 5, "commitment": 5}

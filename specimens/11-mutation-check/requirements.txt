@@ -1,0 +1,3 @@
+# None. Standard library only, and that is a design requirement rather than a
+# convenience — this specimen is a claim about test suites, so everything it
+# asserts has to be reproducible with nothing but a Python interpreter.

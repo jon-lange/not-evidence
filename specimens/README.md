@@ -9,9 +9,9 @@ run them, and take the idea.
 | # | Specimen | Pattern | Status |
 |---|---|---|---|
 | 04 | [injection-classes](04-injection-classes/) | Meta-Injection Is Not Content-Relay | **built** |
-| 05 | judge-family | The Judge Cannot Share a Family | planned |
+| 05 | [judge-family](05-judge-family/) | The Judge Cannot Share a Family | **built** |
 | 10 | [lossy-transducer](10-lossy-transducer/) | Never Auto-Commit a Lossy Transducer | **built** |
-| 11 | mutation-check | Green Is Not Evidence | planned |
+| 11 | [mutation-check](11-mutation-check/) | Green Is Not Evidence | **built** |
 
 `make dev` boots all of them together against a mock inference path — no cloud account required for
 the demo path.
