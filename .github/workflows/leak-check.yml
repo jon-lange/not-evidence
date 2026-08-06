@@ -42,6 +42,22 @@ jobs:
             exit 1
           fi
           printf '%s' "$DENYLIST_TOML" > "$RUNNER_TEMP/denylist.toml"
+
+          # Mutation check. An empty or malformed config also reports "no leaks
+          # found" — identical output, opposite meaning. Prove the rules are
+          # live by confirming the scanner catches a known canary before
+          # trusting a clean result on the real tree.
+          mkdir -p "$RUNNER_TEMP/canary"
+          printf 'CANARY-DENYLIST-SELFTEST-8f3a2c\n' > "$RUNNER_TEMP/canary/probe.txt"
+          if gitleaks dir "$RUNNER_TEMP/canary" \
+               --config "$RUNNER_TEMP/denylist.toml" --redact --no-banner --exit-code 1; then
+            echo "BLOCKED - the denylist did not catch its own canary."
+            echo "The config is empty, malformed, or failed to load. A clean"
+            echo "scan from here would be meaningless, so the build stops."
+            exit 1
+          fi
+          echo "Self-test passed - denylist rules are live."
+
           gitleaks git . --config "$RUNNER_TEMP/denylist.toml" --redact --no-banner --exit-code 1
 
       - name: Identity audit (full history)
