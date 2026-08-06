@@ -102,18 +102,24 @@ def main() -> int:
 
     print("\n" + "=" * 68)
     print(
-        "Read the first two rows together.\n"
-        "  Bare, a hallucination from silence is usually incoherent — visibly wrong,\n"
-        "  and filterable. With the hint it becomes fluent and on-topic, and no\n"
-        "  transcript-side check can tell it from something a person said.\n"
+        "None of these inputs contains speech. Every correct output is empty.\n"
         "\n"
-        "  That is the trade the hint actually makes. It is sold as an accuracy\n"
-        "  feature; measure whether it improves accuracy on YOUR real input before\n"
-        "  accepting it, because if it does not, it is a pure liability.\n"
+        "  Bare, hallucinations tend to be training-data artifacts — subtitle\n"
+        "  boilerplate, stray phrases in other languages. Absurd in context, and\n"
+        "  therefore catchable.\n"
         "\n"
-        "  The gate is the mitigation: refuse to send a clip whose peak never\n"
-        "  reaches speech level. It is not a filter on the output — by the time\n"
-        "  there is output, there is nothing left to filter on."
+        "  With a hint, some models return the hint itself as though it had been\n"
+        "  spoken. A verbatim echo of a vocabulary list is conspicuous; one\n"
+        "  plausible phrase drawn from it is not, and that is the case that would\n"
+        "  auto-send. Measure whether a hint helps on YOUR real input before\n"
+        "  accepting it.\n"
+        "\n"
+        "  The gate refuses clips that never reach speech level. It sits before the\n"
+        "  model because by the time there is output there is nothing left to filter\n"
+        "  on — the text is fine. But note the third row: signal presence is not\n"
+        "  speech presence, so the gate is necessary and not sufficient.\n"
+        "\n"
+        "  Measured results across three models: RESULTS.md"
     )
     return 0
 
