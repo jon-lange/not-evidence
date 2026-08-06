@@ -82,9 +82,10 @@ in this repo. Numbers are uniquely identifying, have no abstraction defence, and
 industry can be material non-public information. Regenerate benchmarks locally and check in the
 harness.
 
-Related: **generic domains only.** Build systems, caches, docs tools, databases. Never finance,
-payments, KYC, or healthcare — a specimen written against a regulated vertical is making a claim
-about a particular system rather than a general one.
+Related: **generic domains only.** Build systems, caches, docs tools, databases. Never a regulated
+vertical — a specimen written against one is making a claim about a particular system rather than a
+general one. Stated as an allow-list for the same reason as the identity guard: enumerating the
+domains to avoid is itself a list of the domains worth avoiding, and that narrows a work history.
 
 ---
 

@@ -133,7 +133,7 @@ only through their `probe.py`, which needs credentials and costs money.
 `make check` additionally runs a private forbidden-token scan and **will refuse without its config**
 — that refusal is intended, and [CONTRIBUTING.md](CONTRIBUTING.md) explains why.
 
-They use a generic domain on purpose. A specimen written against finance or healthcare would be
+They use a generic domain on purpose. A specimen written against a regulated vertical would be
 making a claim about a specific system rather than a general one.
 
 ## One file here is meant to be taken
@@ -174,7 +174,7 @@ operationalises. A skill cannot claim more than its pattern does.
 
 ## Who wrote this
 
-I lead AI platform engineering at an enterprise fintech. These are personal notes and patterns.
+I work on AI platforms for a living. These are personal notes and patterns.
 
 **How this was written.** The entries were drafted and revised with a coding agent, under the
 constraints in [CLAUDE.md](CLAUDE.md). Every measurement was actually run, every result checked by

@@ -19,8 +19,8 @@ derivative work; writing in a different language while reading the source is not
 is transcription.
 
 **3. Generic domains, always.**
-Never a regulated vertical. A specimen written against a
-domain is making a claim about a particular system. These patterns are general or they are nothing.
+Never a regulated vertical. A specimen written against one is making a claim about a particular
+system. These patterns are general or they are nothing.
 
 **4. Fresh abstractions.**
 Different decomposition, different names, different structure. Where a specimen resembles something
