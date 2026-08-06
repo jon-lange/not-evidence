@@ -1,5 +1,13 @@
 name: leak-check
-on: [push, pull_request]
+
+# workflow_dispatch is here because push events are not a guarantee. On
+# 2026-08-06 a series of pushes to this repository created no workflow runs at
+# all — accepted by the remote, zero runs, no error anywhere — while a manual
+# dispatch of `tests` on the same ref ran normally. A leak scan that can only be
+# triggered by an event which sometimes does not fire is a control you cannot
+# demand an answer from, and "no run" looks exactly like "not pushed yet" on the
+# checks list.
+on: [push, pull_request, workflow_dispatch]
 
 env:
   GITLEAKS_VERSION: "8.24.2"
@@ -33,7 +41,7 @@ jobs:
         # Skipped for forked PRs: GitHub does not expose secrets to them, so
         # this would fail for a reason the contributor cannot fix. The public
         # rules above still run on every event.
-        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         # The denylist arrives via env, never interpolated into the script body.
         # It contains regex metacharacters, backslashes and quotes; splicing it
         # into shell source would corrupt it and is an injection surface.
@@ -66,8 +74,14 @@ jobs:
 
       - name: Identity audit (full history)
         # Same reason: a fork's commits are authored by someone else by
-        # definition, so this is only meaningful on our own pushes.
-        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+        # definition, so this is only meaningful on refs we own.
+        #
+        # Stated as "not a fork PR" rather than "is a push". Written the other
+        # way round, adding workflow_dispatch above would have silently skipped
+        # this step and the scan below it, and the job would still have gone
+        # green — a leak check reporting success having run neither of the two
+        # things it exists to run.
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         # Allow-list, not deny-list. Naming forbidden employer domains here
         # would commit those very tokens to the repository.
         run: |
