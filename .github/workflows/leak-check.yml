@@ -16,9 +16,13 @@ jobs:
 
       - name: Install gitleaks
         run: |
+          # Extract into RUNNER_TEMP rather than a system path — writability of
+          # /usr/local/bin is not guaranteed across runner images.
           curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
-            | tar -xz -C /usr/local/bin gitleaks
-          gitleaks version
+            | tar -xz -C "$RUNNER_TEMP" gitleaks
+          chmod +x "$RUNNER_TEMP/gitleaks"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/gitleaks" version
 
       - name: Public rules (full history)
         # --redact: CI logs are world-readable once this repo is public.
