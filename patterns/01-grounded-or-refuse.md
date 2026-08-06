@@ -3,7 +3,7 @@ pattern: 01
 name: "Grounded or Refuse"
 status: draft          # draft | field-tested | superseded-by: NN
 refuses: "to answer without evidence"
-specimen: none
+specimen: 01
 ---
 
 # 01 · Grounded or Refuse
@@ -67,17 +67,32 @@ outright. That is the trade, stated plainly.
 
 > *"If you're not sure, say you don't know."*
 
-In a system prompt this fails for a specific, non-obvious reason: **it asks the model to report on a
-state it doesn't have.** There is no calibrated internal sense of whether retrieved context supports
-a given clause — only a distribution over plausible continuations, in which "I don't know" competes
-against fluent completions that score better.
+The argument against it is that **it asks the model to report on a state it doesn't have.** There is
+no calibrated internal sense of whether retrieved context supports a given clause — only a
+distribution over plausible continuations, in which "I don't know" competes against fluent
+completions that score better. So the check has to be **structural** — did retrieval return
+anything, does the answer cite it, does the cited span actually contain the claim.
 
-The check has to be **structural** — did retrieval return anything, does the answer cite it, does the
-cited span actually contain the claim — not **attitudinal**. You cannot instruct your way to
-groundedness, for the same reason you cannot instruct your way past pattern 03.
+**Specimen 01 tested that prediction and it did not hold.** Four models across two vendors, thirteen
+questions, including a class where retrieval returns a document that names the concept and never
+states the value. The bare attitudinal prompt confabulated **0 out of 36 times**, and refused while
+naming what was missing. The structural check's forced-refusal path never fired, because nothing
+arrived that needed catching.
 
-A subtler version of the same error: measuring groundedness by asking a model whether its own answer
-was grounded. That inherits everything above, plus pattern 05.
+The scope is narrow and friendly to the naive fix: a few hundred words of context, lookup-shaped
+questions, no competing instruction to be helpful, one sample per cell, current-generation models.
+It rules out a large effect on that shape, not a small one, and says nothing about long assembled
+contexts or answers reached by synthesis. But the honest statement today is that **on easy shapes,
+recent post-training does much of what this pattern says only structure can do** — and that a claim
+this section made confidently was, when measured, wrong.
+
+What survives the result is the reason to prefer structure anyway: a cited, verifiable span is
+*checkable by someone who does not trust the system*, and an attitudinal prompt that happens to
+behave well is not. Groundedness you cannot audit is a property you are taking on faith, whatever
+the refusal rate looks like.
+
+A subtler version of the original error is untouched: measuring groundedness by asking a model
+whether its own answer was grounded. That inherits everything above, plus pattern 05.
 
 ## Prior art
 
@@ -90,5 +105,10 @@ was grounded. That inherits everything above, plus pattern 05.
 
 ## Specimen
 
-None — prose is sufficient. The claim isn't contested. Treating refusal as a success outcome is the
-part people skip.
+**[01-grounded-or-refuse](../specimens/01-grounded-or-refuse/)** — the naive fix, tested head-on
+against four models on two vendors over an authored corpus with a class of questions whose answers
+are adjacent to the retrieved documents but absent from them.
+
+**It measured 0/36 confabulations for the attitudinal prompt and contradicted this entry's
+prediction.** The result and its six scope limits are in
+[RESULTS.md](../specimens/01-grounded-or-refuse/RESULTS.md); `status` stays `draft` because of it.

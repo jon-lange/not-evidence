@@ -1,0 +1,7 @@
+# pillow is needed even for --offline: the images are generated, never committed.
+pillow>=10.1
+
+# Only needed for the live probe. Two vendors, because a modality claim measured
+# against one vendor's vision stack is a claim about that stack.
+openai>=1.40
+anthropic>=0.40

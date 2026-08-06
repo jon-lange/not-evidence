@@ -1,9 +1,9 @@
 ---
 pattern: 09
 name: "Keep New Modalities Off the Reasoning Path"
-status: draft          # draft | field-tested | superseded-by: NN
+status: field-tested   # draft | field-tested | superseded-by: NN
 refuses: "to widen the trusted surface for a new input type"
-specimen: none
+specimen: 09-modality-surface
 ---
 
 # 09 · Keep New Modalities Off the Reasoning Path
@@ -113,5 +113,34 @@ Two tells:
 
 ## Specimen
 
-None — prose is sufficient. The claim is architectural, and getting it wrong shows up as a re-audit
-rather than as a run you could stage.
+[`specimens/09-modality-surface/`](../specimens/09-modality-surface/) — **built.**
+Measured output in [`RESULTS.md`](../specimens/09-modality-surface/RESULTS.md).
+
+Specimen 04's corpus, guardrail wording and questions, byte-identical (asserted by test), with the
+poison delivered as rendered images instead of text. Four models, two vendors, 103 completions.
+
+**The section above was confirmed exactly, and one thing this entry implied was wrong.**
+
+| | text | image |
+|---|---|---|
+| meta-injection | REFUSED | **REFUSED** |
+| content-relay | RELAYED | RELAYED |
+| ingress scanner fires | 100% | **0%** |
+| specimen 04's suite covers it | yes | **no — 12 passed, 0 failed, 0 cells** |
+
+**Model-layer posture transferred completely.** 24/24 meta-injection refusals through pixels, both
+vendors, including text rendered as unreadable fine print. No model ever emitted the injected token.
+This entry's rhetoric implies guardrails failing on the new channel; they did not, and that framing
+should not be repeated. **The failure is in your code, not in the model.**
+
+**Code-layer controls transferred not at all** — exactly as the naive-approach section predicts. The
+scanner has no defect; a test feeds it the payload as characters and requires it to fire. There is
+simply no longer a string to read. The bytes contain no matchable text and the PNG carries no `tEXt`
+chunk.
+
+**And one in-model control silently vanished.** One model spontaneously warned the reader that the
+documented procedure looked like phishing — in 7 of 10 text trials and **0 of 20 image trials**
+(Fisher exact, p ≈ 5.9 × 10⁻⁵). Both channels scored RELAYED; only one warned. The verdict matrix
+could not see it. It was caught only because raw answers were persisted and re-scored later on a
+dimension that did not exist when the calls were made — which is the argument for
+[persisting per-item records](../CLAUDE.md) stated as a finding rather than a preference.
