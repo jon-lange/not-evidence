@@ -8,6 +8,12 @@ scan-report*.json
 gitleaks-report*.json
 # ─────────────────────────────────────────────────────────────────────────
 
+# Planning documents. They carry positioning, competitor framing, and figures
+# measured by other people — none of which is a claim this repository is
+# willing to make, and none of which serves a reader. Kept on disk, never
+# published. A different failure mode from the block above, so a separate rule.
+docs/
+
 .env
 .env.*
 !.env.example
