@@ -1,0 +1,25 @@
+# Public scanner config. Deliberately contains NO employer-specific terms —
+# this file ships with the repo. The forbidden-token list is private and lives
+# at ~/.config/re-denylist.toml (local) or a CI secret.
+title = "refusal-engineering — public rules"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "internal-tld"
+description = "Internal hostname patterns (structural, reveals nothing)"
+regex = '''(?i)\b[\w.-]+\.(corp|internal|int|intranet|local)\b'''
+tags = ["structural"]
+
+[[rules]]
+id = "windows-source-path"
+description = "Absolute Windows source paths leak repo topology"
+regex = '''[A-Za-z]:\\[A-Za-z0-9._\\-]+'''
+tags = ["structural"]
+
+[[rules]]
+id = "private-registry"
+description = "Non-public package registry URLs"
+regex = '''(?i)(artifactory|nexus|jfrog)[\w.-]*\.[\w.-]+/'''
+tags = ["structural"]

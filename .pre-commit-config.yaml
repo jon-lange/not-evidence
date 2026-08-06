@@ -1,0 +1,46 @@
+default_install_hook_types: [pre-commit, pre-push]
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      # Identity is asserted as an ALLOW-list, never a deny-list. Listing
+      # forbidden employer domains here would commit the very tokens this
+      # repository exists to keep out.
+      - id: assert-identity
+        name: Assert personal git identity
+        language: script
+        entry: scripts/assert-identity.sh
+        pass_filenames: false
+        always_run: true
+
+      # Forbidden-token scan against the private config. Staged content only.
+      - id: forbidden-tokens
+        name: Forbidden-token scan
+        language: script
+        entry: scripts/scan-staged.sh
+        pass_filenames: false
+        always_run: true
+
+      # Full-tree sweep at push time. pre-commit only ever sees staged content,
+      # so anything that landed before hooks existed is invisible to it.
+      - id: forbidden-tokens-full
+        name: Full-tree forbidden-token sweep
+        language: script
+        entry: scripts/scan-tree.sh
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]

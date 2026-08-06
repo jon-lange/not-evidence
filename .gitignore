@@ -1,0 +1,25 @@
+# ── NEVER COMMIT ─────────────────────────────────────────────────────────
+# The forbidden-token config enumerates employer products, staff, customers
+# and internal identifiers. Publishing it would be worse than the leak it
+# prevents. It lives at ~/.config/re-denylist.toml, outside every git tree.
+*denylist*
+*.denylist.toml
+scan-report*.json
+gitleaks-report*.json
+# ─────────────────────────────────────────────────────────────────────────
+
+.env
+.env.*
+!.env.example
+.DS_Store
+node_modules/
+__pycache__/
+.venv/
+venv/
+*.pyc
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+site/_build/
+.vscode/
