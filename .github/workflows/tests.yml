@@ -31,6 +31,22 @@ jobs:
       - name: Metadata is consistent
         run: python3 scripts/check-consistency.py
 
+      - name: The standalone tool's own mutation record
+        # tools/mutcheck.py argues that a passing assertion is not evidence
+        # until you have watched it fail. Shipping it without running its own
+        # mutation record in CI would be the joke it exists to prevent. The
+        # script refuses to run against a red suite and says why.
+        run: python3 tools/mutation_record.py
+
+      - name: Every page has its own metadata
+        # site.yml runs this too, but only on main — so a change to build.py
+        # reached main unverified. That is how the index came to be built
+        # without being checked: the gap was in which surface ran the check,
+        # not in the check.
+        run: |
+          pip install -q -r site/requirements.txt
+          python3 site/build.py --check
+
   bare:
     name: bare clone, nothing installed
     runs-on: ubuntu-latest
