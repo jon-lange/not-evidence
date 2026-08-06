@@ -1,32 +1,52 @@
 name: leak-check
 on: [push, pull_request]
 
+env:
+  GITLEAKS_VERSION: "8.24.2"
+
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0        # full history — the default shallow checkout scans almost nothing
+          # Full history. The default shallow checkout scans almost nothing,
+          # which is the failure mode where a leak scan silently passes.
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C /usr/local/bin gitleaks
+          gitleaks version
 
       - name: Public rules (full history)
-        uses: gitleaks/gitleaks-action@v2
+        # --redact: CI logs are world-readable once this repo is public.
+        # A log that echoes the matched token defeats the entire exercise.
+        run: gitleaks git . --config .gitleaks.toml --redact --no-banner --exit-code 1
+
+      - name: Forbidden-token scan (full history)
+        # The denylist arrives via env, never interpolated into the script body.
+        # It contains regex metacharacters, backslashes and quotes; splicing it
+        # into shell source would corrupt it and is an injection surface.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Forbidden-token scan (private denylist from secret)
+          DENYLIST_TOML: ${{ secrets.DENYLIST_TOML }}
         run: |
-          printf '%s' "${{ secrets.DENYLIST_TOML }}" > /tmp/denylist.toml
-          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.24.2/gitleaks_8.24.2_linux_x64.tar.gz | tar -xz -C /tmp gitleaks
-          # --redact: CI logs are world-readable once public. Never echo a match.
-          /tmp/gitleaks git . --config /tmp/denylist.toml --redact --no-banner --exit-code 1
+          if [ -z "$DENYLIST_TOML" ]; then
+            echo "BLOCKED - DENYLIST_TOML secret is empty or unset."
+            echo "This scan is not optional. Set the secret before pushing."
+            exit 1
+          fi
+          printf '%s' "$DENYLIST_TOML" > "$RUNNER_TEMP/denylist.toml"
+          gitleaks git . --config "$RUNNER_TEMP/denylist.toml" --redact --no-banner --exit-code 1
 
-      - name: Identity audit
+      - name: Identity audit (full history)
+        # Allow-list, not deny-list. Naming forbidden employer domains here
+        # would commit those very tokens to the repository.
         run: |
-          # Allow-list, not deny-list: naming forbidden employer domains here
-          # would commit them to a public repository.
-          bad=$(git log --format='%ae%n%ce' | sort -u | grep -v '^langej117@gmail.com$' || true)
-          if [ -n "$bad" ]; then
+          unexpected=$(git log --format='%ae%n%ce' | sort -u | grep -v '^langej117@gmail\.com$' || true)
+          if [ -n "$unexpected" ]; then
             echo "BLOCKED - unexpected commit identity present in history"
             exit 1
           fi
+          echo "All commits authored and committed under the expected identity."
