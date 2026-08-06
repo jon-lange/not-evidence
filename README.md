@@ -135,10 +135,17 @@ only through their `probe.py`, which needs credentials and costs money.
 They use a generic domain on purpose. A specimen written against finance or healthcare would be
 making a claim about a specific system rather than a general one.
 
-**One file here is meant to be copied.**
-[`specimens/11-mutation-check/mutation.py`](specimens/11-mutation-check/mutation.py) is about
-seventy lines of standard library with no imports from anything else in this repository. Drop it
-beside your tests and wrap one absence assertion:
+## One file here is meant to be taken
+
+[`tools/mutcheck.py`](tools/mutcheck.py) — standard library only, importing nothing from this
+repository. See it fail before you read anything:
+
+```bash
+python3 tools/mutcheck.py --demo
+```
+
+That reproduces specimen 11's result: one live assertion, two that pass while the property they
+guard is broken. Then drop the file beside your tests and wrap one absence assertion:
 
 ```python
 require_live(subject, "redact", redact_nothing, lambda: subject.absence_check(SECRET))
@@ -150,6 +157,10 @@ watching the thing it names. It is not a mutation-testing framework and does not
 answer *which of my assertions are weak?* over a whole suite, offline. This answers *is this
 assertion, guarding this property, live?* — which belongs in the suite, on the line below the
 assertion it is about.
+
+It ships its own mutation record — seven breakages, no survivors — in
+[`tools/README.md`](tools/README.md), along with what it is bad at. A mutation checker that is not
+mutation-checked is the joke this repository exists to prevent.
 
 ## Skills
 

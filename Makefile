@@ -56,6 +56,9 @@ test:
 	  done; \
 	  printf "  %-32s %s\n" "$$d" "$$out"; \
 	done; \
+	printf "  %-32s " "tools/mutcheck"; \
+	r=$$($(PY) tools/test_mutcheck.py 2>&1 | tail -1); echo "$$r"; \
+	case "$$r" in *"0 failure"*) ;; *) fail=1 ;; esac; \
 	if [ $$fail -ne 0 ]; then echo "FAILURES"; exit 1; \
 	elif [ $$skip -ne 0 ]; then \
 	  echo "no failures — but some tests were SKIPPED and did not run."; \
