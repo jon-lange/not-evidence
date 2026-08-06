@@ -16,10 +16,10 @@ pattern does.**
 | [injection-class-audit](injection-class-audit/) | [04 · Meta-Injection Is Not Content-Relay](../patterns/04-meta-injection-is-not-relay.md) | field-tested | Find the injection class your suite does not cover |
 | [weight-flip-share](weight-flip-share/) | [06 · Refuse to Score Unratified Weights](../patterns/06-refuse-unratified-weights.md) | field-tested | Compute what fraction of plausible weightings picks the other candidate |
 | [series-reidentification](series-reidentification/) | [12 · Distrust the Sanitization Label](../patterns/12-distrust-the-sanitization-label.md) | field-tested | Test whether "anonymised" data re-identifies, before publishing it |
-| [judge-independence-check](judge-independence-check/) | [05 · The Judge Cannot Share a Family](../patterns/05-judge-cannot-share-a-family.md) | **draft** | Check a judge discriminates and is order-stable before trusting its verdict |
+| [judge-independence-check](judge-independence-check/) | [05 · The Judge Cannot Share a Family](../patterns/05-judge-cannot-share-a-family.md) | **revised-by-specimen** | Check a judge discriminates and is order-stable before trusting its verdict |
 
-`judge-independence-check` is `draft` because pattern 05 is. Its specimen ran and **did not** confirm
-the cross-family claim — no ranking flip, and the apparent self-preference dissolved once cross-family
+`judge-independence-check` carries pattern 05's `revised-by-specimen` status. Its specimen ran and did
+not confirm the cross-family claim — no ranking flip, and the apparent self-preference dissolved once cross-family
 judges agreed with it. The two checks the skill leads with are the ones that actually fired: judge
 saturation, and position instability.
 
@@ -27,8 +27,8 @@ saturation, and position instability.
 
 They are the patterns whose specimens produced something you can act on:
 
-- **mutation-check** found at least one defect in all twelve specimen suites built for this repository
-- **weight-flip-share** computes an exact closed form — 40.6% of the simplex flipped a real scorecard
+- **mutation-check** surfaced a defect in seven of this repository's twelve specimen suites
+- **weight-flip-share** computes an exact closed form — 40.6% of the simplex flipped a constructed scorecard with genuine trade-offs
 - **series-reidentification** measured four series points identifying one entity in sixty, every trial
 - **injection-class-audit** carries fixtures for the class that every model tested relayed
 - **judge-independence-check** carries the two checks that disqualified two of three judges

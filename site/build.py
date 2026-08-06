@@ -11,7 +11,7 @@ description, its own OG card, and a canonical URL pointing at a domain you own.
 Markdown in the repo stays the source of truth; this is a projection of it.
 
 Usage:
-    python3 build.py --base-url https://example.dev
+    python3 build.py --base-url https://your-domain.example
     python3 build.py --check          # verify metadata without writing
 
 One build dependency (`markdown`). Nothing at runtime — the output is static
@@ -217,7 +217,10 @@ def build(base_url: str, check_only: bool = False) -> int:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--base-url", default="https://refusal-engineering.dev")
+    # Defaults to the Pages URL rather than a domain that may not be registered.
+    # A canonical tag pointing somewhere you do not control is worse than none.
+    ap.add_argument("--base-url",
+                    default="https://langej117.github.io/refusal-engineering")
     ap.add_argument("--check", action="store_true", help="verify metadata, write nothing")
     a = ap.parse_args()
     sys.exit(build(a.base_url, a.check))

@@ -1,7 +1,7 @@
 ---
 pattern: 10
 name: "Never Auto-Commit a Lossy Transducer"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to execute on a plausible substitution"
 specimen: 10-lossy-transducer
 ---
@@ -92,19 +92,20 @@ made things actively worse by handing the model a script to recite.
 
 ## Prior art
 
-- OpenAI Whisper — the model card and community issue trackers document hallucination on
-  non-speech input, including repeated subtitle-corpus artifacts
-- Koenecke et al., *Careless Whisper: Speech-to-Text Hallucination Harms* (ACM FAccT 2024) —
-  hallucinated content in clinical and accessibility contexts
-- Vendor documentation for transcription prompting, which presents the hint as an accuracy feature
-  and does not characterise its behaviour on silence
+- Koenecke, Choi, Mei, Schellmann & Sloane, *Careless Whisper: Speech-to-Text Hallucination Harms* —
+  ACM FAccT 2024, [doi:10.1145/3630106.3658996](https://doi.org/10.1145/3630106.3658996).
+  Hallucinated content in clinical and accessibility contexts.
 
 ## Specimen
 
 [`specimens/10-lossy-transducer/`](../specimens/10-lossy-transducer/) — **built.**
 Measured output in [`RESULTS.md`](../specimens/10-lossy-transducer/RESULTS.md).
 
-**This entry was revised by its own specimen.** The original text claimed a domain hint makes
-hallucinations fluent and on-topic. Tested across three models, that reproduced in one cell of nine.
-What actually happens is that the hint gets echoed back as transcript. The claim above is the
-narrower one the evidence supports.
+Three models, three synthetic inputs, each sent bare and with a recipe-vocabulary hint. None of the
+inputs contains speech; the correct output for every cell is empty. Every cell reproduced identically
+across three consecutive runs.
+
+**Bare, the models emit training-data artefacts** — subtitle boilerplate, stray phrases in other
+languages. Absurd in context, and catchable. **Hinted, two of three return the hint text itself as
+though it had been spoken.** The dangerous cell is a single short phrase drawn from that vocabulary:
+fluent, grammatical, on-topic, indistinguishable from a real transcription.

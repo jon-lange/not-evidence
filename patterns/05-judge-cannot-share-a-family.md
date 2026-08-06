@@ -1,7 +1,7 @@
 ---
 pattern: 05
 name: "The Judge Cannot Share a Family"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: revised-by-specimen   # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to let a same-lineage judge gate a promotion"
 specimen: 05-judge-family
 ---

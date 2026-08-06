@@ -18,7 +18,7 @@ SPECS   := $(sort $(notdir $(wildcard specimens/[0-9]*)))
 OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-sanitization-label
 
 .DEFAULT_GOAL := help
-.PHONY: help test demo check live words scan clean site site-check
+.PHONY: help test demo check offline words scan clean site site-check
 
 help:
 	@echo "refusal-engineering — twelve patterns, twelve specimens"
@@ -79,7 +79,7 @@ demo:
 	done
 
 # The four that need nothing at all: no venv, no keys, no network.
-live:
+offline:
 	@for d in $(OFFLINE); do \
 	  echo "── $$d ──"; \
 	  (cd specimens/$$d && $(PY) probe.py) || exit 1; \
@@ -87,7 +87,7 @@ live:
 
 scan:
 	@./scripts/scan-tree.sh && echo "  blocking scan clean"
-	@./scripts/review.sh | tail -2
+	@./scripts/review.sh
 
 check: scan test
 

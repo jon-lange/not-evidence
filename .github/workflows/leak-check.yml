@@ -30,6 +30,10 @@ jobs:
         run: gitleaks git . --config .gitleaks.toml --redact --no-banner --exit-code 1
 
       - name: Forbidden-token scan (full history)
+        # Skipped for forked PRs: GitHub does not expose secrets to them, so
+        # this would fail for a reason the contributor cannot fix. The public
+        # rules above still run on every event.
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
         # The denylist arrives via env, never interpolated into the script body.
         # It contains regex metacharacters, backslashes and quotes; splicing it
         # into shell source would corrupt it and is an injection surface.
@@ -61,6 +65,9 @@ jobs:
           gitleaks git . --config "$RUNNER_TEMP/denylist.toml" --redact --no-banner --exit-code 1
 
       - name: Identity audit (full history)
+        # Same reason: a fork's commits are authored by someone else by
+        # definition, so this is only meaningful on our own pushes.
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
         # Allow-list, not deny-list. Naming forbidden employer domains here
         # would commit those very tokens to the repository.
         run: |

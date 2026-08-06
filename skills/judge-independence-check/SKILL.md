@@ -2,7 +2,7 @@
 name: judge-independence-check
 description: Prove an LLM judge produced a signal before trusting its verdict. Use when a model-graded score gates a decision — a prompt change ships, a model swap is approved, a release is cleared — or when choosing which model will judge an eval. Also use when two candidates came out equal and the harness called it a tie, when a judge shares a model family with what it is scoring, or when a pairwise comparison was run in one order only.
 pattern: 05
-status: draft
+status: revised-by-specimen
 ---
 
 # Judge independence check

@@ -58,8 +58,9 @@ Runnable reference implementation: [`../../specimens/11-mutation-check/`](../../
 
 ## What this repeatedly finds
 
-Every mutation check run against this repository's own twelve specimen suites found at least one
-defect. Not one was visible from running the tests.
+Run against this repository's own twelve specimen suites, mutation checking surfaced a defect in
+**seven** of them — 01, 02, 03, 05, 06, 11 and 12. The other five caught every mutation cleanly.
+Not one of the seven defects was visible from running the tests.
 
 | Defect | How it hid |
 |---|---|

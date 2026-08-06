@@ -1,7 +1,7 @@
 ---
 pattern: 04
 name: "Meta-Injection Is Not Content-Relay"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to treat a refused meta-attack as a defended surface"
 specimen: 04-injection-classes
 ---

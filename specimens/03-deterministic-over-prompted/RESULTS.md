@@ -174,7 +174,7 @@ does not; measured, both are class-specific, and the real distinction is that on
 the other is samplable. The Refusal should be rewritten around **verifiability**, not around
 transforms being general.
 
-Suggested edits are listed in the report to the caller, not applied here.
+The pattern entry was rewritten around this result; this file records the measurement.
 
 ## Scope
 

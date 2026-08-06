@@ -21,5 +21,5 @@ run them, and take the idea.
 | 11 | [mutation-check](11-mutation-check/) | Green Is Not Evidence | **built** |
 | 12 | [sanitization-label](12-sanitization-label/) | Distrust the Sanitization Label | **built** |
 
-`make dev` boots all of them together against a mock inference path — no cloud account required for
-the demo path.
+`make test` runs every suite and `make demo` runs every offline demonstration — no cloud account
+required. Eleven need nothing but Python; specimen 09 needs Pillow to rasterise its fixtures.

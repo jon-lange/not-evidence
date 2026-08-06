@@ -1,7 +1,7 @@
 ---
 pattern: 12
 name: "Distrust the Sanitization Label"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to publish on someone's assurance that it was scrubbed"
 specimen: 12-sanitization-label
 ---
@@ -43,7 +43,7 @@ invisible from metadata. Three things to check:
 
 ### The names changed and the numbers did not
 
-**The dominant real-world failure is that entity names were substituted while every number survived
+**The failure this pattern is about is that entity names were substituted while every number survived
 verbatim.** Find-and-replace over names has an obvious stopping point; the values *are* the payload,
 and altering them feels like corrupting the evidence. What ships is authentic measurements in
 placeholder names, now labelled safe.

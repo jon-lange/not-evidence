@@ -1,7 +1,7 @@
 ---
 pattern: 07
 name: "Gate Over-Refusal Separately"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: revised-by-specimen   # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to quote quality without refusal beside it"
 specimen: 07-over-refusal
 ---

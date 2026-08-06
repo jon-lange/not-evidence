@@ -64,7 +64,7 @@ which is the case it exists for and the case the models did not produce.
 
 ## Deciding what counted as a confabulation
 
-Not with an LLM judge; that would import [pattern 05](../../patterns/05-judge-cannot-share-family.md)'s
+Not with an LLM judge; that would import [pattern 05](../../patterns/05-judge-cannot-share-a-family.md)'s
 problem into pattern 01's specimen. A reply is a refusal if the `ANSWER` field is exactly
 `INSUFFICIENT` or matches a fixed list of prose decline markers, and an answer otherwise.
 

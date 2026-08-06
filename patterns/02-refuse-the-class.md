@@ -1,7 +1,7 @@
 ---
 pattern: 02
 name: "Refuse the Class, Not the Case"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "a whole dangerous input class, with one identical error"
 specimen: 02-refuse-the-class
 ---

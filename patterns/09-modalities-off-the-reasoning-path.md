@@ -1,7 +1,7 @@
 ---
 pattern: 09
 name: "Keep New Modalities Off the Reasoning Path"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to widen the trusted surface for a new input type"
 specimen: 09-modality-surface
 ---
@@ -23,9 +23,12 @@ Then the roadmap says: add voice. Or images. Or let people upload their own docu
 **Routing the new modality through the reasoning core is the intuitive design.** *The model should hear
 the tone. It should see the layout.* Each is a real capability, and each argues for the loop.
 
-**None of the text path's properties transfer automatically.** Grounding, citation discipline,
-injection resistance, egress scrubbing — each was earned separately, against a specific medium. Not
-one is a property of "the system."
+**The text path's properties transfer unevenly, and not predictably.** Model-layer injection posture
+carries through a rendered image intact; so does egress scrubbing, which operates on output — a
+surface the input modality cannot reach. What does not carry is every control implemented in *your*
+code: ingress scanning, denylists, and the injection suite itself, all of which read strings and
+suddenly have no string to read. Which properties survive a new medium is a question about where each
+one sits, not about "the system."
 
 **Edge placement looks like under-building.** A component that only transcribes reads as a thin
 wrapper, and the modality is the demo, so the version that does more wins the review.

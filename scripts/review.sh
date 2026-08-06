@@ -10,5 +10,6 @@ CONFIG="${RE_REVIEW:-$HOME/.config/re-review.toml}"
 [ -f "$CONFIG" ] || { echo "advisory config not found at ${CONFIG} — skipping"; exit 0; }
 
 echo "Advisory review (not a gate):"
-gitleaks dir . --config "$CONFIG" --redact --no-banner --exit-code 0 2>&1 | grep -vE "^\s*$" || true
+gitleaks dir . --config "$CONFIG" --redact --no-banner --exit-code 0 -v 2>&1 \
+  | grep -vE "^\s*$" || true
 exit 0

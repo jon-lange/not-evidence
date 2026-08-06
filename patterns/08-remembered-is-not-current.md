@@ -1,7 +1,7 @@
 ---
 pattern: 08
 name: "A Remembered Figure Is Never a Current Figure"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: revised-by-specimen   # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to let a stored value stand in for a live one"
 specimen: 08-remembered-is-not-current
 ---
@@ -13,7 +13,7 @@ specimen: 08-remembered-is-not-current
 ## Context
 
 A system accumulates context about its user: preferences, prior answers, a document attached three
-weeks ago. It also answers from live sources, under pattern 01. Both ship the same quarter, described
+weeks ago. It also answers from live sources, under pattern 01. Both ship together, described
 the same way — *we give the model more context*.
 
 Then someone asks how many nodes are in the staging pool. The answer was given last Tuesday, and it is

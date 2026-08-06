@@ -1,0 +1,56 @@
+name: tests
+
+# The repository's central promise is that its claims were measured. Nothing
+# was watching whether the measurements still run — this workflow is that.
+#
+# Deliberately a BARE runner: no venvs, no cached wheels, nothing but Python.
+# The author's machine has a venv for every specimen, which is exactly why the
+# suite passed locally while failing on a clean clone.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bare:
+    name: bare clone, nothing installed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: make test
+        run: make test
+
+      - name: make demo
+        run: make demo
+
+      - name: no demo may fail
+        run: |
+          if make demo | grep -q FAILED; then
+            echo "a demonstration failed on a bare runner"; exit 1
+          fi
+
+  full:
+    name: every dependency installed, nothing skipped
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Install every specimen's requirements
+        run: |
+          for r in specimens/*/requirements.txt; do
+            [ -s "$r" ] && pip install -q -r "$r" || true
+          done
+
+      - name: make test — and no test may be skipped
+        # On the bare runner some tests cannot run and say so. Here everything
+        # is installed, so a skip means a suite quietly stopped covering
+        # something. That is the failure this repository is named after.
+        run: |
+          out=$(make test); echo "$out"
+          echo "$out" | grep -q "SKIPPED" && { echo "tests skipped with all deps present"; exit 1; }
+          echo "$out" | grep -q "all suites green, nothing skipped" || { echo "unexpected summary"; exit 1; }

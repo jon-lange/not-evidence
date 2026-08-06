@@ -1,7 +1,7 @@
 ---
 pattern: 06
 name: "Refuse to Score Unratified Weights"
-status: field-tested   # draft | field-tested | superseded-by: NN
+status: field-tested        # draft | field-tested | revised-by-specimen | superseded-by: NN
 refuses: "to produce a number the domain owner never endorsed"
 specimen: 06-unratified-weights
 ---

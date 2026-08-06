@@ -19,7 +19,7 @@ derivative work; writing in a different language while reading the source is not
 is transcription.
 
 **3. Generic domains, always.**
-Never finance, healthcare, or any regulated vertical I've worked in. A specimen written against a
+Never a regulated vertical. A specimen written against a
 domain is making a claim about a particular system. These patterns are general or they are nothing.
 
 **4. Fresh abstractions.**
