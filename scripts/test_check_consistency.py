@@ -84,6 +84,15 @@ or any client.**
 
 MAKEFILE = "test:\n\t@echo ok\n"
 
+EVIDENCE = """\
+# Evidence
+
+| # | Pattern | Result | Working |
+|---|---|---|---|
+| 01 | Alpha | `{fig1}` | [RESULTS](specimens/01-alpha/RESULTS.md) |
+| 02 | Beta | `0 of 9` | [RESULTS](specimens/02-beta/RESULTS.md) |
+"""
+
 
 def build_fixture(root: Path, **over: str) -> None:
     """Write a minimal, internally consistent repository."""
@@ -99,6 +108,9 @@ def build_fixture(root: Path, **over: str) -> None:
         "p1_body_specimen": None,
         "extra_specimen_dir": None,
         "drop_readme_row": False,
+        "evidence": True,
+        "evidence_figure": "0 out of 36",
+        "drop_evidence_row": False,
         "skill_pattern": "01",
         "skill_status": "field-tested",
         "readme_s1": "field-tested",
@@ -118,7 +130,9 @@ def build_fixture(root: Path, **over: str) -> None:
     for slug in dirs:
         (root / "specimens" / slug).mkdir(parents=True)
         (root / "specimens" / slug / "README.md").write_text("# specimen\n")
-        (root / "specimens" / slug / "RESULTS.md").write_text("# results\n")
+        (root / "specimens" / slug / "RESULTS.md").write_text(
+            "# results\n\nMeasured 0 out of 36, and 0 of 9 elsewhere.\n"
+        )
 
     (root / "patterns" / "01-alpha.md").write_text(
         PATTERN.format(
@@ -151,6 +165,12 @@ def build_fixture(root: Path, **over: str) -> None:
         body = body.split("**The views")[0]
     (root / "README.md").write_text(body)
     (root / "Makefile").write_text(MAKEFILE)
+
+    if opt["evidence"]:
+        ev = EVIDENCE.format(fig1=opt["evidence_figure"])
+        if opt["drop_evidence_row"]:
+            ev = "\n".join(l for l in ev.splitlines() if not l.startswith("| 02 "))
+        (root / "EVIDENCE.md").write_text(ev)
 
 
 def check(root: Path) -> tuple[int, str]:
@@ -326,6 +346,41 @@ def test_running_against_a_directory_that_is_not_the_repo_fails_loudly():
         code, out = check(Path(empty))
     assert code != 0
     assert "no patterns" in out.lower()
+
+
+def test_an_evidence_figure_absent_from_its_source_is_caught():
+    """The whole value of EVIDENCE.md is that it restates the specimens rather
+    than authoring numbers of its own. A figure that has drifted from the
+    working is the failure this file could otherwise introduce."""
+    with fixture(evidence_figure="0 out of 35") as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[evidence]" in out and "drifted" in out
+
+
+def test_an_evidence_row_citing_no_source_is_caught():
+    """A row with a figure and no working is an assertion, which is the one
+    thing this file exists not to be."""
+    with fixture() as root:
+        ev = (root / "EVIDENCE.md").read_text()
+        ev = ev.replace("[RESULTS](specimens/01-alpha/RESULTS.md)", "trust me")
+        (root / "EVIDENCE.md").write_text(ev)
+        code, out = check(root)
+    assert code != 0
+    assert "[evidence]" in out and "cites no RESULTS.md" in out
+
+
+def test_an_evidence_table_missing_a_pattern_is_caught():
+    with fixture(drop_evidence_row=True) as root:
+        code, out = check(root)
+    assert code != 0
+    assert "[evidence]" in out and "rows" in out
+
+
+def test_a_repository_without_an_evidence_file_still_checks_everything_else():
+    with fixture(evidence=False) as root:
+        code, out = check(root)
+    assert code == 0, out
 
 
 # ------------------------------------------------------------- the real tree

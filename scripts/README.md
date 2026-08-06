@@ -22,7 +22,9 @@ version a reader sees.
 It asserts: statuses are in the vocabulary and every copy agrees; a skill never
 claims more than its pattern; `specimen:` resolves to a real directory and
 follows the slug convention; every relative link resolves; every documented
-`make` target exists; the employer disclaimer is still present.
+`make` target exists; the employer disclaimer is still present; and every
+figure in [`EVIDENCE.md`](../EVIDENCE.md) appears verbatim in the `RESULTS.md`
+its row cites, so the summary can never drift from the working.
 
 Failures print as a diff — what the source says, what the copy says. A checker
 that reports `FAILED` without saying what teaches people to bypass it.
@@ -31,11 +33,11 @@ that reports `FAILED` without saying what teaches people to bypass it.
 
 A checker that passed because it looked at nothing prints the same thing as one
 that passed because the tree was clean. Each rule was disabled in turn and the
-harness was required to catch it. Thirteen deliberate breakages, all caught:
+harness was required to catch it. Sixteen deliberate breakages, all caught:
 
 | Mutation | Tests failed |
 |---|---|
-| `Report.fail` becomes a no-op — every failure swallowed | 13 |
+| `Report.fail` becomes a no-op — every failure swallowed | 16 |
 | Status vocabulary accepts anything | 1 |
 | README status mismatch never reported | 1 |
 | README row-count guard removed | 1 |
@@ -48,6 +50,9 @@ harness was required to catch it. Thirteen deliberate breakages, all caught:
 | Employer disclaimer unchecked | 1 |
 | Empty tree reports clean | 1 |
 | Malformed frontmatter skipped silently | 1 |
+| Evidence figures never compared to their source | 1 |
+| Evidence row-count guard removed | 1 |
+| Evidence rows citing no `RESULTS.md` accepted | 1 |
 
 **The first run had four survivors, and three were tests passing for the wrong
 reason** — the shape pattern 11 is about, in the harness written to enforce it:
@@ -63,6 +68,10 @@ reason** — the shape pattern 11 is about, in the harness written to enforce it
   missing-`pattern:`-key message also contains. It now asserts the branch.
 - The README **row-count** guard had no test at all. A table with a row silently
   dropped is invisible to a row-by-row comparison.
+
+Adding the `EVIDENCE.md` rules produced one more survivor, of the same shape:
+nothing tested a row that cites no `RESULTS.md` at all. A row with a figure and
+no working is an assertion, which is the one thing that file exists not to be.
 
 Reproduce by editing one rule to `if False:` and running
 `python3 scripts/test_check_consistency.py`.

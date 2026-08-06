@@ -222,6 +222,48 @@ def check_skills(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     rep.count("skills", len(skills))
 
 
+def check_evidence(root: Path, patterns: dict[str, dict], rep: Report) -> None:
+    """EVIDENCE.md aggregates figures that live in the specimens. It must never
+    become a second place where a number is authored — every backticked figure
+    has to appear verbatim in the RESULTS.md the row cites, or the summary can
+    drift from the working and nothing would notice."""
+    evidence = root / "EVIDENCE.md"
+    if not evidence.is_file():
+        return
+
+    rows = 0
+    for cells in table_rows(evidence.read_text()):
+        num = plain(cells[0])
+        if num not in patterns or len(cells) < 3:
+            continue
+        rows += 1
+
+        link = re.search(r"\]\(([^)]*RESULTS\.md)\)", cells[-1])
+        if not link:
+            rep.fail("evidence", f"pattern {num}: row cites no RESULTS.md")
+            continue
+        source = (root / link.group(1)).resolve()
+        if not source.is_file():
+            rep.fail("evidence", f"pattern {num}: {link.group(1)} does not exist")
+            continue
+
+        text = source.read_text()
+        for figure in re.findall(r"`([^`]+)`", " ".join(cells[1:-1])):
+            if figure not in text:
+                rep.fail(
+                    "evidence",
+                    f"pattern {num}: figure {figure!r} does not appear in "
+                    f"{link.group(1)} — the summary has drifted from the working",
+                )
+
+    if rows != len(patterns):
+        rep.fail(
+            "evidence",
+            f"EVIDENCE.md has {rows} rows for {len(patterns)} patterns",
+        )
+    rep.count("evidence rows", rows)
+
+
 def check_links(root: Path, rep: Report) -> None:
     n = 0
     for path in markdown_files(root):
@@ -281,6 +323,7 @@ def main() -> int:
     patterns = check_patterns(root, rep)
     check_readme_table(root, patterns, rep)
     check_skills(root, patterns, rep)
+    check_evidence(root, patterns, rep)
     check_links(root, rep)
     check_make_targets(root, rep)
 
