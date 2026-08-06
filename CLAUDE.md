@@ -104,7 +104,8 @@ never committed — a file enumerating what must not be said is worse than the l
 
 ## Skills — the applied layer
 
-**Deferred until the catalogue is complete.** Not started; do not start one early.
+The catalogue is complete — all twelve patterns carry a specimen — so the deferral that used to sit
+here is discharged. Five skills exist. See [skills/README.md](skills/README.md).
 
 ### The gate
 
