@@ -23,8 +23,11 @@ OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-saniti
 help:
 	@echo "refusal-engineering — twelve patterns, twelve specimens"
 	@echo
-	@echo "  make test    run every specimen's tests          (offline, stdlib only)"
-	@echo "  make demo    run every offline demonstration     (offline, stdlib only)"
+	@echo "  make test    run every specimen's tests          (offline, no keys)"
+	@echo "  make demo    run every offline demonstration     (offline, no keys)"
+	@echo
+	@echo "  Eleven of twelve need nothing but Python. 09 needs Pillow to render"
+	@echo "  its fixtures; 02 runs tens of thousands of probes and takes a minute."
 	@echo "  make check   scan + tests                        (what a commit runs)"
 	@echo "  make words   pattern word counts vs house target"
 	@echo "  make clean   remove generated artefacts"
@@ -34,7 +37,7 @@ help:
 	@echo "  keys are read from ~/.config/{openai,anthropic}-key"
 
 test:
-	@fail=0; \
+	@fail=0; skip=0; \
 	for d in $(SPECS); do \
 	  t=$$(ls specimens/$$d/test_*.py 2>/dev/null); \
 	  if [ -z "$$t" ]; then printf "  %-32s no tests\n" "$$d"; continue; fi; \
@@ -43,11 +46,20 @@ test:
 	    py=$(PY); [ -x specimens/$$d/.venv/bin/python ] && py=./.venv/bin/python; \
 	    r=$$(cd specimens/$$d && $$py $$(basename $$f) 2>&1 | tail -1); \
 	    out="$$out $$r"; \
-	    case "$$r" in *"0 failure"*) ;; *) fail=1 ;; esac; \
+	    case "$$r" in \
+	      *skipped*) skip=1 ;; \
+	      *"0 failure"*) ;; \
+	      *) fail=1 ;; \
+	    esac; \
 	  done; \
 	  printf "  %-32s %s\n" "$$d" "$$out"; \
 	done; \
-	[ $$fail -eq 0 ] && echo "all suites green" || { echo "FAILURES"; exit 1; }
+	if [ $$fail -ne 0 ]; then echo "FAILURES"; exit 1; \
+	elif [ $$skip -ne 0 ]; then \
+	  echo "no failures — but some tests were SKIPPED and did not run."; \
+	  echo "  Green here does not mean covered. Install the specimen's"; \
+	  echo "  requirements and re-run before trusting this."; \
+	else echo "all suites green, nothing skipped"; fi
 
 demo:
 	@for d in $(SPECS); do \
@@ -55,12 +67,15 @@ demo:
 	  printf "  %-32s " "$$d"; \
 	  py=$(PY); [ -x specimens/$$d/.venv/bin/python ] && py=./.venv/bin/python; \
 	  if grep -q offline specimens/$$d/probe.py; then \
-	    (cd specimens/$$d && $$py probe.py --offline >/dev/null 2>&1) \
-	      && echo "ok (offline)" || echo "FAILED"; \
+	    out=$$(cd specimens/$$d && $$py probe.py --offline 2>&1 >/dev/null); \
 	  else \
-	    (cd specimens/$$d && $$py probe.py >/dev/null 2>&1) \
-	      && echo "ok (no deps at all)" || echo "FAILED"; \
+	    out=$$(cd specimens/$$d && $$py probe.py 2>&1 >/dev/null); \
 	  fi; \
+	  case "$$?:$$out" in \
+	    0:*) echo "ok" ;; \
+	    *ModuleNotFoundError*) echo "needs venv — pip install -r requirements.txt" ;; \
+	    *) echo "FAILED" ;; \
+	  esac; \
 	done
 
 # The four that need nothing at all: no venv, no keys, no network.

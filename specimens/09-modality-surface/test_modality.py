@@ -267,6 +267,8 @@ def test_missing_credentials_exits_cleanly():
 
 
 def test_offline_mode_needs_no_key():
+    # The offline path renders, so it needs Pillow like every other render test.
+    render.require_pil()
     home = tempfile.mkdtemp()
     proc = subprocess.run(
         [sys.executable, "probe.py", "--offline"],
@@ -280,14 +282,26 @@ def test_offline_mode_needs_no_key():
 
 
 if __name__ == "__main__":
-    failures = 0
+    failures = skipped = 0
     for name, fn in sorted(globals().items()):
         if name.startswith("test_") and callable(fn):
             try:
                 fn()
                 print(f"  PASS  {name}")
+            except RuntimeError as exc:
+                # Only the explicit "Pillow is required" guard lands here. A
+                # test that could not run is neither a pass nor a failure, and
+                # it must stay visible in the summary — a suite that silently
+                # drops tests reports green while covering less than you think.
+                if "Pillow is required" in str(exc):
+                    skipped += 1
+                    print(f"  SKIP  {name}: needs Pillow")
+                else:
+                    failures += 1
+                    print(f"  FAIL  {name}: RuntimeError: {exc}")
             except Exception as exc:            # an error is a failure, not a skip
                 failures += 1
                 print(f"  FAIL  {name}: {type(exc).__name__}: {exc}")
-    print(f"\n{failures} failure(s)")
+    tail = f" ({skipped} skipped — pip install -r requirements.txt)" if skipped else ""
+    print(f"\n{failures} failure(s){tail}")
     raise SystemExit(1 if failures else 0)

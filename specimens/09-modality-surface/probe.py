@@ -47,6 +47,25 @@ import corpus
 import defense
 import render
 
+
+def _require_renderer() -> None:
+    """Rendering IS this specimen — the claim is about text delivered as pixels.
+
+    So Pillow is a genuine requirement here rather than an optional extra, and
+    the honest thing is to say so once, clearly, instead of surfacing a
+    traceback from three frames down.
+    """
+    if not render.HAVE_PIL:
+        print(
+            "This specimen renders its fixtures as images, so it needs Pillow:\n"
+            "  python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt\n"
+            "  ./.venv/bin/python probe.py --offline\n"
+            "\nThe parts that do not render — corpus integrity, prompt shape, and the\n"
+            "coverage claim against specimen 04 — run without it: python3 test_modality.py",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
+
 HERE = Path(__file__).parent
 GENERATED = HERE / "_generated"          # gitignored; nothing binary is committed
 RESULTS = HERE / "results.jsonl"
@@ -274,6 +293,7 @@ def main() -> int:
     ap.add_argument("--analyze", metavar="FILE",
                     help="re-score an existing JSONL; no keys, no network, no spend")
     args = ap.parse_args()
+    _require_renderer()
     models = [m.strip() for m in args.models.split(",") if m.strip()]
 
     if args.analyze:

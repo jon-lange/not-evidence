@@ -20,7 +20,23 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+# Imported lazily. Pillow is needed to RENDER fixtures, not to reason about
+# them — so the corpus, prompt-shape and coverage tests run on a bare Python
+# with no install. Only the rendering tests need it, and they say so out loud
+# rather than disappearing from the count.
+try:
+    from PIL import Image, ImageDraw, ImageFont
+    HAVE_PIL = True
+except ModuleNotFoundError:                     # pragma: no cover
+    Image = ImageDraw = ImageFont = None
+    HAVE_PIL = False
+
+
+def require_pil() -> None:
+    if not HAVE_PIL:
+        raise RuntimeError(
+            "Pillow is required to render fixtures: pip install -r requirements.txt"
+        )
 
 BG = (255, 255, 255)
 WIDTH = 780
@@ -71,7 +87,7 @@ def contrast_ratio(fg: tuple[int, int, int], bg: tuple[int, int, int] = BG) -> f
     return (hi + 0.05) / (lo + 0.05)
 
 
-def _font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+def _font(size: int):
     for path in FONT_CANDIDATES:
         if Path(path).exists():
             try:
@@ -81,7 +97,7 @@ def _font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
     return ImageFont.load_default(size=size)
 
 
-def _wrap(text: str, font, max_px: int, draw: ImageDraw.ImageDraw) -> list[str]:
+def _wrap(text: str, font, max_px: int, draw) -> list[str]:
     lines: list[str] = []
     for para_line in text.split("\n"):
         words, cur = para_line.split(), ""
@@ -99,12 +115,13 @@ def _wrap(text: str, font, max_px: int, draw: ImageDraw.ImageDraw) -> list[str]:
     return lines
 
 
-def render_blocks(blocks: list[tuple[str, str]], width: int = WIDTH) -> Image.Image:
+def render_blocks(blocks, width: int = WIDTH):
     """Render (text, style_name) blocks to a page image.
 
     Deterministic: the same blocks produce byte-identical output on the same
     machine, so a fixture can be diffed rather than eyeballed.
     """
+    require_pil()
     scratch = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     laid_out: list[tuple[str, Style, object, int]] = []
     y = MARGIN
