@@ -89,6 +89,7 @@ about a particular system rather than a general one.
 ```
 patterns/       01..12, the catalogue. ADR-shaped, append-only.
 specimens/      runnable demonstrations, one directory per pattern that has one
+skills/         installable skills — the applied layer (see the gate below)
 scripts/        pre-commit guards (identity, forbidden-token scanning)
 site/           static mirror — real titles, OG cards, canonical URLs
 .out-of-scope/  ideas deliberately not pursued, and why
@@ -100,6 +101,41 @@ accumulate inside it. That is how a bounded artifact becomes a junk drawer.
 
 A private forbidden-token list lives at `~/.config/re-denylist.toml`, outside every git tree. It is
 never committed — a file enumerating what must not be said is worse than the leak it prevents.
+
+## Skills — the applied layer
+
+**Deferred until the catalogue is complete.** Not started; do not start one early.
+
+### The gate
+
+**A skill may only exist for a pattern that has a specimen.**
+
+That single rule is what keeps this repo finishable. Skills are otherwise open-ended and maintained,
+and an open-ended maintained thing inside a bounded finished artifact is how a catalogue becomes a
+junk drawer — a stale skill sitting beside the patterns makes the patterns look stale too.
+
+Tied to measured patterns, skills inherit the catalogue's boundary: at most twelve, realistically
+four or five. And it is the differentiator — most skills repos ship assertions; these ship with
+evidence behind them.
+
+### Conventions
+
+- Spec-compliant: `skills/<name>/SKILL.md`, lowercase-hyphenated, matching directory name
+- `SKILL.md` body under ~500 lines, with progressive disclosure to `references/` and `scripts/`
+- Frontmatter carries `pattern:` — the entry it operationalises — and the same `status:` vocabulary
+  as patterns (`draft` / `field-tested` / `superseded-by:`)
+- Retired skills move to `deprecated/`, never deleted. Rejected ideas go in `.out-of-scope/`
+
+### Skills carry more IP risk than patterns
+
+Patterns abstract; skills operationalise, and operationalised knowledge is the thing employers
+actually claim. A skill encoding *how to build evals* sits much closer to real work product than an
+abstracted principle does — it carries rule ordering, refusal language, and domain framing that a
+colleague would recognise instantly even after rewording.
+
+So the method applies harder here: written from the pattern doc with the source closed, generic
+domain throughout, and reviewed against the question *"would someone I work with read this and know
+where it came from?"* If yes, rewrite it.
 
 ## Local dev
 
