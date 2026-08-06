@@ -1,0 +1,196 @@
+# refusal-engineering
+
+## What this is
+
+A **bounded catalogue** of twelve patterns for AI systems that have to decline correctly, plus small
+runnable specimens that test the claims. Twelve, then it is finished — adding a thirteenth is a
+decision, not an increment.
+
+It is not a framework, not a library, and not a blog. Specimens are reference implementations,
+explicitly unmaintained.
+
+The through-line: **a system declining correctly when the reassuring signal is the one that's
+lying.** The guardrail that refused the obvious attack. The green test that never ran. The judge that
+shares the subject's lineage. The label that says "sanitized."
+
+---
+
+## Behavioral guidelines
+
+> **Tradeoff:** these bias toward caution over speed. For trivial tasks, use judgment.
+
+### Think before coding
+Don't assume. Don't hide confusion. Surface tradeoffs.
+- State assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them — don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+### Simplicity first
+Minimum code that solves the problem. Nothing speculative.
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask: *"Would a senior engineer say this is overcomplicated?"* If yes, simplify.
+
+### Surgical changes
+Touch only what you must. Clean up only your own mess.
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
+- Remove imports and variables *your* changes made unused; leave pre-existing dead code alone.
+
+The test: every changed line traces directly to the request.
+
+### Goal-driven execution
+Define success criteria. Loop until verified.
+- *"Add validation"* → write tests for invalid inputs, then make them pass.
+- *"Fix the bug"* → write a test that reproduces it, then make it pass.
+- For multi-step work, state a brief plan with a verify check per step.
+
+---
+
+## The two rules that gate publication
+
+Everything else is style. These two decide whether this repository can be published at all.
+
+### 1. Read nothing outside this repository
+
+Work only from files under this repo, plus public sources you fetch and verify. Other directories on
+this machine are employer-owned; this catalogue is written **from principle with those sources
+closed**, which is the commitment [METHOD.md](METHOD.md) makes publicly.
+
+*Stated as an allow-list on purpose.* Enumerating the directories to avoid would mean committing
+their names — the exact class of leak this repo exists to prevent. Same reason the identity guard in
+`scripts/` asserts the expected address rather than listing forbidden ones.
+
+Consulting internal sources would not help anyway: `field-tested` means *an experiment ran and the
+claim held*, never *this matches an internal implementation*.
+
+### 2. Never publish a number you did not generate here
+
+No percentages, latencies, costs, accuracy rates, or orders of magnitude from anywhere but a specimen
+in this repo. Numbers are uniquely identifying, have no abstraction defence, and in a regulated
+industry can be material non-public information. Regenerate benchmarks locally and check in the
+harness.
+
+Related: **generic domains only.** Build systems, caches, docs tools, databases. Never finance,
+payments, KYC, or healthcare — a specimen written against a regulated vertical is making a claim
+about a particular system rather than a general one.
+
+---
+
+## Architecture
+
+```
+patterns/       01..12, the catalogue. ADR-shaped, append-only.
+specimens/      runnable demonstrations, one directory per pattern that has one
+scripts/        pre-commit guards (identity, forbidden-token scanning)
+site/           static mirror — real titles, OG cards, canonical URLs
+.out-of-scope/  ideas deliberately not pursued, and why
+deprecated/     entries that were live and no longer are
+```
+
+**Why `.out-of-scope/` exists:** rejected ideas need a home *outside* the live catalogue, or they
+accumulate inside it. That is how a bounded artifact becomes a junk drawer.
+
+A private forbidden-token list lives at `~/.config/re-denylist.toml`, outside every git tree. It is
+never committed — a file enumerating what must not be said is worse than the leak it prevents.
+
+## Local dev
+
+Each specimen is standalone with its own `.venv`. No repo-wide install.
+
+```bash
+cd specimens/<name>
+python3 probe.py --offline          # where offered: no keys, no network
+python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt
+./.venv/bin/python probe.py         # live
+```
+
+Live specimens read `~/.config/openai-key` and `~/.config/anthropic-key`, or the matching env vars.
+**Never write a key into a file inside this repo, including `.env`.**
+
+Model overrides are env vars (`LLM_MODEL`, `STT_MODEL`, `LLM_BASE_URL`) so any OpenAI-compatible
+endpoint works.
+
+## Testing
+
+```bash
+python3 test_*.py                   # also runs under pytest
+```
+
+Three rules that are not negotiable:
+
+**Mutation-check every suite.** Break the guarded behaviour on purpose, confirm the tests fail *for
+the right reason*, restore, and record which mutations were tried and how many tests each broke. A
+passing absence-test proves nothing until you have watched it fail. That is pattern 11, and it
+applies to this repo's own code — specimen 11 found a vacuous test inside its own suite.
+
+**Don't mock the model.** A mocked judge or transcriber only proves the mock returns what it was told
+to. Measure live, record the output in `RESULTS.md`, and test the deterministic parts offline.
+
+**Persist per-item results before aggregating.** JSONL, one row per item per judge per dimension. A
+harness storing only means has discarded what paired comparison and interval estimation need — and
+retrofitting means re-running everything. Both analysis bugs in specimen 05 were fixed and recomputed
+from persisted records without re-spending a cent.
+
+## Writing a pattern
+
+Fixed section order. Deviating breaks reading across entries:
+
+```
+## Context · ## Forces · ## The Refusal · ## Consequences
+## The naive approach it beats · ## Prior art · ## Specimen
+```
+
+- **The Refusal** is the load-bearing paragraph — the rule stated so it *can* be violated. Bold it.
+- **The naive approach it beats** must name a genuinely attractive wrong answer and the precise
+  mechanism of its failure. No attractive wrong answer means it is a description, not a pattern.
+- **Target 650–950 words.** Several entries currently exceed this and should come *down*, not be
+  matched.
+- **Verify every citation.** Fetch arXiv `citation_title`, resolve DOIs through Crossref, fetch
+  anything else. Omit what you cannot verify. A repository arguing that green is not evidence cannot
+  ship a fabricated reference.
+
+`status:` stays `draft` until a specimen has measured it. Promote on evidence, never on confidence.
+
+**Entries are append-only.** A pattern that turns out wrong is marked `superseded-by: NN` and kept.
+The revision history of a claim is part of the claim.
+
+## Reporting results
+
+**Two of the first four measured claims did not survive their specimens.** Both entries were
+rewritten around what actually happened, and that is the repository's most valuable feature.
+
+When a specimen contradicts its pattern: rewrite the pattern, keep the falsification visible in both
+documents, and state plainly what was predicted versus what occurred. Never quietly narrow a claim to
+fit the result.
+
+## Gotchas
+
+**Pre-commit fixers abort the commit.** `end-of-file-fixer` and `trailing-whitespace` rewrite files
+and fail the run. Re-stage and commit again — and **verify `HEAD` actually moved**, because a
+subsequent `git push` will report success on nothing.
+
+**`git push` succeeds when there is nothing to push.** Check `git rev-parse HEAD` before and after.
+
+**Scanner false positives are a real failure mode, not just noise.** A `[A-Za-z]:\\` rule once
+matched `r:\n` inside an ordinary string literal. A rule that fires on prose trains you to bypass the
+hook. When one fires, verify *both* directions before adjusting: prose must pass, and a real instance
+must still be caught.
+
+**Branch protection is unavailable** — GitHub Free does not offer it on private repos, via classic
+rules or rulesets. The local hooks plus CI are the control until this goes public, at which point
+protection becomes free.
+
+**GitHub's own secret scanning does not run on private repos** on a free account. Until publication,
+the gitleaks layer is doing all of the work.
+
+**CI can pass vacuously.** The first run went green scanning against an empty config because the
+secret was not yet set. CI now plants a canary and requires the scanner to catch it before trusting
+a clean result.
