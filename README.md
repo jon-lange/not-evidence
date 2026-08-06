@@ -67,8 +67,17 @@ Status is one of `draft` · `field-tested` · `superseded-by: NN`.
 ## Specimens
 
 Small, self-contained, and **explicitly unmaintained** — reference implementations, not software
-you should depend on. Each runs standalone, and `make dev` boots all of them together against a
-mock inference path with no cloud account required.
+you should depend on.
+
+```bash
+make test     # every suite, standard library only, no network, no keys
+make demo     # every offline demonstration
+make check    # scan + tests, what a commit runs
+```
+
+Four specimens need nothing at all — no venv, no dependencies. The rest have an offline mode that
+runs the same way; only their live probes need credentials, and those are per-specimen and cost
+money. `make help` shows how.
 
 They use a generic domain on purpose. A specimen written against finance or healthcare would be
 making a claim about a specific system rather than a general one.
