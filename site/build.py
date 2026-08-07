@@ -81,6 +81,7 @@ PAGE = """<!doctype html>
 <title>{title}{suffix}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2314171A'/><rect x='11.5' y='7' width='9' height='17' fill='%23E4795F'/></svg>">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
