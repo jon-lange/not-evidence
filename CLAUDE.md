@@ -95,6 +95,7 @@ domains to avoid is itself a list of the domains worth avoiding, and that narrow
 patterns/       01..12, the catalogue. ADR-shaped: one claim per file.
 specimens/      runnable demonstrations, one directory per pattern that has one
 skills/         installable skills — the applied layer (see the gate below)
+okf/            the catalogue as an Open Knowledge Format bundle (generated)
 tools/          the one file meant to be taken — standalone, no repo imports
 scripts/        guards — identity, forbidden tokens, metadata consistency, portability
 site/           static mirror — real titles, OG cards, canonical URLs

@@ -49,6 +49,14 @@ jobs:
         # script refuses to run against a red suite and says why.
         run: python3 tools/mutation_record.py
 
+      - name: The OKF bundle is conformant and current
+        # Committed generated output drifts. This fails if okf/ no longer
+        # matches what the producer emits, or if what it emits would not
+        # satisfy the spec — the second matters more, because a bundle that is
+        # byte-identical to its producer's output still proves nothing if the
+        # producer emits something invalid.
+        run: python3 scripts/emit-okf.py --check
+
       - name: Every page has its own metadata
         # site.yml runs this too, but only on main — so a change to build.py
         # reached main unverified. That is how the index came to be built

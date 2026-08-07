@@ -10,6 +10,8 @@ repository's own metadata is telling the truth.
 | `scan-tree.sh` | pre-push | yes — forbidden tokens, whole tree |
 | `review.sh` | `make scan` | no — numbers and ambiguous words need eyes |
 | `check-consistency.py` | pre-commit, CI, `make check` | yes — metadata drift |
+| `emit-okf.py` | `make okf` / `make check` | yes — bundle conformance and drift |
+| `test-portability.sh` | `make portable` | yes — but not on every commit |
 
 ## check-consistency.py
 

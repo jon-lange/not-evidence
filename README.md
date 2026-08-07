@@ -163,6 +163,36 @@ It ships its own mutation record — seven breakages, no survivors — in
 [`tools/README.md`](tools/README.md), along with what it is bad at. A mutation checker that is not
 mutation-checked is the joke this repository exists to prevent.
 
+## Also published as an OKF bundle
+
+[`okf/`](okf/) is this catalogue in the
+[Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog) —
+a directory of markdown concepts with YAML frontmatter, meant to be read by agents
+without a bespoke SDK. Twenty-seven concepts: twelve patterns, twelve specimens,
+three indexes.
+
+The repository turned out to already be one, structurally. What the producer adds
+is the vocabulary, and one mapping is worth stating: **a specimen becomes an
+`Attested Computation`** — the spec's term for a concept carrying *"a sanctioned
+way to compute a value, so a consumer can confirm the value was produced by
+running it."* That is what every specimen here is, which is why each ships the
+harness that produced its figures rather than only the figures.
+
+`scripts/check-consistency.py` becomes the bundle's `attester` — the spec asks for
+deterministic, LLM-free code that inspects and returns a verdict, and that is what
+it already was.
+
+```bash
+make okf          # regenerate
+make okf-check    # conformant, and current — runs in CI and in `make check`
+```
+
+The bundle is committed rather than built on demand, because OKF's argument is
+that a bundle should be clonable and browsable. Committed generated output
+drifts, so `make okf-check` fails when it has — and checks conformance first,
+since a bundle byte-identical to its producer's output proves nothing if the
+producer emits something the spec rejects.
+
 ## Skills
 
 The applied layer, in [`skills/`](skills/). **A skill may only exist for a pattern that has a

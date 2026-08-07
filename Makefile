@@ -18,7 +18,7 @@ SPECS   := $(sort $(notdir $(wildcard specimens/[0-9]*)))
 OFFLINE := 02-refuse-the-class 06-unratified-weights 11-mutation-check 12-sanitization-label
 
 .DEFAULT_GOAL := help
-.PHONY: help test demo check offline words scan consistency portable clean site site-check
+.PHONY: help test demo check offline words scan consistency portable okf okf-check clean site site-check
 
 help:
 	@echo "not-evidence — twelve patterns, twelve specimens"
@@ -31,6 +31,7 @@ help:
 	@echo "  make check   scan + consistency + tests          (what a commit runs)"
 	@echo "  make consistency  metadata agrees with itself   (frontmatter is truth)"
 	@echo "  make portable  export the tree elsewhere and re-run the checks there"
+	@echo "  make okf     emit the catalogue as an Open Knowledge Format bundle"
 	@echo "  make words   pattern word counts vs house target"
 	@echo "  make clean   remove generated artefacts"
 	@echo
@@ -113,7 +114,17 @@ consistency:
 	@$(PY) scripts/check-consistency.py
 	@$(PY) scripts/test_check_consistency.py | tail -1
 
-check: scan consistency test
+# The catalogue as an OKF bundle — a second rendering of the same source, like
+# the site. Committed so it is clonable and browsable, which is OKF's own
+# argument; `okf-check` fails when the committed copy has drifted from what the
+# producer emits, so committed generated output cannot go stale silently.
+okf:
+	@$(PY) scripts/emit-okf.py
+
+okf-check:
+	@$(PY) scripts/emit-okf.py --check
+
+check: scan consistency okf-check test
 
 # Not in `check`: it exports the tree and re-runs the suites, which is too slow
 # for every commit. Run it before a release, and after anything that moves or
