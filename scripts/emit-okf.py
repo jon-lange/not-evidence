@@ -73,16 +73,49 @@ def yaml_str(value: str) -> str:
     return value
 
 
+class NoHistory(RuntimeError):
+    """The tree has no commit history for a file the bundle timestamps."""
+
+
+def is_shallow() -> bool:
+    try:
+        return subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=ROOT, capture_output=True, text=True, check=True,
+        ).stdout.strip() == "true"
+    except (subprocess.CalledProcessError, OSError):
+        return False
+
+
 def git_iso(path: Path) -> str:
-    """Last commit touching this file, as the content's last meaningful change."""
+    """Last commit touching this file, as the content's last meaningful change.
+
+    This makes the producer's output depend on the depth of the clone, which is
+    worth being loud about. `actions/checkout` fetches one commit by default, so
+    `git log` returns nothing for most files and an earlier version of this
+    silently substituted the epoch — emitting a bundle that differed from the
+    committed one in every file, in CI only, for a reason the diff did not
+    explain. Falling back quietly turned an environment problem into twenty-four
+    phantom drift reports.
+
+    Now it raises. A producer that cannot reproduce its own output must say so
+    rather than produce a different one.
+    """
+    rel = str(path.relative_to(ROOT))
     try:
         out = subprocess.run(
-            ["git", "log", "-1", "--format=%cI", "--", str(path.relative_to(ROOT))],
+            ["git", "log", "-1", "--format=%cI", "--", rel],
             cwd=ROOT, capture_output=True, text=True, check=True,
         ).stdout.strip()
-        return out or "1970-01-01T00:00:00Z"
-    except (subprocess.CalledProcessError, OSError):
-        return "1970-01-01T00:00:00Z"
+    except (subprocess.CalledProcessError, OSError) as exc:
+        raise NoHistory(f"git log failed for {rel}: {exc}") from exc
+    if not out:
+        raise NoHistory(
+            f"no commit history for {rel}. The bundle timestamps every concept "
+            "from git, so it cannot be reproduced from a shallow clone — use "
+            "fetch-depth: 0."
+        )
+    return out
 
 
 def citations(body: str) -> list[tuple[str, str]]:
@@ -399,7 +432,27 @@ def main() -> int:
                     help="fail if the committed bundle is not current")
     args = ap.parse_args()
 
-    files = build(ROOT)
+    # Checked before anything is emitted, because a shallow clone does not fail
+    # the way you expect. `git log -1 -- <path>` still answers — with the single
+    # grafted commit's date, for every file alike — so the producer emits a
+    # complete, plausible, uniformly-wrong bundle and `--check` reports it as
+    # twenty-four stale files with "regenerate with: make okf", which is advice
+    # that cannot work. The first version of this guard watched for an empty
+    # answer and never fired.
+    if is_shallow():
+        print("BLOCKED - this is a shallow clone.\n")
+        print("  The bundle timestamps every concept from git history. A shallow")
+        print("  clone answers `git log` with one grafted commit for every file,")
+        print("  so the producer would emit a uniformly-wrong bundle rather than")
+        print("  fail — and the drift report would blame the tree.\n")
+        print("  Use fetch-depth: 0, or: git fetch --unshallow")
+        return 1
+
+    try:
+        files = build(ROOT)
+    except NoHistory as exc:
+        print(f"BLOCKED - {exc}")
+        return 1
 
     if args.check:
         # Conformance first, then currency. A bundle that is byte-identical to

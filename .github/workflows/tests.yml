@@ -28,6 +28,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # The OKF bundle timestamps every concept from git history, so a
+          # shallow checkout cannot reproduce it. Same reason leak-check needs
+          # it, different consequence: there a shallow scan passes vacuously,
+          # here the producer would emit a different bundle and blame the tree.
+          fetch-depth: 0
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.12" }
 
