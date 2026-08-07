@@ -90,7 +90,7 @@ PAGE = """<!doctype html>
 <meta property="og:image" content="{root}og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Twelve signals that look like evidence and aren't. Twelve dots showing each entry's verdict: five failed, five narrowed, two confirmed.">
+<meta property="og:image:alt" content="A terminal running cat register.tsv, listing entries against the verdict each earned, above twelve dots showing all of them: five failed, five narrowed, two confirmed.">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
 <style>
