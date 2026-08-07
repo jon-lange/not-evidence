@@ -87,6 +87,10 @@ PAGE = """<!doctype html>
 <meta property="og:url" content="{canonical}">
 <meta property="og:site_name" content="Not Evidence">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="{root}og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Twelve signals that look like evidence and aren't. Twelve dots showing each entry's verdict: five failed, five narrowed, two confirmed.">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
 <style>
@@ -230,6 +234,9 @@ def build(base_url: str, check_only: bool = False) -> int:
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(page)
 
+    card = ROOT / "site" / "og.png"
+    if card.is_file():
+        (OUT / "og.png").write_bytes(card.read_bytes())
     (OUT / ".nojekyll").write_text("")
     print(f"  {len(pages)} pages → {OUT.relative_to(ROOT)}")
     return 1 if problems else 0
