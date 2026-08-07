@@ -50,21 +50,29 @@ NUMBER_WORDS = {
 # stops matching is a failure — see check_adjudication for why that matters more
 # than it looks.
 COUNT_CLAIMS = [
-    ("README.md", r"##\s+(\w+) of the twelve entries were revised", "revised"),
-    ("README.md", r"(\w+) came back changed", "revised"),
-    ("README.md", r"(\w+) were contradicted\s+outright", "failed"),
-    ("README.md", r"(\w+) entries were revised by measurement", "revised"),
-    ("README.md", r"the (\w+) marked `revised-by-specimen`", "failed"),
-    ("README.md", r"The other (\w+) were narrowed rather than overturned", "narrowed"),
-    ("METHOD.md", r"(\w+)\s+of twelve entries were revised by measurement", "revised"),
-    ("METHOD.md", r"and (\w+) had their central claim fail", "failed"),
-    ("CLAUDE.md", r"(\w+) entries were\s+revised by their specimens", "revised"),
+    # "survived" is narrowed + confirmed: the entries whose central claim held.
+    # It exists because the earlier copy only ever published "revised", which a
+    # reader parses as "wrong" — and that overstated the failure rate by two
+    # times. Reporting both is the accurate version, not the kinder one.
+    ("README.md", r"##\s+All twelve claims were measured\. (\w+) survived", "survived"),
+    ("README.md", r"(\w+) survived that", "survived"),
+    ("README.md", r"(\w+) did not, and now argue", "failed"),
+    ("README.md", r"(\w+) entries had their central claim fail", "failed"),
+    ("README.md", r"(\w+) more held and were\s+narrowed", "narrowed"),
+    ("README.md", r"a central claim survived in (\w+) of twelve", "survived"),
+    ("README.md", r"(\w+) entries changed in response to\s+evidence", "revised"),
+    ("METHOD.md", r"A central claim survived in (\w+) of twelve", "survived"),
+    ("METHOD.md", r"of twelve, and (\w+) did not", "failed"),
+    ("METHOD.md", r"(\w+) entries changed in response\s+to evidence", "revised"),
+    ("METHOD.md", r"only (\w+) changed because they were wrong", "failed"),
+    ("CLAUDE.md", r"A central claim survived in (\w+) of twelve", "survived"),
     ("CLAUDE.md", r"(\w+) had their central claim fail", "failed"),
+    ("CLAUDE.md", r"(\w+) entries changed\s+in response to evidence", "revised"),
     ("EVIDENCE.md", r"## The (\w+) that contradicted their own pattern", "failed"),
     # The OG card. Lowest-scrutiny copy in the repository and the one the most
     # people see, which is how it came to carry a claim ("every claim measured")
     # that had already been corrected everywhere else.
-    ("site/build.py", r"(\w+) of the twelve entries were revised by their own", "revised"),
+    ("site/build.py", r"(\w+) of the twelve survived their own specimens", "survived"),
 ]
 
 # Asserted, not trusted to survive editing. Losing this sentence is the one
@@ -442,6 +450,11 @@ def check_adjudication(root: Path, patterns: dict[str, dict], rep: Report) -> No
         "failed": len(failed),
         "narrowed": sum(1 for v in verdicts.values() if v == "narrowed"),
         "confirmed": sum(1 for v in verdicts.values() if v == "confirmed"),
+        # The central claim held: narrowed entries kept theirs, confirmed never
+        # lost it. Published alongside "revised" so a reader is not left to
+        # infer that every revision was an error.
+        "survived": sum(1 for v in verdicts.values()
+                        if v in ("narrowed", "confirmed")),
     }
 
     claims = 0

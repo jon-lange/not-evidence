@@ -77,9 +77,10 @@ That separation is deliberate. A reader wants the best current statement; an aud
 evidence. Both are here, in the place each belongs.
 
 **Revision is recorded in the status, not hidden by it.** An entry whose specimen contradicted it
-carries `revised-by-specimen` rather than quietly becoming `field-tested` on a narrower claim. Ten
-of twelve entries were revised by measurement and five had their central claim fail; a catalogue
-that only reports its confirmations is describing its author's confidence, not the world.
+carries `revised-by-specimen` rather than quietly becoming `field-tested` on a narrower claim. A central claim survived in seven of twelve, and five did not; a catalogue that only reports its
+confirmations is describing its author's confidence, not the world. Ten entries changed in response
+to evidence, but only five changed because they were wrong — *revised* and *wrong* are different,
+and conflating them overstates the failure rate as surely as hiding it would understate it.
 
 Those counts are not maintained by hand. Every specimen's `RESULTS.md` opens with an **Adjudication**
 line — `confirmed`, `narrowed`, or `central-claim-failed` — and the consistency checker derives the

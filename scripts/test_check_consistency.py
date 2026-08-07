@@ -86,13 +86,15 @@ README = """\
 
 Run `make test` to see it.
 
-## {c_revised} of the twelve entries were revised by their own specimens
+## All twelve claims were measured. {c_survived} survived.
 
-{c_revised} came back changed. {c_failed} were contradicted
-outright and now argue something different.
+{c_survived} survived that. {c_failed} did not, and now argue something different.
 
-{c_revised} entries were revised by measurement; the {c_failed} marked `revised-by-specimen` are
-the ones whose central claim failed. The other {c_narrowed} were narrowed rather than overturned.
+{c_failed} entries had their central claim fail and carry `revised-by-specimen`. {c_narrowed} more held and were
+narrowed by what came back. So a central claim survived in {c_survived} of twelve.
+
+{c_revised} entries changed in response to
+evidence, which is not the same number.
 
 **The views expressed here are my own and do not represent those of my employer
 or any client.**
@@ -178,6 +180,7 @@ def build_fixture(root: Path, **over: str) -> None:
         "c_revised": "One",
         "c_failed": "Zero",
         "c_narrowed": "One",
+        "c_survived": "One",
         "rephrase_readme_claim": False,
         "specimens_index": True,
         "specimens_index_extra": "",
@@ -232,11 +235,11 @@ def build_fixture(root: Path, **over: str) -> None:
         s1=opt["readme_s1"], s2=opt["readme_s2"],
         triage2="" if opt["orphan_in_triage"] else ", [02](patterns/02-beta.md)",
         c_revised=opt["c_revised"], c_failed=opt["c_failed"],
-        c_narrowed=opt["c_narrowed"],
+        c_narrowed=opt["c_narrowed"], c_survived=opt["c_survived"],
     )
     body = body.replace("make test", f"make {opt['make_target']}")
     if opt["rephrase_readme_claim"]:
-        body = body.replace("came back changed", "turned out differently")
+        body = body.replace("survived that", "came through that")
     if opt["drop_readme_row"]:
         body = "\n".join(l for l in body.splitlines() if not l.startswith("| 02 "))
     if not opt["disclaimer"]:
@@ -411,7 +414,7 @@ def test_the_new_status_term_is_in_the_vocabulary():
     which is the rule working, not interference."""
     with fixture(
         p2_status="revised-by-specimen", readme_s2="revised-by-specimen",
-        c_revised="Two", c_failed="One", c_narrowed="One",
+        c_revised="Two", c_failed="One", c_narrowed="One", c_survived="One",
     ) as root:
         code, out = check(root)
     assert code == 0, out
@@ -504,6 +507,7 @@ def test_revised_by_specimen_without_a_central_claim_failure_is_caught():
     with fixture(
         p2_status="revised-by-specimen", readme_s2="revised-by-specimen",
         adj2="narrowed", c_revised="Two", c_failed="Zero", c_narrowed="Two",
+        c_survived="Two",
     ) as root:
         code, out = check(root)
     assert code != 0
@@ -511,7 +515,7 @@ def test_revised_by_specimen_without_a_central_claim_failure_is_caught():
 
 
 def test_a_published_count_disagreeing_with_the_derivation_is_caught():
-    with fixture(c_revised="Nine") as root:
+    with fixture(c_survived="Nine") as root:
         code, out = check(root)
     assert code != 0
     assert "[adjudication]" in out and "Nine" in out

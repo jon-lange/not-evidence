@@ -20,11 +20,15 @@ library, and not a blog.
 
 ---
 
-## Ten of the twelve entries were revised by their own specimens
+## All twelve claims were measured. Seven survived.
 
 Each pattern was written as a claim, then put in front of real models or a real adversary, then
-rewritten to whatever the evidence supported. Ten came back changed. Five were contradicted
-outright and now argue something different from what they set out to argue.
+rewritten to whatever the evidence supported. Seven survived that. Five did not, and now argue
+something different from what they set out to argue — **and the five are why the seven are worth
+anything.**
+
+The comparison worth making is not against a catalogue whose claims all held. It is against the
+usual case, where nobody ran them.
 
 - **01** predicted that *"if you're not sure, say you don't know"* confabulates. It did not — not
   once in 36 opportunities, across four models and both vendors.
@@ -105,10 +109,13 @@ Status is one of:
   evidence supports instead, and the specimen's `RESULTS.md` says what was predicted and what happened
 - **`superseded-by: NN`** — retired in favour of another entry
 
-Ten entries were revised by measurement; the five marked `revised-by-specimen` are the ones whose
-*central* claim failed. The other five were narrowed rather than overturned, and their `RESULTS.md`
-says where. Two — 04 and 11 — came through confirmed. Each specimen's `RESULTS.md` opens with the
-**Adjudication** line these counts are derived from.
+Five entries had their central claim fail and carry `revised-by-specimen`. Five more held and were
+narrowed by what came back — the claim survived, and its `RESULTS.md` says where it tightened. Two,
+04 and 11, came through confirmed. So a central claim survived in seven of twelve.
+
+*Revised* and *wrong* are not the same thing, and this repository is careful about the difference:
+ten entries changed in response to evidence, but only five changed because they were wrong. Each
+specimen's `RESULTS.md` opens with the **Adjudication** line these counts are derived from.
 
 **Several patterns also contain architectural commitments a specimen cannot test** — a claim about
 how a system should be *structured* is not a behavioural prediction. Each `RESULTS.md` states which

@@ -226,8 +226,9 @@ Fixed section order. Deviating breaks reading across entries:
 - **`superseded-by: NN`** — retired in favour of another entry, moved to `deprecated/`
 
 The distinction between the middle two is whether the **central** claim survived. An entry merely
-narrowed by measurement stays `field-tested` and says where in its `RESULTS.md`. Ten entries were
-revised by their specimens; five had their central claim fail.
+narrowed by measurement stays `field-tested` and says where in its `RESULTS.md`. A central claim survived in seven of twelve; five had their central claim fail. Ten entries changed
+in response to evidence, and the gap between those two numbers is the difference between *revised*
+and *wrong* — do not collapse it in a summary.
 
 **The counts are derived, never typed.** Each `RESULTS.md` opens with `**Adjudication: <verdict>.**`
 where the verdict is `confirmed`, `narrowed`, or `central-claim-failed`. `revised` means the last

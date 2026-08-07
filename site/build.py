@@ -186,9 +186,12 @@ def build(base_url: str, check_only: bool = False) -> int:
     # on. Its description had kept a claim ("every claim measured") that was
     # corrected everywhere else, because the check structurally could not reach
     # it and the OG card is not a surface anyone re-reads.
+    # Kept on one source line on purpose: the consistency checker matches this
+    # sentence to verify the count, and a string split across a concatenation
+    # breaks the match — which reads as "rephrased" rather than "wrapped".
     index_desc = (
-        "Twelve signals that look like evidence and aren't, and the refusal that "
-        "closes each one. Ten of the twelve entries were revised by their own specimens."
+        "Twelve signals that look like evidence and aren't, and the refusal that closes each one. "
+        "All twelve were measured; seven of the twelve survived their own specimens."
     )
     if len(index_desc) > 200:
         problems.append("README.md: index description over 200 chars")

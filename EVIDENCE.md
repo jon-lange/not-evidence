@@ -48,8 +48,10 @@ prediction, and what happened to it, is in the specimen.
 - **08** predicted that agents substitute remembered figures for live ones. They called the tool
   instead — in 57 of 60 items. Only an explicitly adversarial condition produced stale reuse.
 
-**This is the most useful thing in the repository.** A catalogue that only reports its confirmations
-is telling you about its author's confidence, not about the world.
+**These five are the most useful thing in the repository.** A catalogue that only reports its
+confirmations is telling you about its author's confidence, not about the world — and one that
+reports every revision as a failure overstates its own error rate. A central claim survived in seven
+of twelve. These are the other five.
 
 ## Where a specimen cannot reach
 
