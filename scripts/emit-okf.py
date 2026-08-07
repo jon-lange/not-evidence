@@ -342,6 +342,7 @@ def index_page(title: str, description: str,
 def root_index(rows: list[tuple]) -> str:
     revised = sum(1 for r in rows if r[3] in ("narrowed", "central-claim-failed"))
     failed = sum(1 for r in rows if r[3] == "central-claim-failed")
+    survived = sum(1 for r in rows if r[3] in ("narrowed", "confirmed"))
     return f"""---
 type: Index
 title: Not Evidence
@@ -361,10 +362,12 @@ The judge that shares the subject's lineage. The label that says "sanitized."
 Every one is reassuring, every one is routinely accepted as proof, and none is
 evidence of the thing it is taken to prove.
 
-Every claim here was put in front of a specimen before publication.
-**{revised} of {len(rows)} entries were revised by their own specimens**, and
-{failed} had their central claim fail. No figure appears that was not generated
-in the source repository.
+Every claim here was put in front of a specimen before publication. **All
+{len(rows)} were measured and {survived} survived**; {failed} had their central
+claim fail, and those {failed} are why the {survived} are worth anything.
+{revised} entries changed in response to evidence, which is not the same number —
+*revised* and *wrong* are different, and collapsing them overstates the error
+rate. No figure appears that was not generated in the source repository.
 
 - [Patterns](patterns/index.md) — the claims
 - [Specimens](specimens/index.md) — the measurements, as Attested Computations

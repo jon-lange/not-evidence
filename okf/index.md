@@ -15,10 +15,12 @@ The judge that shares the subject's lineage. The label that says "sanitized."
 Every one is reassuring, every one is routinely accepted as proof, and none is
 evidence of the thing it is taken to prove.
 
-Every claim here was put in front of a specimen before publication.
-**10 of 12 entries were revised by their own specimens**, and
-5 had their central claim fail. No figure appears that was not generated
-in the source repository.
+Every claim here was put in front of a specimen before publication. **All
+12 were measured and 7 survived**; 5 had their central
+claim fail, and those 5 are why the 7 are worth anything.
+10 entries changed in response to evidence, which is not the same number —
+*revised* and *wrong* are different, and collapsing them overstates the error
+rate. No figure appears that was not generated in the source repository.
 
 - [Patterns](patterns/index.md) — the claims
 - [Specimens](specimens/index.md) — the measurements, as Attested Computations
