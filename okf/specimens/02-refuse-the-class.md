@@ -2,19 +2,19 @@
 type: Attested Computation
 title: "Specimen 02 · Refuse the Class, Not the Case"
 description: The measurement behind pattern 02.
-resource: https://github.com/langej117/not-evidence/tree/main/specimens/02-refuse-the-class
+resource: https://github.com/jon-lange/not-evidence/tree/main/specimens/02-refuse-the-class
 tags: [specimen, measurement, offline]
 runtime: python
 executor:
-  resource: https://github.com/langej117/not-evidence/blob/main/specimens/02-refuse-the-class/probe.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/specimens/02-refuse-the-class/probe.py
   receipt: [results_jsonl, stdout, exit_code]
 attester:
-  resource: https://github.com/langej117/not-evidence/blob/main/scripts/check-consistency.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/scripts/check-consistency.py
 adjudication: narrowed
-generated: { by: human:langej117, at: 2026-08-06T13:51:25-05:00 }
+generated: { by: human:jon-lange, at: 2026-08-06T13:51:25-05:00 }
 verified:
   - { by: process:emit-okf/0.1, at: 2026-08-06T13:51:25-05:00 }
-  - { by: human:langej117, at: 2026-08-06T13:51:25-05:00 }
+  - { by: human:jon-lange, at: 2026-08-06T13:51:25-05:00 }
 ---
 
 # Specimen 02 · Refuse the Class, Not the Case
@@ -52,5 +52,5 @@ Measured on a boundary and space of this kind:
 
 # Full record
 
-- [RESULTS.md](https://github.com/langej117/not-evidence/blob/main/specimens/02-refuse-the-class/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
-- [Specimen source](https://github.com/langej117/not-evidence/tree/main/specimens/02-refuse-the-class)
+- [RESULTS.md](https://github.com/jon-lange/not-evidence/blob/main/specimens/02-refuse-the-class/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
+- [Specimen source](https://github.com/jon-lange/not-evidence/tree/main/specimens/02-refuse-the-class)

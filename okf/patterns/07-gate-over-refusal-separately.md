@@ -2,14 +2,14 @@
 type: Pattern
 title: 07 · Gate Over-Refusal Separately
 description: Refuses to quote quality without refusal beside it.
-resource: https://langej117.github.io/not-evidence/patterns/07-gate-over-refusal-separately.html
+resource: https://jon-lange.github.io/not-evidence/patterns/07-gate-over-refusal-separately.html
 tags: [pattern, revised-by-specimen]
 pattern_status: revised-by-specimen
 adjudication: central-claim-failed
-generated: { by: human:langej117, at: 2026-08-06T10:48:39-05:00 }
+generated: { by: human:jon-lange, at: 2026-08-06T10:48:39-05:00 }
 verified:
   - { by: process:specimen/07-over-refusal, at: 2026-08-06T10:48:39-05:00 }
-  - { by: human:langej117, at: 2026-08-06T10:48:39-05:00 }
+  - { by: human:jon-lange, at: 2026-08-06T10:48:39-05:00 }
 sources:
   - id: ref-1
     resource: https://arxiv.org/abs/2308.01263
@@ -36,5 +36,5 @@ Measured by [07-over-refusal](../specimens/07-over-refusal.md).
 The full entry — Context, Forces, The Refusal, Consequences, the naive
 approach it beats, and prior art — is in the source document:
 
-- [Read the pattern](https://github.com/langej117/not-evidence/blob/main/patterns/07-gate-over-refusal-separately.md)
-- [Rendered](https://langej117.github.io/not-evidence/patterns/07-gate-over-refusal-separately.html)
+- [Read the pattern](https://github.com/jon-lange/not-evidence/blob/main/patterns/07-gate-over-refusal-separately.md)
+- [Rendered](https://jon-lange.github.io/not-evidence/patterns/07-gate-over-refusal-separately.html)

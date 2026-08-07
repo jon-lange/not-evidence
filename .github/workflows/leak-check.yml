@@ -85,7 +85,7 @@ jobs:
         # Allow-list, not deny-list. Naming forbidden employer domains here
         # would commit those very tokens to the repository.
         run: |
-          unexpected=$(git log --format='%ae%n%ce' | sort -u | grep -v '^langej117@gmail\.com$' || true)
+          unexpected=$(git log --format='%ae%n%ce' | sort -u | grep -v '^jon-lange@gmail\.com$' || true)
           if [ -n "$unexpected" ]; then
             echo "BLOCKED - unexpected commit identity present in history"
             exit 1

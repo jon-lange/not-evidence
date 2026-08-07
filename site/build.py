@@ -175,7 +175,7 @@ def build(base_url: str, check_only: bool = False) -> int:
             root=base + "/",
             content=render(body),
             status_line=status_line,
-            source=f"https://github.com/langej117/not-evidence/blob/main/{src_rel}",
+            source=f"https://github.com/jon-lange/not-evidence/blob/main/{src_rel}",
             source_label=html.escape(src_rel),
         )
         pages.append((rel, page, title, desc))
@@ -202,8 +202,8 @@ def build(base_url: str, check_only: bool = False) -> int:
             root=base + "/",
             content=render(frontmatter((ROOT / "README.md").read_text())[1]),
             status_line="",
-            source="https://github.com/langej117/not-evidence",
-            source_label="langej117/not-evidence",
+            source="https://github.com/jon-lange/not-evidence",
+            source_label="jon-lange/not-evidence",
         ),
         "Not Evidence",
         index_desc,
@@ -237,7 +237,7 @@ if __name__ == "__main__":
     # Defaults to the Pages URL rather than a domain that may not be registered.
     # A canonical tag pointing somewhere you do not control is worse than none.
     ap.add_argument("--base-url",
-                    default="https://langej117.github.io/not-evidence")
+                    default="https://jon-lange.github.io/not-evidence")
     ap.add_argument("--check", action="store_true", help="verify metadata, write nothing")
     a = ap.parse_args()
     sys.exit(build(a.base_url, a.check))

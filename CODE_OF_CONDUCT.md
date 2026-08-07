@@ -25,7 +25,7 @@ Issues, security advisories, and any other interaction in this repository.
 ## Enforcement
 
 Report by email to **langej117@gmail.com**, or through
-[private vulnerability reporting](https://github.com/langej117/not-evidence/security/advisories/new)
+[private vulnerability reporting](https://github.com/jon-lange/not-evidence/security/advisories/new)
 if you would rather it not be public at any point.
 
 I read everything sent here, but this is maintained in personal time and I

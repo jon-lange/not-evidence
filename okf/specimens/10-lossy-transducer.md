@@ -2,19 +2,19 @@
 type: Attested Computation
 title: Specimen 10 · Never Auto-Commit a Lossy Transducer
 description: The measurement behind pattern 10.
-resource: https://github.com/langej117/not-evidence/tree/main/specimens/10-lossy-transducer
+resource: https://github.com/jon-lange/not-evidence/tree/main/specimens/10-lossy-transducer
 tags: [specimen, measurement, live]
 runtime: python
 executor:
-  resource: https://github.com/langej117/not-evidence/blob/main/specimens/10-lossy-transducer/probe.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/specimens/10-lossy-transducer/probe.py
   receipt: [results_jsonl, stdout, exit_code]
 attester:
-  resource: https://github.com/langej117/not-evidence/blob/main/scripts/check-consistency.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/scripts/check-consistency.py
 adjudication: narrowed
-generated: { by: human:langej117, at: 2026-08-06T14:00:52-05:00 }
+generated: { by: human:jon-lange, at: 2026-08-06T14:00:52-05:00 }
 verified:
   - { by: process:emit-okf/0.1, at: 2026-08-06T14:00:52-05:00 }
-  - { by: human:langej117, at: 2026-08-06T14:00:52-05:00 }
+  - { by: human:jon-lange, at: 2026-08-06T14:00:52-05:00 }
 ---
 
 # Specimen 10 · Never Auto-Commit a Lossy Transducer
@@ -60,5 +60,5 @@ for the first, and a scoring signal this harness does not currently capture for 
 
 # Full record
 
-- [RESULTS.md](https://github.com/langej117/not-evidence/blob/main/specimens/10-lossy-transducer/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
-- [Specimen source](https://github.com/langej117/not-evidence/tree/main/specimens/10-lossy-transducer)
+- [RESULTS.md](https://github.com/jon-lange/not-evidence/blob/main/specimens/10-lossy-transducer/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
+- [Specimen source](https://github.com/jon-lange/not-evidence/tree/main/specimens/10-lossy-transducer)

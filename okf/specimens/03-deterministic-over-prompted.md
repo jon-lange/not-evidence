@@ -2,19 +2,19 @@
 type: Attested Computation
 title: Specimen 03 · Deterministic Over Prompted
 description: The measurement behind pattern 03.
-resource: https://github.com/langej117/not-evidence/tree/main/specimens/03-deterministic-over-prompted
+resource: https://github.com/jon-lange/not-evidence/tree/main/specimens/03-deterministic-over-prompted
 tags: [specimen, measurement, live]
 runtime: python
 executor:
-  resource: https://github.com/langej117/not-evidence/blob/main/specimens/03-deterministic-over-prompted/probe.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/specimens/03-deterministic-over-prompted/probe.py
   receipt: [results_jsonl, stdout, exit_code]
 attester:
-  resource: https://github.com/langej117/not-evidence/blob/main/scripts/check-consistency.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/scripts/check-consistency.py
 adjudication: central-claim-failed
-generated: { by: human:langej117, at: 2026-08-06T13:51:25-05:00 }
+generated: { by: human:jon-lange, at: 2026-08-06T13:51:25-05:00 }
 verified:
   - { by: process:emit-okf/0.1, at: 2026-08-06T13:51:25-05:00 }
-  - { by: human:langej117, at: 2026-08-06T13:51:25-05:00 }
+  - { by: human:jon-lange, at: 2026-08-06T13:51:25-05:00 }
 ---
 
 # Specimen 03 · Deterministic Over Prompted
@@ -63,5 +63,5 @@ ladder collapsing into refusing everything, which was the obvious alternative ex
 
 # Full record
 
-- [RESULTS.md](https://github.com/langej117/not-evidence/blob/main/specimens/03-deterministic-over-prompted/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
-- [Specimen source](https://github.com/langej117/not-evidence/tree/main/specimens/03-deterministic-over-prompted)
+- [RESULTS.md](https://github.com/jon-lange/not-evidence/blob/main/specimens/03-deterministic-over-prompted/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
+- [Specimen source](https://github.com/jon-lange/not-evidence/tree/main/specimens/03-deterministic-over-prompted)

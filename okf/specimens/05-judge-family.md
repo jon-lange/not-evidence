@@ -2,19 +2,19 @@
 type: Attested Computation
 title: Specimen 05 · The Judge Cannot Share a Family
 description: The measurement behind pattern 05.
-resource: https://github.com/langej117/not-evidence/tree/main/specimens/05-judge-family
+resource: https://github.com/jon-lange/not-evidence/tree/main/specimens/05-judge-family
 tags: [specimen, measurement, live]
 runtime: python
 executor:
-  resource: https://github.com/langej117/not-evidence/blob/main/specimens/05-judge-family/probe.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/specimens/05-judge-family/probe.py
   receipt: [results_jsonl, stdout, exit_code]
 attester:
-  resource: https://github.com/langej117/not-evidence/blob/main/scripts/check-consistency.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/scripts/check-consistency.py
 adjudication: central-claim-failed
-generated: { by: human:langej117, at: 2026-08-06T14:00:52-05:00 }
+generated: { by: human:jon-lange, at: 2026-08-06T14:00:52-05:00 }
 verified:
   - { by: process:emit-okf/0.1, at: 2026-08-06T14:00:52-05:00 }
-  - { by: human:langej117, at: 2026-08-06T14:00:52-05:00 }
+  - { by: human:jon-lange, at: 2026-08-06T14:00:52-05:00 }
 ---
 
 # Specimen 05 · The Judge Cannot Share a Family
@@ -55,5 +55,5 @@ in general.
 
 # Full record
 
-- [RESULTS.md](https://github.com/langej117/not-evidence/blob/main/specimens/05-judge-family/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
-- [Specimen source](https://github.com/langej117/not-evidence/tree/main/specimens/05-judge-family)
+- [RESULTS.md](https://github.com/jon-lange/not-evidence/blob/main/specimens/05-judge-family/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
+- [Specimen source](https://github.com/jon-lange/not-evidence/tree/main/specimens/05-judge-family)

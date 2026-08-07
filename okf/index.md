@@ -2,7 +2,7 @@
 type: Index
 title: Not Evidence
 description: "Twelve signals that look like evidence and are not, each paired with the refusal that closes it and the measurement that tested it."
-resource: https://langej117.github.io/not-evidence/
+resource: https://jon-lange.github.io/not-evidence/
 tags: [evaluation, guardrails, llm, agents, testing]
 ---
 
@@ -26,4 +26,4 @@ in the source repository.
 Each specimen names what would falsify it. A contradicting result is the most
 useful thing anyone can send.
 
-Source: [https://github.com/langej117/not-evidence](https://github.com/langej117/not-evidence) · Rendered: [https://langej117.github.io/not-evidence](https://langej117.github.io/not-evidence)
+Source: [https://github.com/jon-lange/not-evidence](https://github.com/jon-lange/not-evidence) · Rendered: [https://jon-lange.github.io/not-evidence](https://jon-lange.github.io/not-evidence)

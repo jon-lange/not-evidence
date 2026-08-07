@@ -10,9 +10,9 @@ type: software
 authors:
   - family-names: Lange
     given-names: Jon
-    alias: langej117
-repository-code: "https://github.com/langej117/not-evidence"
-url: "https://langej117.github.io/not-evidence/"
+    alias: jon-lange
+repository-code: "https://github.com/jon-lange/not-evidence"
+url: "https://jon-lange.github.io/not-evidence/"
 abstract: >-
   A bounded catalogue of twelve signals that are routinely accepted as evidence
   and are not — a guardrail that refused the obvious attack, a green test that
@@ -31,5 +31,5 @@ keywords:
   - re-identification
   - software-patterns
 license: Apache-2.0
-license-url: "https://github.com/langej117/not-evidence/blob/main/LICENSE"
+license-url: "https://github.com/jon-lange/not-evidence/blob/main/LICENSE"
 date-released: "2026-08-06"

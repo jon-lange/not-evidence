@@ -58,7 +58,7 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: This is not a security report. Those go through [private vulnerability reporting](https://github.com/langej117/not-evidence/security/advisories/new).
+        - label: This is not a security report. Those go through [private vulnerability reporting](https://github.com/jon-lange/not-evidence/security/advisories/new).
           required: true
         - label: I understand pull requests are not accepted here, and why — see CONTRIBUTING.md.
           required: false

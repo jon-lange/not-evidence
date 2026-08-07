@@ -26,7 +26,7 @@ implying something larger:
 
 ## Reporting
 
-**Use [private vulnerability reporting](https://github.com/langej117/not-evidence/security/advisories/new).**
+**Use [private vulnerability reporting](https://github.com/jon-lange/not-evidence/security/advisories/new).**
 That channel exists because [CONTRIBUTING.md](CONTRIBUTING.md) does not accept
 pull requests — a fix cannot arrive the usual way, so the report needs somewhere
 to go that is not a public issue.
@@ -35,7 +35,7 @@ Please include what you ran, what you expected, and what happened.
 
 For anything that is **not** a security issue — a broken link, a wrong citation,
 a result that contradicts a pattern — open an ordinary
-[issue](https://github.com/langej117/not-evidence/issues). A contradicting
+[issue](https://github.com/jon-lange/not-evidence/issues). A contradicting
 measurement is the most valuable thing anyone can send and is not a
 vulnerability.
 

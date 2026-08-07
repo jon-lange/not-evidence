@@ -2,19 +2,19 @@
 type: Attested Computation
 title: Specimen 11 · Green Is Not Evidence
 description: The measurement behind pattern 11.
-resource: https://github.com/langej117/not-evidence/tree/main/specimens/11-mutation-check
+resource: https://github.com/jon-lange/not-evidence/tree/main/specimens/11-mutation-check
 tags: [specimen, measurement, offline]
 runtime: python
 executor:
-  resource: https://github.com/langej117/not-evidence/blob/main/specimens/11-mutation-check/probe.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/specimens/11-mutation-check/probe.py
   receipt: [results_jsonl, stdout, exit_code]
 attester:
-  resource: https://github.com/langej117/not-evidence/blob/main/scripts/check-consistency.py
+  resource: https://github.com/jon-lange/not-evidence/blob/main/scripts/check-consistency.py
 adjudication: confirmed
-generated: { by: human:langej117, at: 2026-08-06T13:51:25-05:00 }
+generated: { by: human:jon-lange, at: 2026-08-06T13:51:25-05:00 }
 verified:
   - { by: process:emit-okf/0.1, at: 2026-08-06T13:51:25-05:00 }
-  - { by: human:langej117, at: 2026-08-06T13:51:25-05:00 }
+  - { by: human:jon-lange, at: 2026-08-06T13:51:25-05:00 }
 ---
 
 # Specimen 11 · Green Is Not Evidence
@@ -38,5 +38,5 @@ counter-example and it survives the obvious witness — but the search was not e
 
 # Full record
 
-- [RESULTS.md](https://github.com/langej117/not-evidence/blob/main/specimens/11-mutation-check/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
-- [Specimen source](https://github.com/langej117/not-evidence/tree/main/specimens/11-mutation-check)
+- [RESULTS.md](https://github.com/jon-lange/not-evidence/blob/main/specimens/11-mutation-check/RESULTS.md) — what was run, what came back, the scope, and the falsification condition
+- [Specimen source](https://github.com/jon-lange/not-evidence/tree/main/specimens/11-mutation-check)

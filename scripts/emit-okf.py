@@ -42,12 +42,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "okf"
 
-REPO_URL = "https://github.com/langej117/not-evidence"
-SITE_URL = "https://langej117.github.io/not-evidence"
+REPO_URL = "https://github.com/jon-lange/not-evidence"
+SITE_URL = "https://jon-lange.github.io/not-evidence"
 
 # The producer, in OKF's actor convention (SPEC §7).
 PRODUCER = "process:emit-okf/0.1"
-AUTHOR = "human:langej117"
+AUTHOR = "human:jon-lange"
 
 
 def frontmatter(text: str) -> tuple[dict, str]:
