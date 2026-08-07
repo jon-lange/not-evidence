@@ -1,0 +1,29 @@
+{
+  "name": "jon-lange",
+  "owner": {
+    "name": "Jon Lange",
+    "url": "https://jon-lange.github.io/"
+  },
+  "description": "Evaluation checks that ship the measurement behind them. Every skill states the status of the pattern it operationalises, and cannot claim more than that pattern does.",
+  "plugins": [
+    {
+      "name": "not-evidence",
+      "source": "./",
+      "description": "Five evaluation checks, each shipping the measurement that validated it. Every skill carries the status of the pattern it operationalises and cannot claim more than the pattern does.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jon Lange",
+        "url": "https://jon-lange.github.io/"
+      },
+      "homepage": "https://jon-lange.github.io/not-evidence/",
+      "license": "Apache-2.0",
+      "keywords": [
+        "evaluation",
+        "llm-as-judge",
+        "mutation-testing",
+        "prompt-injection",
+        "guardrails"
+      ]
+    }
+  ]
+}

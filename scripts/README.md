@@ -85,6 +85,23 @@ Adding the `EVIDENCE.md` rules produced one more survivor, of the same shape:
 nothing tested a row that cites no `RESULTS.md` at all. A row with a figure and
 no working is an assertion, which is the one thing that file exists not to be.
 
+### The plugin manifests, mutation-checked
+
+`claude plugin validate --strict` is the authority on schema and passes on both
+manifests, but it needs the CLI and cannot run in CI. This rule checks the part
+that actually drifts: whether the manifests still describe the skills that exist.
+
+| Mutation | Caught |
+|---|---|
+| Plugin name not listed in the marketplace | yes |
+| Marketplace source points nowhere | yes |
+| plugin.json loses its name | yes |
+| A skill loses its description | yes |
+| Skills directory emptied | yes |
+
+No survivors. The last one matters most: a plugin with no skills installs
+without error and does nothing, which is a clean result meaning nothing.
+
 ### Falsification completeness, mutation-checked
 
 `CONTRIBUTING.md` asks readers to send a result that contradicts an entry.

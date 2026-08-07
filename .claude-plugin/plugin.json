@@ -1,0 +1,20 @@
+{
+  "name": "not-evidence",
+  "description": "Five evaluation checks, each shipping the measurement that validated it: test liveness, judge independence, scorecard weight sensitivity, injection-class coverage, and re-identification.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jon Lange",
+    "url": "https://jon-lange.github.io/"
+  },
+  "homepage": "https://jon-lange.github.io/not-evidence/",
+  "repository": "https://github.com/jon-lange/not-evidence",
+  "license": "Apache-2.0",
+  "keywords": [
+    "evaluation",
+    "llm-as-judge",
+    "mutation-testing",
+    "prompt-injection",
+    "guardrails",
+    "re-identification"
+  ]
+}

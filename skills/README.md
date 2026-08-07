@@ -35,6 +35,20 @@ They are the patterns whose specimens produced something you can act on:
 
 The other seven patterns stay prose. Not every good idea needs a tool.
 
+## Installing
+
+These five ship as a Claude Code plugin from this repository:
+
+```
+/plugin marketplace add jon-lange/not-evidence
+/plugin install not-evidence@jon-lange
+```
+
+The manifests live in `.claude-plugin/`. The layout needed no changes — the
+plugin format expects `skills/<name>/SKILL.md`, which is what the gate already
+required — so packaging added two JSON files and no scope. Both pass
+`claude plugin validate --strict`.
+
 ## Conventions
 
 - `skills/<name>/SKILL.md` — lowercase-hyphenated, matching the directory name

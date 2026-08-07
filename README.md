@@ -200,6 +200,24 @@ drifts, so `make okf-check` fails when it has — and checks conformance first,
 since a bundle byte-identical to its producer's output proves nothing if the
 producer emits something the spec rejects.
 
+## Installable
+
+The five skills are a Claude Code plugin. The repository was already shaped like
+one — `skills/<name>/SKILL.md` is the layout the format expects — so this is two
+manifest files, not a restructuring, and it adds nothing to the catalogue.
+
+```
+/plugin marketplace add jon-lange/not-evidence
+/plugin install not-evidence@jon-lange
+```
+
+Skills arrive namespaced: `/not-evidence:mutation-check`, and so on. Both
+manifests pass `claude plugin validate --strict`.
+
+Installing gets you five checks that each carry the status of the pattern they
+operationalise, and none of them can claim more than its pattern does — which is
+the only thing here worth installing over any other collection.
+
 ## Skills
 
 The applied layer, in [`skills/`](skills/). **A skill may only exist for a pattern that has a

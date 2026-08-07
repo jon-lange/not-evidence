@@ -24,6 +24,7 @@ Exit: 0 consistent, 1 drift found.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -373,6 +374,61 @@ def check_specimens_index(root: Path, patterns: dict[str, dict], rep: Report) ->
     rep.count("specimen index rows", len(rows))
 
 
+def check_plugin(root: Path, rep: Report) -> None:
+    """The plugin and marketplace manifests describe what installing this gets
+    you, and nothing else here would notice if that stopped being true.
+
+    `claude plugin validate --strict` is the authority on schema and passes on
+    both, but it needs the CLI and so cannot run in CI. This checks the part
+    that actually drifts: whether the manifests still describe the skills that
+    exist. A skill added or retired without the count moving is the same class
+    of failure as the README table disagreeing with frontmatter."""
+    manifest = root / ".claude-plugin" / "plugin.json"
+    market = root / ".claude-plugin" / "marketplace.json"
+    if not manifest.is_file():
+        return
+
+    try:
+        plugin = json.loads(manifest.read_text())
+    except json.JSONDecodeError as exc:
+        rep.fail("plugin", f".claude-plugin/plugin.json is not valid JSON: {exc}")
+        return
+    if not plugin.get("name"):
+        rep.fail("plugin", "plugin.json has no `name`, which is the skill namespace")
+
+    # The format requires skills/<name>/SKILL.md at the plugin root, which is
+    # the layout the skills gate already produced. If that ever stops being
+    # true, installing yields a plugin with no skills and no error.
+    skills = sorted(p.parent.name for p in (root / "skills").glob("*/SKILL.md"))
+    if not skills:
+        rep.fail("plugin", "no skills/<name>/SKILL.md found — installing this "
+                           "would deliver a plugin with nothing in it")
+    for name in skills:
+        meta, _ = frontmatter((root / "skills" / name / "SKILL.md").read_text())
+        if not meta.get("description"):
+            rep.fail("plugin", f"skills/{name}/SKILL.md has no `description`, so "
+                               "the loader cannot tell when to use it")
+
+    if market.is_file():
+        try:
+            mkt = json.loads(market.read_text())
+        except json.JSONDecodeError as exc:
+            rep.fail("plugin", f"marketplace.json is not valid JSON: {exc}")
+            return
+        listed = [p.get("name") for p in mkt.get("plugins", [])]
+        if plugin.get("name") not in listed:
+            rep.fail(
+                "plugin",
+                f"marketplace.json lists {listed} but the plugin is named "
+                f"{plugin.get('name')!r} — the install command would not work")
+        for entry in mkt.get("plugins", []):
+            src = entry.get("source")
+            if isinstance(src, str) and not (root / src).is_dir():
+                rep.fail("plugin", f"marketplace source {src!r} is not a directory")
+
+    rep.count("plugin skills", len(skills))
+
+
 def check_adjudication(root: Path, patterns: dict[str, dict], rep: Report) -> None:
     """The headline claim — how many entries their own specimens revised — used
     to be asserted in five places and derived from nothing. It was the only
@@ -600,6 +656,7 @@ def main() -> int:
     check_triage(root, patterns, rep)
     check_evidence(root, patterns, rep)
     check_specimens_index(root, patterns, rep)
+    check_plugin(root, rep)
     check_adjudication(root, patterns, rep)
     check_falsification(root, patterns, rep)
     check_links(root, rep)
